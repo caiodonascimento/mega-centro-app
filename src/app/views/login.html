@@ -1,0 +1,34 @@
+<md-content layout="row" layout-fill layout-align="center center">
+  <md-card flex flex-gt-sm="50" flex-gt-md="33">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>
+          <span>Bienvenido a Mega-Centro</span>
+        </h2>
+      </div>
+    </md-toolbar>
+    <md-card-content>
+      <form name="vm.form" ng-submit="vm.handleSubmit(); $event.stopPropagation();" novalidate>
+        <md-input-container class="md-block">
+          <label>Usuario</label>
+          <input type="text" name="email" ng-model="vm.formData.email" required>
+          <div ng-messages="vm.form.email.$error" role="alert" multiple="">
+            <div class="my-message" ng-message="required">Debes indicar tu email.</div>
+          </div>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Contraseña</label>
+          <input type="password" name="password" ng-model="vm.formData.password"
+            required>
+          <div ng-messages="vm.form.password.$error" role="alert", multiple="">
+            <div class="my-message" ng-message="required">Debes indicar tu contraseña.</div>
+          </div>
+        </md-input-container>
+        <md-button class="md-raised md-primary" ng-disabled="!vm.form.$valid"
+          aria-label="Ingresar" type="submit">
+          Ingresar
+        </md-button>
+      </form>
+    </md-card-content>
+  </md-card>
+</md-content>
