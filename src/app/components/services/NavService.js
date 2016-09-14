@@ -10,17 +10,57 @@
   function navService($q){
     var menuItems = [
       {
-        name: 'Dashboard',
+        name: 'Inicio',
         icon: 'dashboard',
         sref: '.dashboard'
       },
       {
-        name: 'Profile',
-        icon: 'person',
-        sref: '.profile'
+        name: 'Empresas',
+        icon: 'business',
+        sref: '.empresas'
       },
       {
-        name: 'Table',
+        name: 'Plan Cta. Chile',
+        icon: 'view_module',
+        sref: '.table'
+      },
+      {
+        name: 'Plan Cta. Origen',
+        icon: 'view_module',
+        sref: '.table'
+      },
+      {
+        name: 'Carga Movimientos',
+        icon: 'view_module',
+        sref: '.table'
+      },
+      {
+        name: 'Consulta Movimientos',
+        icon: 'view_module',
+        sref: '.table'
+      },
+      {
+        name: 'Control Movimientos',
+        icon: 'view_module',
+        sref: '.table'
+      },
+      {
+        name: 'Balance',
+        icon: 'view_module',
+        sref: '.table'
+      },
+      {
+        name: 'Balance Ev.',
+        icon: 'view_module',
+        sref: '.table'
+      },
+      {
+        name: 'Genera Softland',
+        icon: 'view_module',
+        sref: '.table'
+      },
+      {
+        name: 'Seguridad',
         icon: 'view_module',
         sref: '.table'
       }

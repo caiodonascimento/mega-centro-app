@@ -1,0 +1,38 @@
+img.login-img {
+  height: 50% !important;
+  width: 50% !important;
+  margin: auto;
+  -webkit-filter: grayscale(100%);
+  filter: grayscale(100%);
+}
+.login-title {
+  text-transform: uppercase;
+  padding-bottom: 0;
+  .md-headline {
+    line-height: 12px;
+    padding-bottom: 0px;
+    margin-bottom: 0px;
+  }
+  .md-subhead {
+    line-height: 70%;
+    font-size: 12px;
+    letter-spacing: 2.2px;
+  }
+  hr {
+    width: 50%;
+    margin-bottom: 0;
+  }
+  .small-subhead {
+    color: #fff;
+    background-color: #000;
+    font-weight: 900;
+    font-size: 11px;
+    padding: 3px;
+    width: 120px;
+    margin: auto;
+    line-height: 90%;
+  }
+}
+.text-center {
+  text-align: center;
+}
