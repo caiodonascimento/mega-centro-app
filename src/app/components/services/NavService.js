@@ -12,7 +12,7 @@
       {
         name: 'Inicio',
         icon: 'dashboard',
-        sref: '.dashboard'
+        sref: '.inicio'
       },
       {
         name: 'Empresas',
@@ -21,9 +21,9 @@
       },
       {
         name: 'Plan Cta. Chile',
-        icon: 'view_module',
-        sref: '.table'
-      },
+        icon: 'account_balance_wallet',
+        sref: '.plan-chile'
+      }/*,
       {
         name: 'Plan Cta. Origen',
         icon: 'view_module',
@@ -63,7 +63,7 @@
         name: 'Seguridad',
         icon: 'view_module',
         sref: '.table'
-      }
+      }*/
     ];
 
     return {

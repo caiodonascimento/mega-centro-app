@@ -1,6 +1,6 @@
 <form class="md-content" layout="row" layout-fill layout-align="center center"
   name="vm.form" ng-submit="vm.handleSubmit(); $event.stopPropagation();" novalidate>
-  <md-card flex flex-gt-sm="40" flex-gt-md="30" flex-gt-xs="60">
+  <md-card>
     <img ng-src="assets/images/modules.png" class="md-card-image login-img">
     <md-card-title class="login-title">
       <md-card-title-text>
@@ -13,15 +13,17 @@
       </md-card-title-text>
     </md-card-title>
     <md-card-content>
-      <md-input-container class="md-block">
+      <md-input-container class="md-icon-float md-block">
         <label>Usuario</label>
+        <md-icon md-svg-src="assets/icons/ic_perm_identity_black_24px.svg"></md-icon>
         <input type="text" name="email" ng-model="vm.formData.email" required>
         <div ng-messages="vm.form.email.$error" role="alert" multiple="">
           <div class="my-message" ng-message="required">Debes indicar tu email.</div>
         </div>
       </md-input-container>
-      <md-input-container class="md-block">
+      <md-input-container class="md-icon-float md-block">
         <label>Contraseña</label>
+        <md-icon md-svg-src="assets/icons/ic_lock_outline_black_24px.svg"></md-icon>
         <input type="password" name="password" ng-model="vm.formData.password"
           required>
         <div ng-messages="vm.form.password.$error" role="alert", multiple="">

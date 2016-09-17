@@ -2,11 +2,11 @@
 
   angular
        .module('app')
-       .controller('LoginController', ['$state',
+       .controller('LoginController', ['$state', '$localStorage',
           LoginController
        ]);
 
-  function LoginController(state) {
+  function LoginController(state, localStorage) {
     var vm = this;
     vm.formData = {
       email: '',
@@ -16,7 +16,8 @@
     vm.handleSubmit = makeLogin;
 
     function makeLogin() {
-      state.go('home.dashboard');
+      localStorage.user = this.formData;
+      state.go('home.inicio');
     };
   }
 

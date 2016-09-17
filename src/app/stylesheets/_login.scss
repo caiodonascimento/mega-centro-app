@@ -1,9 +1,10 @@
 img.login-img {
-  height: 50% !important;
-  width: 50% !important;
+  height: 40% !important;
+  width: 40% !important;
   margin: auto;
   -webkit-filter: grayscale(100%);
   filter: grayscale(100%);
+  filter: gray;
 }
 .login-title {
   text-transform: uppercase;
@@ -19,8 +20,9 @@ img.login-img {
     letter-spacing: 2.2px;
   }
   hr {
-    width: 50%;
+    width: 75%;
     margin-bottom: 0;
+    line-height: 20%;
   }
   .small-subhead {
     color: #fff;
