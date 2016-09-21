@@ -1,0 +1,22 @@
+<md-toolbar md-scroll-shrink>
+  <div class="md-toolbar-tools">
+    <span>Datos de la nueva Empresa</span>
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <form name="newEnterpriseForm">
+    <div layout layout-sm="column">
+      <md-input-container flex="50">
+        <label>Nombre</label>
+        <input ng-model="vm.enterprise.name">
+      </md-input-container>
+      <md-input-container flex>
+        <label>Código Softland</label>
+        <input ng-model="vm.enterprise.codSoftland">
+      </md-input-container>
+    </div>
+    <md-button class="md-raised" aria-label="Crear Empresa" ui-sref="home.empresas">
+      Crear Empresa
+    </md-button>
+  </form>
+</md-content>

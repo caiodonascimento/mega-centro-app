@@ -4,6 +4,9 @@
        .module('app')
        .controller('EmpresaController', [
           EmpresaController
+       ])
+       .controller('NuevaEmpresaController', [
+          NuevaEmpresaController
        ]);
 
   function EmpresaController() {
@@ -54,8 +57,13 @@
         id: 3126,
         name: 'Mega 3',
         codeSoftalnd: 'M003000'
-      } 
+      }
     ];
+  }
+
+  function NuevaEmpresaController() {
+    var vm = this;
+    
   }
 
 })();
