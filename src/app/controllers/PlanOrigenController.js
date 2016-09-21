@@ -26,6 +26,7 @@
         vm.searchText = null;
         vm.toolbarOpen = false;
         vm.querySearch = querySearch;
+        vm.searchProcess = false;
 
         function querySearch (query) {
             var results = query ? vm.states.filter( createFilterFor(query) ) : self.states;

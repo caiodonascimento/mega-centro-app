@@ -1,6 +1,6 @@
 <md-card layout-fill>
     <md-card-content>
-        <form ng-submit="$event.preventDefault()" name="vm.searchForm" novalidate>
+        <form ng-submit="vm.filterAccounts(); $event.preventDefault();" name="vm.searchForm" novalidate>
             <md-autocomplete required md-input-name="empresa" md-input-maxlength="18" md-no-cache="vm.noCache"
                 md-selected-item="vm.selectedItem" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)"
                 md-item-text="item.display" md-require-match md-floating-label="Empresa">
@@ -20,7 +20,8 @@
         </form>
     </md-card-content>
 </md-card>
-<div class="table-responsive-vertical md-whiteframe-z1">
+<div class="spacer"></div>
+<div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
     <md-toolbar md-scroll-shrink>
         <div class="md-toolbar-tools">
             <span>Listado de registros</span>
