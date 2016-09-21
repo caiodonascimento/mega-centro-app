@@ -37,6 +37,16 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Empresas'
         }
       })
+      .state('home.nueva-empresa', {
+        url: '/empresas/nueva',
+        controller: 'NuevaEmpresaController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/forms/nueva-empresa.html',
+        data: {
+          title: 'Nueva Empresa',
+          father: '.empresa'
+        }
+      })
       .state('home.plan-chile', {
         url: '/plan-chile',
         controller: 'PlanChileController',
