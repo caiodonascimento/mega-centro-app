@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies', 'ngTouch',
-  'ngSanitize', 'ui.router', 'ngMaterial', 'nvd3', 'app'])
+  'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app', 'ngStorage'])
 
   .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider,
                     $mdIconProvider) {
@@ -19,11 +19,40 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies', 'ngTouch',
         controllerAs: 'vm',
         abstract: true
       })
-      .state('home.dashboard', {
-        url: '/dashboard',
-        templateUrl: 'app/views/dashboard.html',
+      .state('home.inicio', {
+        url: '/inicio',
+        templateUrl: 'app/views/inicio.html',
+        controller: 'InicioController',
+        controllerAs: 'vm',
         data: {
-          title: 'Dashboard'
+          title: 'Inicio'
+        }
+      })
+      .state('home.empresas', {
+        url: '/empresas',
+        controller: 'EmpresaController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/empresa.html',
+        data: {
+          title: 'Empresas'
+        }
+      })
+      .state('home.plan-chile', {
+        url: '/plan-chile',
+        controller: 'PlanChileController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/plan-chile.html',
+        data: {
+          title: 'Plan Cta. Chile'
+        }
+      })
+      .state('home.plan-origen', {
+        url: '/plan-origen',
+        controller: 'PlanOrigenController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/plan-origen.html',
+        data: {
+          title: 'Plan Cta. Origen'
         }
       })
       .state('home.profile', {
@@ -35,56 +64,14 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Profile'
         }
       })
-      .state('home.table', {
-        url: '/table',
-        controller: 'TableController',
-        controllerAs: 'vm',
-        templateUrl: 'app/views/table.html',
+      .state('home.dashboard', {
+        url: '/dashboard',
+        templateUrl: 'app/views/dashboard.html',
         data: {
-          title: 'Table'
+          title: 'Dashboard'
         }
       });
 
     $urlRouterProvider.otherwise('/login');
 
-    $mdThemingProvider
-      .theme('default')
-        .primaryPalette('grey', {
-          'default': '600'
-        })
-        .accentPalette('teal', {
-          'default': '500'
-        })
-        .warnPalette('defaultPrimary');
-
-    $mdThemingProvider.theme('dark', 'default')
-      .primaryPalette('defaultPrimary')
-      .dark();
-
-    $mdThemingProvider.theme('grey', 'default')
-      .primaryPalette('grey');
-
-    $mdThemingProvider.theme('custom', 'default')
-      .primaryPalette('defaultPrimary', {
-        'hue-1': '50'
-    });
-
-    $mdThemingProvider.definePalette('defaultPrimary', {
-      '50':  '#FFFFFF',
-      '100': 'rgb(255, 198, 197)',
-      '200': '#E75753',
-      '300': '#E75753',
-      '400': '#E75753',
-      '500': '#E75753',
-      '600': '#E75753',
-      '700': '#E75753',
-      '800': '#E75753',
-      '900': '#E75753',
-      'A100': '#E75753',
-      'A200': '#E75753',
-      'A400': '#E75753',
-      'A700': '#E75753'
-    });
-
-    $mdIconProvider.icon('user', 'assets/images/user.svg', 64);
   });

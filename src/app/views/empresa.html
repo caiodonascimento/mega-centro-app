@@ -1,0 +1,30 @@
+<div class="table-responsive-vertical md-whiteframe-z1">
+  <md-toolbar md-scroll-shrink>
+    <div class="md-toolbar-tools">
+      <span>Listado de registros</span>
+      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Empresa">
+        <md-tooltip md-direction="bottom">
+          Agregar Empresa
+        </md-tooltip>
+        <md-icon class="material-icons">add</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <table id="table" class="table table-hover table-bordered">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Empresa</th>
+          <th>Cód. Softland</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ></tr>
+        <tr ng-repeat="data in vm.tableData track by $index">
+          <td data-title="ID">{{data.id}}</td>
+          <td data-title="Empresa">{{data.name}}</td>
+          <td data-title="Cód. Softland">{{data.codeSoftalnd}}</td>
+        </tr>
+      </tbody>
+  </table>
+</div>

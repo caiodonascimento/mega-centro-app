@@ -6,7 +6,7 @@ $warning-color: #E75753;
 
 
 // VARIABLES
-$left-sidenav-width: 110px;
+$left-sidenav-width: 200px;
 $widget-height: 310px;
 $font-weight-bold: 600;
 $font-size-large: 22px;
@@ -170,4 +170,33 @@ md-backdrop.md-sidenav-backdrop {
 
 .orange .md-container {
   background-color: rgb(255, 236, 201)
+}
+
+.header-cover {
+  background-image: url("../assets/images/profile-background.jpg") !important;
+  background: #FF9200;
+  background-repeat: no-repeat;
+  background-size: 400px;
+  span {
+    font-size: 12px;
+    font-weight: bold;
+  }
+}
+
+.header-title {
+  padding: 5px;
+  line-height: 9px;
+  h1 {
+    margin-top: 5px;
+  }
+}
+
+@media(min-width:  960px) {
+  .md-breadcrumb {
+    margin-left: 15px;
+  }
+}
+
+.space-to-fab-btn {
+  margin-bottom: 40px;
 }
