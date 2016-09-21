@@ -23,12 +23,12 @@
         name: 'Plan Cta. Chile',
         icon: 'account_balance_wallet',
         sref: '.plan-chile'
-      }/*,
+      },
       {
         name: 'Plan Cta. Origen',
-        icon: 'view_module',
-        sref: '.table'
-      },
+        icon: 'compare_arrows',
+        sref: '.plan-origen'
+      }/*,
       {
         name: 'Carga Movimientos',
         icon: 'view_module',

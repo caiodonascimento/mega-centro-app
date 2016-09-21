@@ -46,6 +46,15 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Plan Cta. Chile'
         }
       })
+      .state('home.plan-origen', {
+        url: '/plan-origen',
+        controller: 'PlanOrigenController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/plan-origen.html',
+        data: {
+          title: 'Plan Cta. Origen'
+        }
+      })
       .state('home.profile', {
         url: '/profile',
         templateUrl: 'app/views/profile.html',
