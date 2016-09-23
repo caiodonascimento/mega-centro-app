@@ -15,6 +15,11 @@
         sref: '.inicio'
       },
       {
+        name: 'Usuarios',
+        icon: 'group',
+        sref: '.usuarios'
+      },
+      {
         name: 'Empresas',
         icon: 'business',
         sref: '.empresas'
