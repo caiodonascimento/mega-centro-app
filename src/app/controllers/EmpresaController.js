@@ -13,12 +13,14 @@
 
 	function EmpresaController(empresasService) {
 		var vm = this;
-
-		empresasService.loadAllEmpresas()
-		.then(function (empresas) {
-			console.log(empresas);
-			vm.tableData = empresas.data;
-		});
+		vm.tableData = [];
+		function cargaInicial() {
+			empresasService.loadAllEmpresas()
+			.then(function (empresas) {
+				vm.tableData = empresas.data;
+			});
+		}
+		cargaInicial();
 	}
 
 	function NuevaEmpresaController($state, empresasService) {
@@ -50,7 +52,6 @@
 		vm.form = {};
 
 		if (stateParams.id) {
-			console.log(stateParams.id)
 			empresasService.getById(stateParams.id)
 			.then(function(getResult) {
 				vm.empresa = getResult.data;
