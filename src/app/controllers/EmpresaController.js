@@ -4,7 +4,7 @@
 		.controller('EmpresaController', [ 'empresasService',
 			EmpresaController
 		])
-		.controller('NuevaEmpresaController', [ '$state', 'empresasService',
+		.controller('NuevaEmpresaController', [ '$state', 'empresasService', 'formatosImputs',
 			NuevaEmpresaController
 		])
 		.controller('EditarEmpresaController', [ '$stateParams', 'empresasService', '$state',
@@ -20,14 +20,12 @@
 		});
 	}
 
-	function NuevaEmpresaController($state, empresasService) {
+	function NuevaEmpresaController($state, empresasService, formatosImputs) {
 		var vm = this;
 		vm.createEmpresa = createEmpresa;
 
 		vm.formEmpresa = {};
-		vm.formatoInputs = {
-			name: '^[A-Za-z\\d\\s]+$'
-		};
+		vm.formatosImputs = formatosImputs.formEmpresa;
 		vm.empresa = {
 			name: '',
 			code: ''
@@ -59,7 +57,7 @@
 		} else {
 			$state.go('home.empresas');
 		}
-		
+
 		function guardarEmpresa() {
 			console.log('Inicia guardado');
 			empresasService.saveEmpresa(vm.empresa)
