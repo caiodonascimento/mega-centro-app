@@ -191,12 +191,28 @@ md-backdrop.md-sidenav-backdrop {
   }
 }
 
+.space-to-fab-btn {
+  margin-bottom: 40px;
+}
+
+.fab-btn-td {
+  position: absolute;
+  margin-left: 30px;
+  margin-top: -10px;
+}
+
 @media(min-width:  960px) {
   .md-breadcrumb {
     margin-left: 15px;
   }
 }
 
-.space-to-fab-btn {
-  margin-bottom: 40px;
+@media(max-width:  768px) {
+  .fab-btn-td {
+    margin-left: -15px;
+    margin-top: 18px;
+  }
+  .tr-with-btn {
+    margin-bottom: 30px !important;
+  }
 }

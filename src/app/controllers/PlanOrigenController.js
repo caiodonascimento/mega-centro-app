@@ -15,7 +15,7 @@
                 accont: '124234',
                 name: 'Capital',
                 ctaChile: {
-                    name: 'Cuenta 1',
+                    name: 'Cuenta de Chile numero 1',
                     cod: 1233
                 }
             }
@@ -27,6 +27,7 @@
         vm.toolbarOpen = false;
         vm.querySearch = querySearch;
         vm.searchProcess = false;
+        vm.filterAccounts = filterAccounts;
 
         function querySearch (query) {
             var results = query ? vm.states.filter( createFilterFor(query) ) : self.states;
@@ -59,6 +60,10 @@
                 return (state.value.indexOf(lowercaseQuery) === 0);
             };
 
+        }
+
+        function filterAccounts() {
+          vm.searchProcess = true;
         }
     }
 

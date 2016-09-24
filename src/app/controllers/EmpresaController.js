@@ -6,6 +6,9 @@
 		])
 		.controller('NuevaEmpresaController', [ '$state', 'empresasService',
 			NuevaEmpresaController
+		])
+		.controller('EditarEmpresaController', [
+          EditarEmpresaController
 		]);
 
 	function EmpresaController(empresasService) {
@@ -31,6 +34,11 @@
 			empresasService.insertEmpresas(vm.empresa);
 			$state.go('home.empresas');
 		}
+	}
+	
+	function EditarEmpresaController() {
+		var vm = this;
+
 	}
 
 })();

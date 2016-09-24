@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies', 'ngTouch',
+angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
   'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app', 'ngStorage'])
 
   .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider,
@@ -28,6 +28,33 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Inicio'
         }
       })
+      .state('home.usuarios', {
+        url: '/usuarios',
+        templateUrl: 'app/views/usuarios.html',
+        controller: 'UsuariosController',
+        controllerAs: 'vm',
+        data: {
+          title: 'Usuarios'
+        }
+      })
+      .state('home.usuarios-nuevo', {
+        url: '/usuarios/nuevo',
+        templateUrl: 'app/views/forms/nuevo-usuario.html',
+        controller: 'NuevoUsuarioController',
+        controllerAs: 'vm',
+        data: {
+          title: 'Usuarios'
+        }
+      })
+      .state('home.usuarios-edit', {
+        url: '/usuarios/editar/{id}',
+        templateUrl: 'app/views/forms/editar-usuario.html',
+        controller: 'EditarUsuarioController',
+        controllerAs: 'vm',
+        data: {
+          title: 'Usuarios'
+        }
+      })
       .state('home.empresas', {
         url: '/empresas',
         controller: 'EmpresaController',
@@ -37,14 +64,22 @@ angular.module('angularMaterialAdmin', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Empresas'
         }
       })
-      .state('home.nueva-empresa', {
+      .state('home.empresas-nueva', {
         url: '/empresas/nueva',
         controller: 'NuevaEmpresaController',
         controllerAs: 'vm',
         templateUrl: 'app/views/forms/nueva-empresa.html',
         data: {
-          title: 'Nueva Empresa',
-          father: '.empresa'
+          title: 'Empresas',
+        }
+      })
+      .state('home.empresas-editar', {
+        url: '/empresas/editar/{id}',
+        controller: 'EditarEmpresaController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/forms/editar-empresa.html',
+        data: {
+          title: 'Empresas',
         }
       })
       .state('home.plan-chile', {
