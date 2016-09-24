@@ -17,7 +17,6 @@
 		function cargaInicial() {
 			empresasService.loadAllEmpresas()
 			.then(function (empresas) {
-				console.log(empresas);
 				vm.tableData = empresas.data;
 			});
 		}
@@ -51,7 +50,6 @@
 		vm.form = {};
 
 		if (stateParams.id) {
-			console.log(stateParams.id)
 			empresasService.getById(stateParams.id)
 			.then(function(getResult) {
 				vm.empresa = getResult.data;
