@@ -2,11 +2,11 @@
 
   angular
        .module('app')
-       .controller('LoginController', ['$state', '$localStorage',
+       .controller('LoginController', ['$state', '$localStorage', 'formatosImputs',
           LoginController
        ]);
 
-  function LoginController(state, localStorage) {
+  function LoginController(state, localStorage, formatosImputs) {
     var vm = this;
     vm.formData = {
       email: '',
@@ -14,6 +14,7 @@
     };
     vm.form = {};
     vm.handleSubmit = makeLogin;
+    vm.formatosImputs = formatosImputs.formLogin;
 
     function makeLogin() {
       localStorage.user = this.formData;

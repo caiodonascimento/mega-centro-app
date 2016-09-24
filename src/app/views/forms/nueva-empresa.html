@@ -15,8 +15,7 @@
       <md-input-container flex>
         <label>Nombre</label>
         <input type="text" id="name" ng-model="vm.empresa.name" required ng-maxlength="30" ng-pattern="vm.formatoInputs.name">
-		<div ng-messages="vm.formEmpresa.name.$error" role="alert">
-			
+		    <div ng-messages="vm.formEmpresa.name.$error" role="alert">
         </div>
       </md-input-container>
       <md-input-container flex>

@@ -23,27 +23,28 @@
 	function NuevaEmpresaController($state, empresasService) {
 		var vm = this;
 		vm.createEmpresa = createEmpresa;
+
 		vm.formEmpresa = {};
 		vm.formatoInputs = {
 			name: '^[A-Za-z\\d\\s]+$'
 		};
-		vm.empresa = { 
-			name: '', 
+		vm.empresa = {
+			name: '',
 			code: ''
 		};
-		
+
 		function createEmpresa() {
 			empresasService.insertEmpresas(vm.empresa);
 			$state.go('home.empresas');
 		}
 	}
-	
+
 	function EditarEmpresaController($stateParams, empresasService, $state) {
 		var vm = this;
 		vm.guardarEmpresa = guardarEmpresa;
-		
-		vm.empresa = { 
-			name: '', 
+
+		vm.empresa = {
+			name: '',
 			code: ''
 		};
 		console.log($stateParams.id)
@@ -54,7 +55,7 @@
 				vm.empresa = empresa;
 			}, function(error) {
 				console.log('No exito al guardar', error);
-			});		
+			});
 		} else {
 			$state.go('home.empresas');
 		}
@@ -70,4 +71,5 @@
 			});
 		}
 	}
+
 })();
