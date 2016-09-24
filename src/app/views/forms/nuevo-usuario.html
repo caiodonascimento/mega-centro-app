@@ -1,0 +1,38 @@
+<md-toolbar md-scroll-shrink>
+  <div class="md-toolbar-tools">
+    <md-button class="md-fab md-mini" aria-label="Volver a Usuarios" ui-sref="home.usuarios">
+      <md-tooltip md-direction="bottom">
+        Volver
+      </md-tooltip>
+      <i class="material-icons">arrow_back</i>
+    </md-button>
+    <span>Datos del nuevo Usuario</span>
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <form name="newEnterpriseForm">
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
+      <md-input-container flex>
+        <label>Nombre</label>
+        <input ng-model="vm.user.username">
+      </md-input-container>
+      <md-input-container flex>
+        <label>Email</label>
+        <input ng-model="vm.enterprise.email">
+      </md-input-container>
+    </div>
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
+      <md-input-container flex>
+        <label>Contraseña</label>
+        <input ng-model="vm.enterprise.password">
+      </md-input-container>
+      <md-input-container flex>
+        <label>Repetir contraseña</label>
+        <input ng-model="vm.enterprise.retryPassword">
+      </md-input-container>
+    </div>
+    <md-button class="md-raised md-primary" aria-label="Crear Usuario" ui-sref="home.usuarios">
+      Crear Usuario
+    </md-button>
+  </form>
+</md-content>

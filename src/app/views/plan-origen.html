@@ -1,39 +1,33 @@
 <md-card layout-fill>
-    <md-card-content>
-        <form ng-submit="vm.filterAccounts(); $event.preventDefault();" name="vm.searchForm" novalidate>
-            <md-autocomplete required md-input-name="empresa" md-input-maxlength="18" md-no-cache="vm.noCache"
-                md-selected-item="vm.selectedItem" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)"
-                md-item-text="item.display" md-require-match md-floating-label="Empresa">
-                <md-item-template>
-                    <span md-highlight-text="vm.searchText">{{item.display}}</span>
-                </md-item-template>
-                <div ng-messages="vm.searchForm.empresa.$error" ng-if="vm.searchForm.empresa.$touched">
-                    <div ng-message="required">Debes indicar una empresa.</div>
-                    <div ng-message="md-require-match">Debes seleccionar una empresa existente.</div>
-                    <div ng-message="maxlength">Ingresaste un nombre muy largo.</div>
-                </div>
-            </md-autocomplete>
-            <md-button type="submit" aria-label="Filtrar" class="md-raised">
-                Buscar
-                <md-icon class="material-icons">search</md-icon>
-            </md-button>
-        </form>
-    </md-card-content>
+  <md-toolbar md-scroll-shrink>
+      <div class="md-toolbar-tools">
+          <span>Selecciona una empresa</span>
+          <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta">
+              <md-tooltip md-direction="bottom">
+                  Agregar Cuenta
+              </md-tooltip>
+              <md-icon class="material-icons">add</md-icon>
+          </md-button>
+      </div>
+  </md-toolbar>
+  <md-card-content>
+    <form ng-submit="vm.filterAccounts(); $event.preventDefault();" name="vm.searchForm" novalidate>
+      <md-autocomplete required md-input-name="empresa" md-input-maxlength="18" md-no-cache="vm.noCache"
+        md-selected-item="vm.selectedItem" md-search-text="vm.searchText" md-items="item in vm.querySearch(vm.searchText)"
+        md-item-text="item.display" md-require-match md-floating-label="Empresa">
+        <md-item-template>
+            <span md-highlight-text="vm.searchText">{{item.display}}</span>
+        </md-item-template>
+      </md-autocomplete>
+      <md-button type="submit" aria-label="Filtrar" class="md-raised">
+        Buscar
+        <md-icon class="material-icons">search</md-icon>
+      </md-button>
+    </form>
+  </md-card-content>
 </md-card>
 <div class="spacer"></div>
 <div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
-    <md-toolbar md-scroll-shrink>
-        <div class="md-toolbar-tools">
-            <span>Listado de registros</span>
-
-            <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta">
-                <md-tooltip md-direction="bottom">
-                    Agregar Cuenta
-                </md-tooltip>
-                <md-icon class="material-icons">add</md-icon>
-            </md-button>
-        </div>
-    </md-toolbar>
     <table id="table" class="table table-hover table-bordered">
         <thead>
         <tr>
@@ -44,14 +38,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr ></tr>
-        <tr ng-repeat="data in vm.tableData track by $index">
+        <tr></tr>
+        <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
             <td data-title="ID">{{data.id}}</td>
             <td data-title="Cuenta">{{data.accont}}</td>
             <td data-title="Nombre">{{data.name}}</td>
             <td data-title="Cuenta Chile">
                 {{data.ctaChile.name}}
-                <md-button class="md-fab md-mini" aria-label="Cambiar Cuenta Chile">
+                <md-button class="md-fab md-mini fab-btn-td" aria-label="Cambiar Cuenta Chile">
                     <md-tooltip md-direction="bottom">
                         Cambiar Cuenta Chile
                     </md-tooltip>

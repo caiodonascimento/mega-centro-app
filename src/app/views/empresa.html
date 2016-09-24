@@ -2,7 +2,7 @@
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
       <span>Listado de registros</span>
-      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Empresa" ui-sref="home.nueva-empresa">
+      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Empresa" ui-sref="home.empresas-nueva">
         <md-tooltip md-direction="bottom">
           Agregar Empresa
         </md-tooltip>
@@ -19,11 +19,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr ></tr>
-        <tr ng-repeat="data in vm.tableData track by $index">
+        <tr></tr>
+        <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
           <td data-title="ID">{{data.id}}</td>
           <td data-title="Empresa">{{data.name}}</td>
-          <td data-title="Cód. Softland">{{data.codeSoftalnd}}</td>
+          <td data-title="Cód. Softland">
+            {{data.codeSoftalnd}}
+            <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar" ui-sref="home.empresas-editar({id: data.id})">
+              <md-tooltip md-direction="bottom">
+                Editar
+              </md-tooltip>
+              <i class="material-icons">create</i>
+            </md-button>
+          </td>
         </tr>
       </tbody>
   </table>
