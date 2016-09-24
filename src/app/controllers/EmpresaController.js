@@ -25,13 +25,16 @@
 		var vm = this;
 		vm.createEmpresa = createEmpresa;
 
+		vm.formEmpresa = {};
+		vm.formatoInputs = {
+			name: '^[A-Za-z\\d\\s]+$'
+		};
 		vm.empresa = {
 			name: '',
 			code: ''
 		};
 
 		function createEmpresa() {
-			console.log(vm.empresa);
 			empresasService.insertEmpresas(vm.empresa);
 			$state.go('home.empresas');
 		}
