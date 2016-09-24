@@ -7,8 +7,8 @@
 		.controller('NuevaEmpresaController', [ '$state', 'empresasService', 'formatosImputs',
 			NuevaEmpresaController
 		])
-		.controller('EditarEmpresaController', [ '$stateParams', 'empresasService', '$state',
-          EditarEmpresaController
+		.controller('EditarEmpresaController', [ '$stateParams', '$state', 'empresasService',
+			 EditarEmpresaController
 		]);
 
 	function EmpresaController(empresasService) {
@@ -16,7 +16,8 @@
 
 		empresasService.loadAllEmpresas()
 		.then(function (empresas) {
-			vm.tableData = empresas;
+			console.log(empresas);
+			vm.tableData = empresas.data;
 		});
 	}
 
@@ -37,37 +38,31 @@
 		}
 	}
 
-	function EditarEmpresaController($stateParams, empresasService, $state) {
-		var vm = this;
-		vm.guardarEmpresa = guardarEmpresa;
-
+  function EditarEmpresaController(stateParams, state, empresasService) {
+    var vm = this;
 		vm.empresa = {
 			name: '',
 			code: ''
 		};
-		console.log($stateParams.id)
-		if ($stateParams.id) {
-			empresasService.getOneById($stateParams.id)
-			.then(function (empresa) {
-				console.log(empresa);
-				vm.empresa = empresa;
-			}, function(error) {
-				console.log('No exito al guardar', error);
+		vm.handleSubmit = guardarEmpresa;
+		vm.form = {};
+
+		if (stateParams.id) {
+			console.log(stateParams.id)
+			empresasService.getById(stateParams.id)
+			.then(function(getResult) {
+				vm.empresa = getResult.data;
 			});
 		} else {
-			$state.go('home.empresas');
+			state.go('home.empresas');
 		}
 
 		function guardarEmpresa() {
-			console.log('Inicia guardado');
-			empresasService.saveEmpresa(vm.empresa)
-			.then(function (empresa) {
-				console.log('Exito al guardar', empresa);
-				$state.go('home.empresas');
-			}, function(error) {
-				console.log('No exito al guardar', error);
-			});
+			empresasService.updateEmpresa(vm.empresa)
+			.then(function(updateResult) {
+				state.go('home.empresas');
+			})
 		}
-	}
+  }
 
 })();

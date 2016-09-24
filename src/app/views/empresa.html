@@ -15,7 +15,7 @@
         <tr>
           <th>#</th>
           <th>Empresa</th>
-          <th>Cód. Softland</th>
+          <th>Código</th>
         </tr>
       </thead>
       <tbody>
@@ -23,8 +23,8 @@
         <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
           <td data-title="ID">{{data.id}}</td>
           <td data-title="Empresa">{{data.name}}</td>
-          <td data-title="Cód. Softland">
-            {{data.codeSoftalnd}}
+          <td data-title="Código">
+            {{data.code}}
             <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar" ui-sref="home.empresas-editar({id: data.id})">
               <md-tooltip md-direction="bottom">
                 Editar

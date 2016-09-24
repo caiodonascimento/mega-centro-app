@@ -4,36 +4,51 @@
 	angular.module('app')
         .service('empresasService', [
         '$q',
+				'$http',
         empresasService
 	]);
 
-	function empresasService($q) {
-		var empresas = [];
-
+	function empresasService($q, $http) {
 		return {
 			loadAllEmpresas : function() {
-				return $q.when(empresas);
+				return $q.when(
+					$http.get('https://megacentroapi-mosschile.rhcloud.com/api/enterprises')
+				);
 			},
 			insertEmpresas : function(empresa) {
-				empresa.id = empresas.length + 1;
-				empresas.push(empresa);
+				var now = new Date();
+				var data = {
+					name: empresa.name,
+				  code: empresa.code,
+				  status: "active",
+				  createDate: now.toString()
+				};
+				return $q.when(
+					$http.post(
+						'https://megacentroapi-mosschile.rhcloud.com/api/enterprises',
+						data
+					)
+				);
 			},
-			getOneById : function(id) {
-				console.log(parseInt(id), empresas);
-				return $q.when(_.findWhere(empresas, {'id': parseInt(id)}));
+			updateEmpresa: function(empresa) {
+				var data = {
+					name: empresa.name,
+				  code: empresa.code
+				};
+				return $q.when(
+					$http.put(
+						'https://megacentroapi-mosschile.rhcloud.com/api/enterprises/' + empresa.id.toString(),
+						data
+					)
+				);
 			},
-			saveEmpresa : function(empresa) {
-				var deferred = $q.defer();
-				var oldEmpresa = _.findWhere(empresas, {'id': empresa.id});
-				if (!oldEmpresa) {
-					deferred.reject({});
-				} else {
-					var index = _.indexOf(empresas, oldEmpresa);
-					empresas[index] = empresa;
-					deferred.resolve(empresa);
-				}
-				return deferred.promise;
+			getById : function(id) {
+				return $q.when(
+					$http.get(
+						'https://megacentroapi-mosschile.rhcloud.com/api/enterprises/' + id
+					)
+				);
 			}
 		};
-	}	
+	}
 })();
