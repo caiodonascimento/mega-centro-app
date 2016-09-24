@@ -10,19 +10,23 @@
   </div>
 </md-toolbar>
 <md-content class="md-padding">
-  <form name="newEnterpriseForm" ng-submit="vm.createEmpresa()">
+  <form name="vm.formEmpresa" ng-submit="vm.createEmpresa()" novalidate>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Nombre</label>
-        <input ng-model="vm.empresa.name">
+        <input type="text" id="name" ng-model="vm.empresa.name" required ng-maxlength="30" ng-pattern="vm.formatoInputs.name">
+		<div ng-messages="vm.formEmpresa.name.$error" role="alert">
+			
+        </div>
       </md-input-container>
       <md-input-container flex>
-        <label>Código Softland</label>
-        <input ng-model="vm.empresa.codeSoftalnd">
+        <label>Código</label>
+        <input type="text" ng-model="vm.empresa.code" required>
       </md-input-container>
     </div>
-    <md-button type="submit" class="md-raised" aria-label="Crear Empresa">
+    <md-button type="submit" class="md-raised" aria-label="Crear Empresa" ng-disabled="!vm.formEmpresa.$valid">
       Crear Empresa
     </md-button>
   </form>
+  {{vm.formEmpresa}}
 </md-content>

@@ -6,22 +6,22 @@
       </md-tooltip>
       <i class="material-icons">arrow_back</i>
     </md-button>
-    <span>Datos de la nueva Empresa {{vm.enterprise.name}}</span>
+    <span>Datos de la nueva Empresa {{vm.empresa.name}}</span>
   </div>
 </md-toolbar>
 <md-content class="md-padding">
-  <form name="newEnterpriseForm">
+  <form name="newEnterpriseForm" ng-submit="vm.guardarEmpresa()">
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Nombre</label>
-        <input ng-model="vm.enterprise.name">
+        <input ng-model="vm.empresa.name">
       </md-input-container>
       <md-input-container flex>
         <label>Código Softland</label>
-        <input ng-model="vm.enterprise.codSoftland">
+        <input ng-model="vm.empresa.codeSoftalnd">
       </md-input-container>
     </div>
-    <md-button class="md-raised md-primary" aria-label="Guardar" ui-sref="home.empresas">
+    <md-button type="submit" class="md-raised md-primary" aria-label="Guardar">
       Guardar
     </md-button>
   </form>
