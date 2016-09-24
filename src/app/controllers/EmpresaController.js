@@ -7,7 +7,7 @@
 		.controller('NuevaEmpresaController', [ '$state', 'empresasService',
 			NuevaEmpresaController
 		])
-		.controller('EditarEmpresaController', [
+		.controller('EditarEmpresaController', [ '$stateParams', '$state', 'empresasService',
 			 EditarEmpresaController
 		]);
 
@@ -16,7 +16,8 @@
 
 		empresasService.loadAllEmpresas()
 		.then(function (empresas) {
-			vm.tableData = empresas;
+			console.log(empresas);
+			vm.tableData = empresas.data;
 		});
 	}
 
@@ -26,7 +27,7 @@
 
 		vm.empresa = {
 			name: '',
-			codeSoftalnd: ''
+			code: ''
 		};
 
 		function createEmpresa() {
@@ -36,9 +37,31 @@
 		}
 	}
 
-  function EditarEmpresaController() {
+  function EditarEmpresaController(stateParams, state, empresasService) {
     var vm = this;
+		vm.empresa = {
+			name: '',
+			code: ''
+		};
+		vm.handleSubmit = guardarEmpresa;
+		vm.form = {};
 
+		if (stateParams.id) {
+			console.log(stateParams.id)
+			empresasService.getById(stateParams.id)
+			.then(function(getResult) {
+				vm.empresa = getResult.data;
+			});
+		} else {
+			state.go('home.empresas');
+		}
+
+		function guardarEmpresa() {
+			empresasService.updateEmpresa(vm.empresa)
+			.then(function(updateResult) {
+				state.go('home.empresas');
+			})
+		}
   }
 
 })();
