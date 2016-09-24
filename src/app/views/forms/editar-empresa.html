@@ -1,0 +1,28 @@
+<md-toolbar md-scroll-shrink>
+  <div class="md-toolbar-tools">
+    <md-button class="md-fab md-mini" aria-label="Volver a Empresa" ui-sref="home.empresas">
+      <md-tooltip md-direction="bottom">
+        Volver
+      </md-tooltip>
+      <i class="material-icons">arrow_back</i>
+    </md-button>
+    <span>Datos de la nueva Empresa {{vm.enterprise.name}}</span>
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <form name="newEnterpriseForm">
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
+      <md-input-container flex>
+        <label>Nombre</label>
+        <input ng-model="vm.enterprise.name">
+      </md-input-container>
+      <md-input-container flex>
+        <label>Código Softland</label>
+        <input ng-model="vm.enterprise.codSoftland">
+      </md-input-container>
+    </div>
+    <md-button class="md-raised md-primary" aria-label="Guardar" ui-sref="home.empresas">
+      Guardar
+    </md-button>
+  </form>
+</md-content>

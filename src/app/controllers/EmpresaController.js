@@ -7,6 +7,9 @@
        ])
        .controller('NuevaEmpresaController', [
           NuevaEmpresaController
+       ])
+       .controller('EditarEmpresaController', [
+          EditarEmpresaController
        ]);
 
   function EmpresaController() {
@@ -63,7 +66,12 @@
 
   function NuevaEmpresaController() {
     var vm = this;
-    
+
+  }
+
+  function EditarEmpresaController() {
+    var vm = this;
+
   }
 
 })();

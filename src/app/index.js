@@ -73,6 +73,15 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Empresas',
         }
       })
+      .state('home.empresas-editar', {
+        url: '/empresas/editar/{id}',
+        controller: 'EditarEmpresaController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/forms/editar-empresa.html',
+        data: {
+          title: 'Empresas',
+        }
+      })
       .state('home.plan-chile', {
         url: '/plan-chile',
         controller: 'PlanChileController',
