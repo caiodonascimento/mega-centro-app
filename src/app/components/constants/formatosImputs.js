@@ -15,7 +15,7 @@
       },
       formEmpresa: {
         nombre: {
-          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\.\\-\\_\\!\\¡\\\'\\"]+$',
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\s\\.\\-\\_\\!\\¡\\\'\\"]+$',
           maxlength: 30
         },
         codigo: {

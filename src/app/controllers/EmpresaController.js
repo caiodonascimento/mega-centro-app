@@ -13,12 +13,15 @@
 
 	function EmpresaController(empresasService) {
 		var vm = this;
-
-		empresasService.loadAllEmpresas()
-		.then(function (empresas) {
-			console.log(empresas);
-			vm.tableData = empresas.data;
-		});
+		vm.tableData = [];
+		function cargaInicial() {
+			empresasService.loadAllEmpresas()
+			.then(function (empresas) {
+				console.log(empresas);
+				vm.tableData = empresas.data;
+			});
+		}
+		cargaInicial();
 	}
 
 	function NuevaEmpresaController($state, empresasService, formatosImputs) {
