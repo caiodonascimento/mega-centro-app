@@ -1,69 +1,36 @@
 (function(){
+	angular
+		.module('app')
+		.controller('EmpresaController', [ 'empresasService',
+			EmpresaController
+		])
+		.controller('NuevaEmpresaController', [ '$state', 'empresasService',
+			NuevaEmpresaController
+		]);
 
-  angular
-       .module('app')
-       .controller('EmpresaController', [
-          EmpresaController
-       ])
-       .controller('NuevaEmpresaController', [
-          NuevaEmpresaController
-       ]);
+	function EmpresaController(empresasService) {
+		var vm = this;
 
-  function EmpresaController() {
-    var vm = this;
+		empresasService.loadAllEmpresas()
+		.then(function (empresas) {
+			vm.tableData = empresas;
+		});
+	}
 
-    vm.tableData = [
-      {
-        id: 3124,
-        name: 'Mega 1',
-        codeSoftalnd: 'M001000'
-      },
-      {
-        id: 3125,
-        name: 'Mega 2',
-        codeSoftalnd: 'M002000'
-      },
-      {
-        id: 3126,
-        name: 'Mega 3',
-        codeSoftalnd: 'M003000'
-      },
-      {
-        id: 3124,
-        name: 'Mega 1',
-        codeSoftalnd: 'M001000'
-      },
-      {
-        id: 3125,
-        name: 'Mega 2',
-        codeSoftalnd: 'M002000'
-      },
-      {
-        id: 3126,
-        name: 'Mega 3',
-        codeSoftalnd: 'M003000'
-      },
-      {
-        id: 3124,
-        name: 'Mega 1',
-        codeSoftalnd: 'M001000'
-      },
-      {
-        id: 3125,
-        name: 'Mega 2',
-        codeSoftalnd: 'M002000'
-      },
-      {
-        id: 3126,
-        name: 'Mega 3',
-        codeSoftalnd: 'M003000'
-      }
-    ];
-  }
-
-  function NuevaEmpresaController() {
-    var vm = this;
-    
-  }
+	function NuevaEmpresaController($state, empresasService) {
+		var vm = this;
+		vm.createEmpresa = createEmpresa;
+		
+		vm.empresa = { 
+			name: '', 
+			codeSoftalnd: ''
+		};
+		
+		function createEmpresa() {
+			console.log(vm.empresa);
+			empresasService.insertEmpresas(vm.empresa);
+			$state.go('home.empresas');
+		}
+	}
 
 })();

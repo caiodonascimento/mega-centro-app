@@ -4,18 +4,18 @@
   </div>
 </md-toolbar>
 <md-content class="md-padding">
-  <form name="newEnterpriseForm">
+  <form name="newEnterpriseForm" ng-submit="vm.createEmpresa()">
     <div layout layout-sm="column">
       <md-input-container flex="50">
         <label>Nombre</label>
-        <input ng-model="vm.enterprise.name">
+        <input ng-model="vm.empresa.name">
       </md-input-container>
       <md-input-container flex>
         <label>Código Softland</label>
-        <input ng-model="vm.enterprise.codSoftland">
+        <input ng-model="vm.empresa.codeSoftalnd">
       </md-input-container>
     </div>
-    <md-button class="md-raised" aria-label="Crear Empresa" ui-sref="home.empresas">
+    <md-button type="submit" class="md-raised" aria-label="Crear Empresa">
       Crear Empresa
     </md-button>
   </form>
