@@ -15,10 +15,9 @@
     <md-card-content>
       <md-input-container class="md-icon-float md-block">
         <label>Usuario</label>
-        <md-icon md-svg-src="assets/icons/ic_perm_identity_black_24px.svg"></md-icon>
+        <md-icon md-svg-src="assets/icons/perm_identity.svg"></md-icon>
         <input type="email" name="email" ng-model="vm.formData.email"
-          limit-caracter="{{vm.formatosImputs.email.maxlength}}"
-          required>
+          limit-caracter="{{vm.formatosImputs.email.maxlength}}" required>
         <div ng-messages="vm.form.email.$error" role="alert">
           <div class="my-message" ng-message="email">
             Debes indicar un email válido.
@@ -27,7 +26,7 @@
       </md-input-container>
       <md-input-container class="md-icon-float md-block">
         <label>Contraseña</label>
-        <md-icon md-svg-src="assets/icons/ic_lock_outline_black_24px.svg"></md-icon>
+        <md-icon md-svg-src="assets/icons/lock_outline.svg"></md-icon>
         <input type="password" name="password" ng-model="vm.formData.password"
           required limit-caracter="{{vm.formatosImputs.password.maxlength}}"
           caracter-restrict="{{vm.formatosImputs.password.pattern}}">

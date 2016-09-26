@@ -10,15 +10,19 @@
   </div>
 </md-toolbar>
 <md-content class="md-padding">
-  <form name="vm.form" ng-submit="vm.handleSubmit(); $event.stopPropagation();" novalidate>
+  <form name="vm.formEditar" ng-submit="vm.handleSubmit(); $event.stopPropagation();" novalidate>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Nombre</label>
-        <input type="text" ng-model="vm.empresa.name" required>
+        <input type="text" name="nombre" ng-model="vm.empresa.name"
+        limit-caracter="{{vm.formatosImputs.nombre.maxlength}}"
+        caracter-restrict="{{vm.formatosImputs.nombre.pattern}}" required>
       </md-input-container>
       <md-input-container flex>
         <label>Código Softland</label>
-        <input type="text" ng-model="vm.empresa.code" required>
+        <input type="text" name="codigo" ng-model="vm.empresa.code"
+        limit-caracter="{{vm.formatosImputs.codigo.maxlength}}"
+        caracter-restrict="{{vm.formatosImputs.codigo.pattern}}" required>
       </md-input-container>
     </div>
     <md-button type="submit" class="md-raised md-primary" aria-label="Guardar"
