@@ -4,10 +4,11 @@
 		.controller('EmpresaController', [ 'empresasService',
 			EmpresaController
 		])
-		.controller('NuevaEmpresaController', [ '$state', 'empresasService',
+		.controller('NuevaEmpresaController', [ '$state', 'empresasService', '$rootScope',
 			NuevaEmpresaController
 		])
 		.controller('EditarEmpresaController', [ '$stateParams', '$state', 'empresasService',
+			'$rootScope',
 			 EditarEmpresaController
 		]);
 
@@ -23,7 +24,7 @@
 		cargaInicial();
 	}
 
-	function NuevaEmpresaController($state, empresasService) {
+	function NuevaEmpresaController($state, empresasService, rootScope) {
 		var vm = this;
 		vm.createEmpresa = createEmpresa;
 
@@ -37,12 +38,20 @@
 		};
 
 		function createEmpresa() {
-			empresasService.insertEmpresas(vm.empresa);
-			$state.go('home.empresas');
+			empresasService.insertEmpresas(vm.empresa)
+			.then(function() {
+				console.log('Exito');
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'Empresa registrada con éxito.',
+					'md-primary'
+				);
+				$state.go('home.empresas', {}, {location: 'replace'});
+			});
 		}
 	}
 
-  function EditarEmpresaController(stateParams, state, empresasService) {
+  function EditarEmpresaController(stateParams, state, empresasService, rootScope) {
     var vm = this;
 		vm.empresa = {
 			name: '',
@@ -63,6 +72,11 @@
 		function guardarEmpresa() {
 			empresasService.updateEmpresa(vm.empresa)
 			.then(function(updateResult) {
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'Datos guardados con éxito.',
+					'md-primary'
+				);
 				state.go('home.empresas');
 			})
 		}

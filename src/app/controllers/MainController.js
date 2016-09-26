@@ -4,11 +4,11 @@
        .module('app')
        .controller('MainController', [
           'navService', '$mdSidenav', '$mdBottomSheet', '$log', '$q', '$state', '$mdToast',
-          '$localStorage',
+          '$localStorage', '$rootScope',
           MainController
        ]);
 
-  function MainController(navService, $mdSidenav, $mdBottomSheet, $log, $q, $state, $mdToast, localStorage) {
+  function MainController(navService, $mdSidenav, $mdBottomSheet, $log, $q, $state, $mdToast, localStorage, rootScope) {
     var vm = this;
 
     vm.menuItems = [ ];
@@ -84,6 +84,21 @@
           .position('bottom right')
       );
     }
+
+    function showResultToast(title, type) {
+      $mdToast.show(
+        $mdToast.simple()
+          .content(title)
+          .hideDelay(3500)
+          .position('bottom right')
+          .highlightClass(type)
+      );
+    }
+
+    rootScope.$on('event:toastMessage', function(event, title, type) {
+      console.log(event, title, type);
+      showResultToast(title, type);
+    });
   }
 
 })();
