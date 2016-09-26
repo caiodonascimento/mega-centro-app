@@ -13,11 +13,29 @@
 
 	function EmpresaController(empresasService) {
 		var vm = this;
-
+		vm.openMenu = openMenu;
+		vm.delete = delete;
 		empresasService.loadAllEmpresas()
 		.then(function (empresas) {
 			vm.tableData = empresas;
 		});
+		function openMenu($mdOpenMenu, event) {
+			originatorEv = event;
+      $mdOpenMenu(event);
+		}
+		function delete(empresa, event) {
+			var confirm = $mdDialog.confirm()
+	          .title('Empresas')
+	          .textContent('¿Desea eliminar la empresa ' + empresa.name + ' definitivamente?')
+	          .ariaLabel('Lucky day')
+	          .targetEvent(event)
+	          .ok('Confirmar')
+	          .cancel('Cancelar');
+	    $mdDialog.show(confirm).then(function() {
+				empresasService.deleteEmpresa(empresa);
+				
+	    });
+		}
 	}
 
 	function NuevaEmpresaController($state, empresasService) {

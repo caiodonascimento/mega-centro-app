@@ -25,12 +25,28 @@
           <td data-title="Empresa">{{data.name}}</td>
           <td data-title="Cód. Softland">
             {{data.codeSoftalnd}}
-            <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar" ui-sref="home.empresas-editar({id: data.id})">
-              <md-tooltip md-direction="bottom">
-                Editar
-              </md-tooltip>
-              <i class="material-icons">create</i>
-            </md-button>
+            <md-menu>
+              <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar" ng-click="vm.openMenu($mdOpenMenu, $event)">
+                <md-tooltip md-direction="bottom">
+                  Realizar acción
+                </md-tooltip>
+                <i class="material-icons">create</i>
+              </md-button>
+              <md-menu-content>
+                <md-menu-item>
+                  <md-button ui-sref="home.empresas-editar({id: data.id})">
+                    <md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>
+                    Editar
+                  </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                  <md-button ng-click="vm.delete(data)">
+                    <md-icon md-svg-icon="call:voicemail"></md-icon>
+                    Eliminar
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
           </td>
         </tr>
       </tbody>

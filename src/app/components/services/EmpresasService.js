@@ -17,7 +17,10 @@
 			insertEmpresas : function(empresa) {
 				empresa.id = empresas.length + 1;
 				empresas.push(empresa);
+			},
+			deleteEmpresa : function(empresa) {
+				
 			}
 		};
-	}	
+	}
 })();
