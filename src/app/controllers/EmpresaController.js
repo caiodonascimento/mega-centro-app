@@ -1,7 +1,7 @@
 (function(){
 	angular
 		.module('app')
-		.controller('EmpresaController', [ 'empresasService',
+		.controller('EmpresaController', [ 'empresasService', '$mdDialog',
 				EmpresaController
 		])
 		.controller('NuevaEmpresaController', [ '$state', 'empresasService', 'formatosImputs',
@@ -16,10 +16,10 @@
 				EliminarEmpresaController
 		]);
 
-	function EmpresaController(empresasService) {
+	function EmpresaController(empresasService, $mdDialog) {
 		var vm = this;
 		vm.openMenu = openMenu;
-		vm.delete = delete;
+		vm.deleteEmpresa = deleteEmpresa;
 		vm.tableData = [];
 		vm.isOpen = false;
 		function cargaInicial() {
@@ -36,7 +36,7 @@
 			originatorEv = event;
       $mdOpenMenu(event);
 		}
-		function delete(empresa, event) {
+		function deleteEmpresa(empresa, event) {
 			var confirm = $mdDialog.confirm()
 	          .title('Empresas')
 	          .textContent('¿Desea eliminar la empresa ' + empresa.name + ' definitivamente?')
@@ -46,7 +46,6 @@
 	          .cancel('Cancelar');
 	    $mdDialog.show(confirm).then(function() {
 				empresasService.deleteEmpresa(empresa);
-
 	    });
 		}
 	}
