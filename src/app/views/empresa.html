@@ -25,23 +25,28 @@
           <td data-title="Empresa">{{data.name}}</td>
           <td data-title="Código">
             {{data.code}}
-            <md-fab-speed-dial md-direction="left" md-open="data.open" class="md-scale fab-btn-td">
-              <md-fab-trigger class="fab-btn-td">
-                <md-button aria-label="menu" class="md-fab md-warn">
-                  <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
-                </md-button>
-              </md-fab-trigger>
-              <md-fab-actions>
-               <md-button aria-label="Editar" class="md-fab md-raised md-mini">
-                 <md-icon md-svg-src="assets/icons/create.svg" aria-label="Editar"
-                  ui-sref="home.empresas-editar({id: data.id})"></md-icon>
-               </md-button>
-               <md-button aria-label="Eliminar" class="md-fab md-raised md-mini">
-                 <md-icon md-svg-src="assets/icons/delete_forever.svg" aria-label="Eliminar"
-                  ng-click="home.empresas({id: data.id})" ng-model="vm.empresa.id"></md-icon>
-               </md-button>
-              </md-fab-actions>
-            </md-fab-speed-dial>
+            <md-menu>
+              <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar" ng-click="vm.openMenu($mdOpenMenu, $event)">
+                <md-tooltip md-direction="bottom">
+                  Realizar acción
+                </md-tooltip>
+                <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
+              </md-button>
+              <md-menu-content>
+                <md-menu-item>
+                  <md-button ui-sref="home.empresas-editar({id: data.id})">
+                    <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
+                    Editar
+                  </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                  <md-button ng-click="vm.deleteEmpresa(data, $event)">
+                    <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
+                    Eliminar
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
           </td>
         </tr>
       </tbody>

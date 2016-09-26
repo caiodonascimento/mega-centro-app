@@ -2,7 +2,8 @@
 
   angular
        .module('app')
-       .controller('LoginController', ['$state', '$localStorage', 'formatosImputs', 'authService',
+       .controller('LoginController', ['$state', '$localStorage', 'formatosImputs',
+          'authService',
           LoginController
        ]);
 
@@ -13,6 +14,7 @@
       password: '',
     };
     vm.form = {};
+    vm.validForm = true;
     vm.handleSubmit = makeLogin;
     vm.formatosImputs = formatosImputs.formLogin;
 

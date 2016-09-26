@@ -3,9 +3,7 @@
 
 	angular.module('app')
         .service('authService', [
-        '$q',
-				'$http',
-        '$localStorage',
+        '$q', '$http', '$localStorage',
         authService
 	]);
 

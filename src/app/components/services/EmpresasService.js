@@ -3,8 +3,7 @@
 
 	angular.module('app')
         .service('empresasService', [
-        '$q',
-				'$http',
+        '$q', '$http',
         empresasService
 	]);
 
@@ -48,6 +47,8 @@
 						'https://megacentroapi-mosschile.rhcloud.com/api/enterprises/' + id
 					)
 				);
+			},
+			deleteEmpresa : function(empresa) {
 			}
 		};
 	}
