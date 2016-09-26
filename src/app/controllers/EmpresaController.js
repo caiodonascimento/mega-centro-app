@@ -2,22 +2,29 @@
 	angular
 		.module('app')
 		.controller('EmpresaController', [ 'empresasService',
-			EmpresaController
+				EmpresaController
 		])
 		.controller('NuevaEmpresaController', [ '$state', 'empresasService', 'formatosImputs',
-			NuevaEmpresaController
+				NuevaEmpresaController
 		])
-		.controller('EditarEmpresaController', [ '$stateParams', '$state', 'empresasService',
-			 EditarEmpresaController
+		.controller('EditarEmpresaController', [ '$stateParams', '$state', 'empresasService', 'formatosImputs',
+				EditarEmpresaController
+		])
+		.controller('EliminarEmpresaController', [ '$stateParams',
+				EliminarEmpresaController
 		]);
 
 	function EmpresaController(empresasService) {
 		var vm = this;
 		vm.tableData = [];
+		vm.isOpen = false;
 		function cargaInicial() {
 			empresasService.loadAllEmpresas()
 			.then(function (empresas) {
-				vm.tableData = empresas.data;
+				vm.tableData = empresas.data.map(function(empresa) {
+					empresa.open = false;
+					return empresa;
+				});
 			});
 		}
 		cargaInicial();
@@ -40,14 +47,15 @@
 		}
 	}
 
-  function EditarEmpresaController(stateParams, state, empresasService) {
+  function EditarEmpresaController(stateParams, state, empresasService, formatosImputs) {
     var vm = this;
+		vm.formatosImputs = formatosImputs.formEditar;//Agregando codigo para probar las validaciones.
 		vm.empresa = {
 			name: '',
 			code: ''
 		};
 		vm.handleSubmit = guardarEmpresa;
-		vm.form = {};
+		vm.formEditar = {};
 
 		if (stateParams.id) {
 			empresasService.getById(stateParams.id)
@@ -65,5 +73,18 @@
 			})
 		}
   }
+
+	function EliminarEmpresaController(stateParams) {
+		var vm = this;
+		vm.empresa = {
+			name: '',
+			code: ''
+		};
+		vm.formEmpresa = {};
+
+		function quitarEmpresa() {
+			//Cambiar el estado de la empresa a Inactivo.
+		}
+	}
 
 })();

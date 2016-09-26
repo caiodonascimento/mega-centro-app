@@ -22,6 +22,16 @@
           pattern: '^[A-Za-z\\d]+$',
           maxlength: 30
         }
+      },
+      formEditar: {
+        nombre: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\s\\.\\-\\_\\!\\¡\\\'\\"]+$',
+          maxlength: 30
+        },
+        codigo: {
+          pattern: '^[A-Za-z\\d]+$',
+          maxlength: 30
+        }
       }
     });
 })();

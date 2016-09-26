@@ -65,7 +65,7 @@
         sref: '.table'
       },
       {
-        name: 'Seguridad',
+        name: 'Dashboard',
         icon: 'view_module',
         sref: '.table'
       }*/

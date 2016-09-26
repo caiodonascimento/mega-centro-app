@@ -25,12 +25,23 @@
           <td data-title="Empresa">{{data.name}}</td>
           <td data-title="Código">
             {{data.code}}
-            <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar" ui-sref="home.empresas-editar({id: data.id})">
-              <md-tooltip md-direction="bottom">
-                Editar
-              </md-tooltip>
-              <i class="material-icons">create</i>
-            </md-button>
+            <md-fab-speed-dial md-direction="left" md-open="data.open" class="md-scale fab-btn-td">
+              <md-fab-trigger class="fab-btn-td">
+                <md-button aria-label="menu" class="md-fab md-warn">
+                  <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
+                </md-button>
+              </md-fab-trigger>
+              <md-fab-actions>
+               <md-button aria-label="Editar" class="md-fab md-raised md-mini">
+                 <md-icon md-svg-src="assets/icons/create.svg" aria-label="Editar"
+                  ui-sref="home.empresas-editar({id: data.id})"></md-icon>
+               </md-button>
+               <md-button aria-label="Eliminar" class="md-fab md-raised md-mini">
+                 <md-icon md-svg-src="assets/icons/delete_forever.svg" aria-label="Eliminar"
+                  ng-click="home.empresas({id: data.id})"></md-icon>
+               </md-button>
+              </md-fab-actions>
+            </md-fab-speed-dial>
           </td>
         </tr>
       </tbody>
