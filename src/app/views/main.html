@@ -13,7 +13,7 @@
     <md-toolbar show-xs show-sm class="sidebar-header header-cover" layout-padding>
       <md-button layout="row">
         <i class="material-icons md-48">account_circle</i>
-        Invitado
+        {{vm.user.username}}
       </md-button>
       <span>
         {{vm.user.email|limitTo:30}}

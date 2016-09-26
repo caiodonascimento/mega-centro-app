@@ -4,7 +4,10 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
   'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app', 'ngStorage'])
 
   .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider,
-                    $mdIconProvider) {
+                    $mdIconProvider, $httpProvider) {
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
     $stateProvider
       .state('login', {
         url: '/login',

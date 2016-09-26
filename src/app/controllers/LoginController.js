@@ -19,9 +19,19 @@
     vm.formatosImputs = formatosImputs.formLogin;
 
     function makeLogin() {
-
-      localStorage.user = this.formData;
-      state.go('home.inicio');
+      authService.login(vm.formData)
+      .then(function(loginResult) {
+        localStorage.accessToken = loginResult.data.id;
+        authService.getUser(loginResult.data.userId)
+        .then(function(getResult) {
+          localStorage.user = getResult.data;
+          state.go('home.inicio');
+        }, function(error) {
+          console.log(error);
+        });
+      }, function(error) {
+        console.log(error);
+      });
     };
   }
 

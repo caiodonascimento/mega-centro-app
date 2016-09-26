@@ -16,7 +16,8 @@
     "angular-material": "^1.0.6",
     "angular-mocks": "^1.5.0",
     "ngstorage": "^0.3.11",
-    "angular-ui-router-anim-in-out": "^1.0.2"
+    "angular-ui-router-anim-in-out": "^1.0.2",
+    "underscore": "^1.8.3"
   },
   "devDependencies": {}
 }

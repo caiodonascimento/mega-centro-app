@@ -3,34 +3,35 @@
 
 	angular.module('app')
         .service('authService', [
-        '$q', '$http', 'apiRoutes',
+        '$q', '$http', '$localStorage',
         authService
 	]);
 
-	function authService($q, $http, apiRoutes) {
+	function authService($q, $http, localStorage) {
 		return {
-			login : function(user) {
-        var defer = $q.defer();
-        $http.post(
-          apiRoutes.usuarios.login + '?include=user',
-          {
-            email: user.email,
-            password: user.password,
-            ttl: 2000
-          }
-        ).then(function(response) {
-          console.log(response);
-
-        })
-        .catch(function(error) {
-          console.log(error);
-          defer.reject(error);
-        });
-        return defer.promise;
+			login : function(usuario) {
+        var data = {
+          'email': usuario.email,
+          'password': usuario.password
+        };
+				return $q.when(
+					$http.post('https://megacentroapi-mosschile.rhcloud.com/api/Users/login', data)
+				);
 			},
-			logout : function() {
-				empresa.id = empresas.length + 1;
-				empresas.push(empresa);
+      getUser : function(id) {
+        var params = id.toString() + '?access_token=' + localStorage.accessToken;
+        return $q.when(
+					$http.get('https://megacentroapi-mosschile.rhcloud.com/api/Users/' + params)
+				);
+      },
+			logout : function(empresa) {
+        var data = {
+          'email': usuario.email,
+          'password': usuario.password
+        };
+				return $q.when(
+					$http.post('https://megacentroapi-mosschile.rhcloud.com/api/Users/logout', data)
+				);
 			}
 		};
 	}

@@ -15,7 +15,7 @@
         <tr>
           <th>#</th>
           <th>Empresa</th>
-          <th>Cód. Softland</th>
+          <th>Código</th>
         </tr>
       </thead>
       <tbody>
@@ -23,25 +23,25 @@
         <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
           <td data-title="ID">{{data.id}}</td>
           <td data-title="Empresa">{{data.name}}</td>
-          <td data-title="Cód. Softland">
-            {{data.codeSoftalnd}}
+          <td data-title="Código">
+            {{data.code}}
             <md-menu>
               <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar" ng-click="vm.openMenu($mdOpenMenu, $event)">
                 <md-tooltip md-direction="bottom">
                   Realizar acción
                 </md-tooltip>
-                <i class="material-icons">create</i>
+                <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
               </md-button>
               <md-menu-content>
                 <md-menu-item>
                   <md-button ui-sref="home.empresas-editar({id: data.id})">
-                    <md-icon md-svg-icon="call:dialpad" md-menu-align-target></md-icon>
+                    <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
                     Editar
                   </md-button>
                 </md-menu-item>
                 <md-menu-item>
                   <md-button ng-click="vm.delete(data)">
-                    <md-icon md-svg-icon="call:voicemail"></md-icon>
+                    <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
                     Eliminar
                   </md-button>
                 </md-menu-item>
