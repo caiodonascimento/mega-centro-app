@@ -45,7 +45,17 @@
 	          .ok('Confirmar')
 	          .cancel('Cancelar');
 	    $mdDialog.show(confirm).then(function() {
-				empresasService.deleteEmpresa(empresa);
+				empresasService.deleteEmpresa(empresa)
+				.then(function() {
+					cargaInicial();
+					$mdDialog.show(
+		      	$mdDialog.alert()
+			        .clickOutsideToClose(true)
+			        .title('Eliminando Empresa')
+			        .textContent('Empresa ' + empresa.name + ' eliminada con éxito.')
+			        .ok('Ok')
+		    	);
+				});
 	    });
 		}
 	}

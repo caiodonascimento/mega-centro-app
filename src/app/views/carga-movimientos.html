@@ -1,0 +1,103 @@
+<md-card layout-fill ng-hide="vm.searchProcess">
+  <md-toolbar md-scroll-shrink>
+      <div class="md-toolbar-tools">
+          <span>Carga de Movimientos históricos</span>
+      </div>
+  </md-toolbar>
+  <md-card-content>
+    <form ng-submit="vm.handleSubmitCarga(); $event.preventDefault();" name="vm.cargaForm">
+      <div layout layout-md="row" layout-sm="column" layout-xs="column">
+        <md-autocomplete required
+          md-input-name="empresa"
+          md-selected-item="vm.carga.empresa"
+          md-search-text="vm.searchText"
+          md-no-cache="true"
+          md-items="item in vm.querySearchEmpresa(vm.searchText)"
+          md-item-text="item.name"
+          md-require-match
+          md-floating-label="Empresa">
+          <md-item-template>
+            <span md-highlight-text="vm.searchText">{{item.name}}</span>
+          </md-item-template>
+          <md-not-found>
+            No hay empresas con el nombre indicado.
+          </md-not-found>
+        </md-autocomplete>
+      </div>
+      <div layout layout-md="row" layout-sm="column" layout-xs="column">
+        <md-input-container>
+          <label>Año</label>
+          <md-select ng-model="vm.carga.year" required>
+            <md-option ng-repeat="year in vm.years()" ng-value="year">
+              {{year}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+        <md-input-container>
+          <label>Mes</label>
+          <md-select ng-model="vm.carga.month" required>
+            <md-option ng-repeat="month in vm.months" ng-value="month.id">
+              {{month.name}}
+            </md-option>
+          </md-select>
+        </md-input-container>
+      </div>
+      <md-button type="submit" aria-label="Cargar Movimientos" class="md-raised md-primary">
+        <md-icon class="material-icons">publish</md-icon>
+        Cargar Movimientos
+      </md-button>
+    </form>
+  </md-card-content>
+</md-card>
+<div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
+  <md-toolbar md-scroll-shrink>
+    <div class="md-toolbar-tools">
+      <span>Carga de Movimientos históricos</span>
+      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta">
+        <md-tooltip md-direction="bottom">
+          Finalizar carga
+        </md-tooltip>
+        <md-icon class="material-icons">publish</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <table id="table" class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Date</th>
+        <th>Num</th>
+        <th>Name</th>
+        <th>Memo</th>
+        <th>Account</th>
+        <th>Split</th>
+        <th>Amount</th>
+        <th>TC</th>
+        <th>Pesos Liabilities</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr></tr>
+      <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
+        <td data-title="N. fila">{{$index + 1}}</td>
+        <td data-title="Date">{{data.Date}}</td>
+        <td data-title="Num">{{data.Num}}</td>
+        <td data-title="Name">{{data.Name}}</td>
+        <td data-title="Memo">{{data.Memo}}</td>
+        <td data-title="Account">{{data.Account}}</td>
+        <td data-title="Split">{{data.Split}}</td>
+        <td data-title="Split">{{data.Split}}</td>
+        <td data-title="Account">{{data.Amount}}</td>
+        <td data-title="TC">
+          {{data.TC}}
+          <md-button class="md-fab md-mini fab-btn-td" aria-label="Cambiar Cuenta Chile">
+            <md-tooltip md-direction="bottom">
+              Cambiar Cuenta Chile
+            </md-tooltip>
+            <md-icon class="material-icons">create</md-icon>
+          </md-button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

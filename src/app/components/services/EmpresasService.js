@@ -3,15 +3,22 @@
 
 	angular.module('app')
         .service('empresasService', [
-        '$q', '$http',
+        '$q', '$http', 'apiRoutes',
         empresasService
 	]);
 
-	function empresasService($q, $http) {
+	function empresasService($q, $http, apiRoutes) {
 		return {
 			loadAllEmpresas : function() {
 				return $q.when(
-					$http.get('https://megacentroapi-mosschile.rhcloud.com/api/enterprises')
+					$http.get(
+						apiRoutes.empresas,
+						{
+							params: {
+								'filter[where][status]': 'active'
+							}
+						}
+					)
 				);
 			},
 			insertEmpresas : function(empresa) {
@@ -24,7 +31,7 @@
 				};
 				return $q.when(
 					$http.post(
-						'https://megacentroapi-mosschile.rhcloud.com/api/enterprises',
+						apiRoutes.empresas,
 						data
 					)
 				);
@@ -36,7 +43,7 @@
 				};
 				return $q.when(
 					$http.put(
-						'https://megacentroapi-mosschile.rhcloud.com/api/enterprises/' + empresa.id.toString(),
+						apiRoutes.empresas + '/' + empresa.id.toString(),
 						data
 					)
 				);
@@ -44,11 +51,33 @@
 			getById : function(id) {
 				return $q.when(
 					$http.get(
-						'https://megacentroapi-mosschile.rhcloud.com/api/enterprises/' + id
+						apiRoutes.empresas + '/' + id
 					)
 				);
 			},
 			deleteEmpresa : function(empresa) {
+				var data = {
+					status: 'eliminada'
+				};
+				return $q.when(
+					$http.put(
+						apiRoutes.empresas + '/' + empresa.id.toString(),
+						data
+					)
+				);
+			},
+			findLikeName: function(text) {
+				return $q.when(
+					$http.get(
+						apiRoutes.empresas,
+						{
+							params: {
+								'filter[where][and][0][name][like]': text + '%',
+								'filter[where][and][1][status]': 'active'
+							}
+						}
+					)
+				);
 			}
 		};
 	}

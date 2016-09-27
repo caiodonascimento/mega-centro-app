@@ -3,11 +3,8 @@
   var hostServer = 'http://megacentroapi-mosschile.rhcloud.com/api'
   angular.module('app')
     .constant('apiRoutes', {
-      usuarios: {
-        login: '/users/login',
-        logout: '/users/logout',
-        create: '/users',
-        find: '/users/'
-      }
+      usuarios: hostServer + '/users',
+      empresas: hostServer + '/enterprises',
+      chileanAccount: hostServer + '/chileanAccount'
     });
 })();

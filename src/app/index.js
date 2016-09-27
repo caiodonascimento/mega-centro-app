@@ -103,13 +103,13 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Plan Cta. Origen'
         }
       })
-      .state('home.profile', {
-        url: '/profile',
-        templateUrl: 'app/views/profile.html',
-        controller: 'ProfileController',
+      .state('home.perfil', {
+        url: '/perfil',
+        templateUrl: 'app/views/perfil.html',
+        controller: 'PerfilController',
         controllerAs: 'vm',
         data: {
-          title: 'Profile'
+          title: 'Mi Perfil'
         }
       })
       .state('home.dashboard', {
@@ -118,8 +118,17 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         data: {
           title: 'Dashboard'
         }
+      })
+      .state('home.carga-movimientos', {
+        url: '/carga-movimientos',
+        templateUrl: 'app/views/carga-movimientos.html',
+        controller: 'CargaMovimientosController',
+        controllerAs: 'vm',
+        data: {
+          title: 'Carga de Movimientos'
+        }
       });
 
-    $urlRouterProvider.otherwise('/login');
+    $urlRouterProvider.otherwise('/inicio');
 
   });

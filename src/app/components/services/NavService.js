@@ -33,12 +33,12 @@
         name: 'Plan Cta. Origen',
         icon: 'compare_arrows',
         sref: '.plan-origen'
-      }/*,
+      },
       {
         name: 'Carga Movimientos',
-        icon: 'view_module',
-        sref: '.table'
-      },
+        icon: 'file_upload',
+        sref: '.carga-movimientos'
+      }/*,
       {
         name: 'Consulta Movimientos',
         icon: 'view_module',
