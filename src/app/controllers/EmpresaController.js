@@ -85,8 +85,8 @@
 		}
 	}
 
-  function EditarEmpresaController(stateParams, state, empresasService, formatosImputs, rootScope) {
-    var vm = this;
+    function EditarEmpresaController(stateParams, state, empresasService, formatosImputs, rootScope) {
+		var vm = this;
 		//Agregando codigo para probar las validaciones.
 		vm.formatosImputs = formatosImputs.formEditar;
 		vm.empresa = {
@@ -116,19 +116,6 @@
 				state.go('home.empresas');
 			})
 		}
-  }
-
-	function EliminarEmpresaController(stateParams) {
-		var vm = this;
-		vm.empresa = {
-			name: '',
-			code: ''
-		};
-		vm.formEmpresa = {};
-
-		function quitarEmpresa() {
-			//Cambiar el estado de la empresa a Inactivo.
-		}
-	}
+    }
 
 })();

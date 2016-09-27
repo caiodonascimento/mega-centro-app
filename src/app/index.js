@@ -94,6 +94,24 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Plan Cta. Chile'
         }
       })
+	  .state('home.plan-chile-nuevo', {
+        url: '/plan-chile/nuevo',
+        controller: 'NuevoPlanChileController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/forms/nuevo-plan-chile.html',
+        data: {
+          title: 'Plan Cta. Chile'
+        }
+      })
+	  .state('home.plan-chile-editar', {
+        url: '/plan-chile/editar/{id}',
+        controller: 'EditarPlanChileController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/forms/editar-plan-chile.html',
+        data: {
+          title: 'Plan Cta. Chile'
+        }
+      })
       .state('home.plan-origen', {
         url: '/plan-origen',
         controller: 'PlanOrigenController',
