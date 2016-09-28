@@ -2,7 +2,7 @@
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
       <span>Listado de registros</span>
-      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta">
+      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta" ui-sref="home.plan-chile-nuevo">
         <md-tooltip md-direction="bottom">
           Agregar Cuenta
         </md-tooltip>
@@ -22,14 +22,38 @@
         </tr>
       </thead>
       <tbody>
-        <tr ></tr>
-        <tr ng-repeat="data in vm.tableData track by $index">
+        <tr></tr>
+        <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
           <td data-title="ID">{{data.id}}</td>
           <td data-title="Cuenta">{{data.accont}}</td>
-          <td data-title="Nombre">{{data.name}}</td>
+          <td data-title="Nombre">{{data.nombre}}</td>
           <td data-title="Nivel 1">{{data.level1}}</td>
           <td data-title="Nivel 2">{{data.level2}}</td>
-          <td data-title="Nivel 3">{{data.level3}}</td>
+          <td data-title="Nivel 3">
+            {{data.level3}}
+            <md-menu>
+              <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar" ng-click="vm.openMenu($mdOpenMenu, $event)">
+                <md-tooltip md-direction="bottom">
+                  Realizar acción
+                </md-tooltip>
+                <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
+              </md-button>
+              <md-menu-content>
+                <md-menu-item>
+                  <md-button ui-sref="home.plan-chile-editar({id: data.id})">
+                    <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
+                    Editar
+                  </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                  <md-button ng-click="vm.deletePlanCtaChile(data, $event)">
+                    <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
+                    Eliminar
+                  </md-button>
+                </md-menu-item>
+              </md-menu-content>
+            </md-menu>
+          </td>
         </tr>
       </tbody>
   </table>
