@@ -11,9 +11,6 @@
 		.controller('EditarEmpresaController', [ '$stateParams', '$state', 'empresasService', 'formatosImputs',
 				'$rootScope',
 				EditarEmpresaController
-		])
-		.controller('EliminarEmpresaController', [ '$stateParams',
-				EliminarEmpresaController
 		]);
 
 	function EmpresaController(empresasService, $mdDialog) {
@@ -85,7 +82,7 @@
 		}
 	}
 
-    function EditarEmpresaController(stateParams, state, empresasService, formatosImputs, rootScope) {
+  function EditarEmpresaController(stateParams, state, empresasService, formatosImputs, rootScope) {
 		var vm = this;
 		//Agregando codigo para probar las validaciones.
 		vm.formatosImputs = formatosImputs.formEditar;
