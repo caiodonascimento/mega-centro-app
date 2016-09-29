@@ -63,7 +63,7 @@
 					},
 					deletePlanCtaChile : function(planCtaChile) {
 							var data = {
-									status: 'eliminada'
+									status: 1
 							};
 							return $q.when(
 									$http.put(

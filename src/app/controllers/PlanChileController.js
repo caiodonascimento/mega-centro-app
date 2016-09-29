@@ -71,7 +71,7 @@
     			name: '',
     			level1: '',
     			level2: '',
-    			level3: '',
+    			level3: ''
   		};
 
   		function createPlanCtaChile() {
@@ -91,16 +91,16 @@
   function EditarPlanChileController(stateParams, state, planCtaChileService, formatosImputs, rootScope) {
       var vm = this;
       //Agregando codigo para probar las validaciones.
-      vm.formatosImputs = formatosImputs.formEditar;
+      vm.formatosImputs = formatosImputs.formEditarPlanChile;
       vm.planCtaChile = {
           account: '',
     			name: '',
     			level1: '',
     			level2: '',
-    			level3: '',
+    			level3: ''
   		};
-      vm.handleSubmit = guardarEmpresa;
-      vm.formEditar = {};
+      vm.handleSubmit = guardarPlanCtaChile;
+      vm.formEditarPlanChile = {};
 
       if (stateParams.id) {
           planCtaChileService.getById(stateParams.id)
