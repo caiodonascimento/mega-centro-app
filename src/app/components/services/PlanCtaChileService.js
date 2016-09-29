@@ -15,7 +15,7 @@
 											apiRoutes.chileanAccounts,
 											{
 												params: {
-														'filter[where][status]': 0
+														'filter[where][status]': '0'
 												}
 											}
 									)
