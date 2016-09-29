@@ -33,6 +33,50 @@
           pattern: '^[A-Za-z\\d]+$',
           maxlength: 30
         }
+      },
+      formPlanChile: {
+        account: {
+          pattern: '^[0-9]+$',
+          maxlength: 20
+        },
+        name: {
+          pattern: '^[A-Za-z\\s]+$',
+          maxlength: 50
+        },
+        level1: {
+          pattern: '^[A-Za-z\\s]+$',
+          maxlength: 50
+        },
+        level2: {
+          pattern: '^[A-Za-z\\s]+$',
+          maxlength: 50
+        },
+        level3: {
+          pattern: '^[A-Za-z\\s]+$',
+          maxlength: 50
+        }
+      },
+      formEditarPlanChile: {
+        account: {
+          pattern: '^[0-9]+$',
+          maxlength: 20
+        },
+        name: {
+          pattern: '^[A-Za-z\\s]+$',
+          maxlength: 50
+        },
+        level1: {
+          pattern: '^[A-Za-z\\s]+$',
+          maxlength: 50
+        },
+        level2: {
+          pattern: '^[A-Za-z\\s]+$',
+          maxlength: 50
+        },
+        level3: {
+          pattern: '^[A-Za-z\\s]+$',
+          maxlength: 50
+        }
       }
     });
 })();
