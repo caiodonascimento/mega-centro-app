@@ -12,7 +12,7 @@
 					loadAllPlanCtaChile : function() {
 							return $q.when(
 									$http.get(
-											apiRoutes.chileanAccount,
+											apiRoutes.chileanAccounts,
 											{
 												params: {
 														'filter[where][status]': 0
@@ -34,7 +34,7 @@
 							};
 							return $q.when(
 									$http.post(
-											apiRoutes.chileanAccount,
+											apiRoutes.chileanAccounts,
 											data
 									)
 							);
@@ -49,7 +49,7 @@
 							};
 							return $q.when(
 									$http.put(
-											apiRoutes.chileanAccount + '/' + planCtaChile.id.toString(),
+											apiRoutes.chileanAccounts + '/' + planCtaChile.id.toString(),
 											data
 									)
 							);
@@ -57,7 +57,7 @@
 					getById : function(id) {
 							return $q.when(
 									$http.get(
-											apiRoutes.chileanAccount + '/' + id
+											apiRoutes.chileanAccounts + '/' + id
 									)
 							);
 					},
@@ -67,7 +67,7 @@
 							};
 							return $q.when(
 									$http.put(
-											apiRoutes.chileanAccount + '/' + planCtaChile.id.toString(),
+											apiRoutes.chileanAccounts + '/' + planCtaChile.id.toString(),
 											data
 									)
 							);
@@ -75,7 +75,7 @@
 					findLikeName: function(text) {
 							return $q.when(
 									$http.get(
-											apiRoutes.chileanAccount,
+											apiRoutes.chileanAccounts,
 											{
 													params: {
 															'filter[where][and][0][name][like]': text + '%',

@@ -5,6 +5,6 @@
     .constant('apiRoutes', {
       usuarios: hostServer + '/users',
       empresas: hostServer + '/enterprises',
-      chileanAccount: hostServer + '/chileanAccount'
+      chileanAccount: hostServer + '/chileanAccounts'
     });
 })();
