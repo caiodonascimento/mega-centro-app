@@ -26,6 +26,8 @@
          caracter-restrict="{{vm.formatosImputs.name.pattern}}" required>
 		    <div ng-messages="vm.formPlanChile.name.$error" role="alert"></div>
       </md-input-container>
+    </div>
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Nivel 1</label>
         <input type="text" name="nivel1" ng-model="vm.planCtaChile.level1"

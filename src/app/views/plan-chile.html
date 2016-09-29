@@ -19,6 +19,7 @@
           <th>Nivel 1</th>
           <th>Nivel 2</th>
           <th>Nivel 3</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -31,6 +32,8 @@
           <td data-title="Nivel 2">{{data.level2}}</td>
           <td data-title="Nivel 3">
             {{data.level3}}
+          </td>
+          <td>
             <md-menu>
               <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar" ng-click="vm.openMenu($mdOpenMenu, $event)">
                 <md-tooltip md-direction="bottom">

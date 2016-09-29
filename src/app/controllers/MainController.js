@@ -28,7 +28,7 @@
       });
 
     function exitToApp() {
-      localStorage.user = undefined;
+      localStorage.$reset();
       $state.go('login', {}, {location: 'replace'});
     }
 

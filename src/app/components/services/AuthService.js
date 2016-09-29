@@ -3,11 +3,11 @@
 
 	angular.module('app')
         .service('authService', [
-        '$q', '$http', '$localStorage',
+        '$q', '$http', '$localStorage', 'apiRoutes',
         authService
 	]);
 
-	function authService($q, $http, localStorage) {
+	function authService($q, $http, localStorage, apiRoutes) {
 		return {
 			login : function(usuario) {
         var data = {
@@ -15,23 +15,50 @@
           'password': usuario.password
         };
 				return $q.when(
-					$http.post('https://megacentroapi-mosschile.rhcloud.com/api/Users/login', data)
+					$http.post(
+						apiRoutes.usuarios + '/login',
+						data,
+						{
+							params: {
+								'include': 'user'
+							}
+						}
+					)
 				);
 			},
       getUser : function(id) {
-        var params = id.toString() + '?access_token=' + localStorage.accessToken;
+        var params = id.toString();
         return $q.when(
-					$http.get('https://megacentroapi-mosschile.rhcloud.com/api/Users/' + params)
+					$http.get(
+						apiRoutes.usuarios + '/' + params,
+						{
+							header: {
+								'Authorization': localStorage.accessToken
+							}
+						}
+					)
 				);
       },
-			logout : function(empresa) {
-        var data = {
-          'email': usuario.email,
-          'password': usuario.password
-        };
-				return $q.when(
-					$http.post('https://megacentroapi-mosschile.rhcloud.com/api/Users/logout', data)
-				);
+			logout : function() {
+				var token = localStorage.accessToken;
+				localStorage.$reset();
+				if (token) {
+					$http.post(
+						apiRoutes.usuarios + '/logout',
+						{},
+						{
+							params: {
+								'access_token': token
+							}
+						}
+					);
+				}
+			},
+			verifyUser: function() {
+				if (localStorage.accessToken && localStorage.currentUser) {
+					return true;
+				}
+				return false;
 			}
 		};
 	}

@@ -12,7 +12,10 @@
     vm.handleSubmitCarga = handleSubmitCarga;
     vm.cargaForm = {};
     vm.carga = {
-      empresa: ''
+      empresa: '',
+      year: '',
+      month: '',
+      file: {}
     };
     vm.searchProcess = false;
     vm.searchText = null;
@@ -91,6 +94,7 @@
     }
 
     function handleSubmitCarga() {
+      console.log(vm.carga);
       vm.searchProcess = true;
     }
   }
