@@ -11,10 +11,7 @@
        .controller('EditarPlanChileController', [ '$stateParams', '$state', 'planCtaChileService', 'formatosImputs',
 				    '$rootScope',
             EditarPlanChileController
-       ])
-       .controller('EliminarPlanChileController', [ '$stateParams',
-				    EliminarPlanChileController
-		   ]);
+       ]);
 
   function PlanChileController(planCtaChileService, $mdDialog) {
 		  var vm = this;
@@ -45,7 +42,7 @@
   	          .ok('Confirmar')
   	          .cancel('Cancelar');
   	       $mdDialog.show(confirm).then(function() {
-  				    planCtaChileService.deletePlanCtaChile(planCtaChile);
+  				    planCtaChileService.deletePlanCtaChile(planCtaChile)
               .then(function() {
 					          cargaInicial();
 					          $mdDialog.show(

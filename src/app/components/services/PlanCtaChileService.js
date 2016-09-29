@@ -15,7 +15,7 @@
 											apiRoutes.chileanAccount,
 											{
 												params: {
-														'filter[where][status]': 'active'
+														'filter[where][status]': 0
 												}
 											}
 									)
@@ -29,7 +29,7 @@
 									level1: planCtaChile.level1,
 									level2: planCtaChile.level2,
 									level3: planCtaChile.level3,
-									status: "active",
+									status: 0,
 									createDate: now.toString()
 							};
 							return $q.when(
@@ -63,7 +63,7 @@
 					},
 					deletePlanCtaChile : function(planCtaChile) {
 							var data = {
-									status: 'eliminada'
+									status: 1
 							};
 							return $q.when(
 									$http.put(
@@ -79,7 +79,7 @@
 											{
 													params: {
 															'filter[where][and][0][name][like]': text + '%',
-															'filter[where][and][1][status]': 'active'
+															'filter[where][and][1][status]': 0
 													}
 											}
 									)
