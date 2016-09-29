@@ -45,7 +45,7 @@
   	          .ok('Confirmar')
   	          .cancel('Cancelar');
   	       $mdDialog.show(confirm).then(function() {
-  				    planCtaChileService.deletePlanCtaChile(planCtaChile);
+  				    planCtaChileService.deletePlanCtaChile(planCtaChile)
               .then(function() {
 					          cargaInicial();
 					          $mdDialog.show(
