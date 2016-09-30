@@ -2,7 +2,7 @@
 
   angular
        .module('app')
-       .controller('LoginController', ['$state', '$localStorage', 'formatosImputs',
+       .controller('LoginController', ['$state', 'storageService', 'formatosImputs',
           'authService', '$mdToast', '$scope',
           LoginController
        ]);
@@ -32,8 +32,9 @@
     function makeLogin() {
       authService.login(vm.formData)
       .then(function(loginResult) {
-        localStorage.accessToken = loginResult.data.id;
-        localStorage.currentUser = loginResult.data.user;
+        console.log(loginResult);
+        localStorage.set('accessToken', loginResult.data.id);
+        localStorage.setObject('currentUser', loginResult.data.user);
         state.go('home.inicio');
       }, function(error) {
         if (error.status === 401) {

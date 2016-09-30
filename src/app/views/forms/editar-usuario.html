@@ -10,28 +10,39 @@
   </div>
 </md-toolbar>
 <md-content class="md-padding">
-  <form name="newEnterpriseForm">
+  <form name="vm.formUsers" ng-submit="vm.handleSubmit(); $event.stopPropagation();" novalidate>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
-        <label>Nombre</label>
-        <input ng-model="vm.user.username">
+        <label>Alias</label>
+        <input type="text" ng-model="vm.user.username" required>
       </md-input-container>
       <md-input-container flex>
         <label>Email</label>
-        <input ng-model="vm.enterprise.email">
+        <input type="email" ng-model="vm.user.email" required>
       </md-input-container>
     </div>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
-        <label>Contraseña</label>
-        <input ng-model="vm.enterprise.password">
+        <label>Nombre</label>
+        <input type="text" ng-model="vm.user.name" required>
       </md-input-container>
       <md-input-container flex>
-        <label>Repetir contraseña</label>
-        <input ng-model="vm.enterprise.retryPassword">
+        <label>Apellido</label>
+        <input type="text" ng-model="vm.user.lastName" required>
       </md-input-container>
     </div>
-    <md-button class="md-raised md-primary" aria-label="Guardar Cambios" ui-sref="home.usuarios">
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
+      <md-input-container flex>
+        <label>Perfil</label>
+        <md-select ng-model="vm.user.role" required>
+          <md-option ng-repeat="role in vm.roles" ng-value="role">
+            {{role}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    <md-button class="md-raised md-primary" aria-label="Guardar Cambios" type="submit"
+      ng-disabled="vm.formEditarPlanChile.$invalid || vm.formEditarPlanChile.$pristine">
       Guardar Cambios
     </md-button>
   </form>

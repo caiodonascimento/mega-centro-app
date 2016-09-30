@@ -22,10 +22,7 @@
 		function cargaInicial() {
 			empresasService.loadAllEmpresas()
 			.then(function (empresas) {
-				vm.tableData = empresas.data.map(function(empresa) {
-					empresa.open = false;
-					return empresa;
-				});
+				vm.tableData = empresas.data;
 			});
 		}
 		cargaInicial();
@@ -113,6 +110,6 @@
 				state.go('home.empresas');
 			})
 		}
-    }
+  }
 
 })();

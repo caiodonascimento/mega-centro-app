@@ -2,7 +2,7 @@
 
 angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch', 'lfNgMdFileInput',
   'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app', 'ngStorage',
-  'mdo-angular-cryptography'])
+  'mdo-angular-cryptography', 'angular-js-xlsx', 'file-model'])
   .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider,
                     $mdIconProvider, $httpProvider, $localStorageProvider,
                     $cryptoProvider) {
@@ -129,13 +129,6 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch', 'lfNgMdFileI
         controllerAs: 'vm',
         data: {
           title: 'Mi Perfil'
-        }
-      })
-      .state('home.dashboard', {
-        url: '/dashboard',
-        templateUrl: 'app/views/dashboard.html',
-        data: {
-          title: 'Dashboard'
         }
       })
       .state('home.carga-movimientos', {

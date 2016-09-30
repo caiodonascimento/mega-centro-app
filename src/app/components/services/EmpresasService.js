@@ -15,7 +15,7 @@
 						apiRoutes.empresas,
 						{
 							params: {
-								'filter[where][status]': 'active'
+								'filter[where][status]': 0
 							}
 						}
 					)
@@ -26,7 +26,7 @@
 				var data = {
 					name: empresa.name,
 				  code: empresa.code,
-				  status: "active",
+				  status: 0,
 				  createDate: now.toString()
 				};
 				return $q.when(
@@ -57,7 +57,7 @@
 			},
 			deleteEmpresa : function(empresa) {
 				var data = {
-					status: 'eliminada'
+					status: 1
 				};
 				return $q.when(
 					$http.put(
@@ -73,7 +73,7 @@
 						{
 							params: {
 								'filter[where][and][0][name][like]': text + '%',
-								'filter[where][and][1][status]': 'active'
+								'filter[where][and][1][status]': 0
 							}
 						}
 					)

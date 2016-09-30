@@ -3,7 +3,7 @@
 
 	angular.module('app')
         .service('authService', [
-        '$q', '$http', '$localStorage', 'apiRoutes',
+        '$q', '$http', 'storageService', 'apiRoutes',
         authService
 	]);
 
@@ -26,22 +26,27 @@
 					)
 				);
 			},
-      getUser : function(id) {
-        var params = id.toString();
-        return $q.when(
-					$http.get(
-						apiRoutes.usuarios + '/' + params,
-						{
-							header: {
-								'Authorization': localStorage.accessToken
+      getCurrentUser : function() {
+				var currentUser = localStorage.getObject('currentUser');
+				if (!currentUser) {
+					return $q.when({});
+				} else {
+					var params = currentUser.id.toString();
+	        return $q.when(
+						$http.get(
+							apiRoutes.usuarios + '/' + params,
+							{
+								headers: {
+									'Authorization': localStorage.get('accessToken')
+								}
 							}
-						}
-					)
-				);
+						)
+					);
+				}
       },
 			logout : function() {
-				var token = localStorage.accessToken;
-				localStorage.$reset();
+				var token = localStorage.get('accessToken');
+				localStorage.clearAll();
 				if (token) {
 					$http.post(
 						apiRoutes.usuarios + '/logout',
@@ -55,7 +60,9 @@
 				}
 			},
 			verifyUser: function() {
-				if (localStorage.accessToken && localStorage.currentUser) {
+				var token = localStorage.get('accessToken');
+				var currentUser = localStorage.getObject('currentUser');
+				if (token && currentUser !== {}) {
 					return true;
 				}
 				return false;

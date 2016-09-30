@@ -19,7 +19,9 @@
     "underscore": "^1.8.3",
     "lf-ng-md-file-input": "^1.4.8",
     "crypto-js": "^3.1.6",
-    "angular-cryptography": "^1.0.1"
+    "angular-cryptography": "^1.0.1",
+    "angular-js-xlsx": "^0.0.1",
+    "angular-file-model": "^0.3.1"
   },
   "devDependencies": {}
 }

@@ -44,9 +44,10 @@
       </div>
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
         <md-input-container flex>
-          <lf-ng-md-file-input lf-files="vm.carga.file" lf-browse-label="Elegir" lf-remove-label="Borrar"
+          <!--<lf-ng-md-file-input lf-files="vm.carga.file" lf-browse-label="Elegir" lf-remove-label="Borrar"
             progress lf-required>
-          </lf-ng-md-file-input>
+          </lf-ng-md-file-input>-->
+          <input type="file" aria-label="Selecciona un archivo" onchange="vm.handleChange" required>
         </md-input-container>
       </div>
       <md-button type="submit" aria-label="Cargar Movimientos" class="md-raised md-primary"
