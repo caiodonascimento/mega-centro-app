@@ -16,6 +16,7 @@
           <th>#</th>
           <th>Empresa</th>
           <th>Código</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +26,8 @@
           <td data-title="Empresa">{{data.name}}</td>
           <td data-title="Código">
             {{data.code}}
+          </td>
+          <td>
             <md-menu>
               <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar" ng-click="vm.openMenu($mdOpenMenu, $event)">
                 <md-tooltip md-direction="bottom">

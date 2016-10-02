@@ -1,6 +1,6 @@
 {
-  "name": "angular-material-dashboard",
-  "version": "1.3.0",
+  "name": "mega-centro-app",
+  "version": "1.0.0",
   "dependencies": {},
   "devDependencies": {
     "browser-sync": "~1.7.1",

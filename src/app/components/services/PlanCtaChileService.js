@@ -15,7 +15,7 @@
 											apiRoutes.chileanAccounts,
 											{
 												params: {
-														'filter[where][status]': '0'
+														'filter[where][status]': 0
 												}
 											}
 									)
@@ -39,7 +39,7 @@
 									)
 							);
 					},
-					updateEmpresa: function(planCtaChile) {
+					updatePlanCtaChile : function(planCtaChile) {
 							var data = {
 		          		account: planCtaChile.account,
 						  		name: planCtaChile.name,
@@ -72,7 +72,7 @@
 									)
 							);
 					},
-					findLikeName: function(text) {
+					findLikeName : function(text) {
 							return $q.when(
 									$http.get(
 											apiRoutes.chileanAccounts,

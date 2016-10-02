@@ -1,13 +1,14 @@
 'use strict';
 
-angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
-  'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app', 'ngStorage'])
-
+angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch', 'lfNgMdFileInput',
+  'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app', 'ngStorage',
+  'mdo-angular-cryptography', 'angular-js-xlsx', 'file-model'])
   .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider,
-                    $mdIconProvider, $httpProvider) {
+                    $mdIconProvider, $httpProvider, $localStorageProvider,
+                    $cryptoProvider) {
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
-
+    $cryptoProvider.setCryptographyKey('ec23e698-8661-11e6-ae22-56b6b6499611');
     $stateProvider
       .state('login', {
         url: '/login',
@@ -130,13 +131,6 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Mi Perfil'
         }
       })
-      .state('home.dashboard', {
-        url: '/dashboard',
-        templateUrl: 'app/views/dashboard.html',
-        data: {
-          title: 'Dashboard'
-        }
-      })
       .state('home.carga-movimientos', {
         url: '/carga-movimientos',
         templateUrl: 'app/views/carga-movimientos.html',
@@ -146,7 +140,13 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Carga de Movimientos'
         }
       });
-
     $urlRouterProvider.otherwise('/inicio');
-
+    var mySerializer = function (value) {
+      return value;
+    };
+    var myDeserializer = function (value) {
+      return value;
+    };
+    $localStorageProvider.setSerializer(mySerializer);
+    $localStorageProvider.setDeserializer(myDeserializer);
   });

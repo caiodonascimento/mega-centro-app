@@ -197,8 +197,8 @@ md-backdrop.md-sidenav-backdrop {
 
 .fab-btn-td {
   position: absolute;
-  right: 12px;
-  margin-top: -17px;
+  right: 20px;
+  margin-top: -12px;
 }
 
 @media(min-width:  960px) {
@@ -207,12 +207,10 @@ md-backdrop.md-sidenav-backdrop {
   }
 }
 
-@media(max-width:  768px) {
-  .fab-btn-td {
-    margin-left: -15px;
-    margin-top: 18px;
-  }
-  .tr-with-btn {
-    margin-bottom: 30px !important;
+md-item-template {
+  span {
+    .auto-complete-subtitle {
+      color: rgb(160, 160, 160);
+    }
   }
 }

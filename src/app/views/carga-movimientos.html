@@ -1,13 +1,13 @@
 <md-card layout-fill ng-hide="vm.searchProcess">
   <md-toolbar md-scroll-shrink>
       <div class="md-toolbar-tools">
-          <span>Carga de Movimientos históricos</span>
+          <span>Datos de carga</span>
       </div>
   </md-toolbar>
   <md-card-content>
-    <form ng-submit="vm.handleSubmitCarga(); $event.preventDefault();" name="vm.cargaForm">
+    <form ng-submit="vm.handleSubmitCarga(); $event.preventDefault();" name="vm.cargaForm" novalidate>
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
-        <md-autocomplete required
+        <md-autocomplete required flex
           md-input-name="empresa"
           md-selected-item="vm.carga.empresa"
           md-search-text="vm.searchText"
@@ -25,7 +25,7 @@
         </md-autocomplete>
       </div>
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
-        <md-input-container>
+        <md-input-container flex>
           <label>Año</label>
           <md-select ng-model="vm.carga.year" required>
             <md-option ng-repeat="year in vm.years()" ng-value="year">
@@ -33,7 +33,7 @@
             </md-option>
           </md-select>
         </md-input-container>
-        <md-input-container>
+        <md-input-container flex>
           <label>Mes</label>
           <md-select ng-model="vm.carga.month" required>
             <md-option ng-repeat="month in vm.months" ng-value="month.id">
@@ -42,7 +42,16 @@
           </md-select>
         </md-input-container>
       </div>
-      <md-button type="submit" aria-label="Cargar Movimientos" class="md-raised md-primary">
+      <div layout layout-md="row" layout-sm="column" layout-xs="column">
+        <md-input-container flex>
+          <!--<lf-ng-md-file-input lf-files="vm.carga.file" lf-browse-label="Elegir" lf-remove-label="Borrar"
+            progress lf-required>
+          </lf-ng-md-file-input>-->
+          <input type="file" aria-label="Selecciona un archivo" onchange="vm.handleChange" required>
+        </md-input-container>
+      </div>
+      <md-button type="submit" aria-label="Cargar Movimientos" class="md-raised md-primary"
+        ng-disabled="vm.cargaForm.$invalid">
         <md-icon class="material-icons">publish</md-icon>
         Cargar Movimientos
       </md-button>
@@ -52,7 +61,13 @@
 <div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
-      <span>Carga de Movimientos históricos</span>
+      <md-button class="md-fab md-mini" aria-label="Volver a Empresa" ng-click="vm.searchProcess=!vm.searchProcess">
+        <md-tooltip md-direction="bottom">
+          Volver
+        </md-tooltip>
+        <i class="material-icons">arrow_back</i>
+      </md-button>
+      <span>Datos desde del archivo</span>
       <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta">
         <md-tooltip md-direction="bottom">
           Finalizar carga

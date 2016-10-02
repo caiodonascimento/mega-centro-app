@@ -24,6 +24,8 @@
          limit-caracter="{{vm.formatosImputs.name.maxlength}}"
          caracter-restrict="{{vm.formatosImputs.name.pattern}}" required>
       </md-input-container>
+    </div>
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Nivel 1</label>
         <input type="text" name="level1" ng-model="vm.planCtaChile.level1"
@@ -43,7 +45,7 @@
          caracter-restrict="{{vm.formatosImputs.level3.pattern}}" required>
       </md-input-container>
     </div>
-    <md-button ng-disabled="!vm.formPlanChile.$invalid || vm.formPlanChile.$pristine"
+    <md-button ng-disabled="vm.formEditarPlanChile.$invalid || vm.formEditarPlanChile.$pristine"
       aria-label="Guardar" type="submit" class="md-raised md-primary">
         Guardar
     </md-button>
