@@ -1,20 +1,35 @@
 (function(){
-
   angular
        .module('app')
-       .controller('UsuariosController', [
-          UsuariosController
+       .controller('UsuariosController', [ 'usuariosService', '$mdDialog',
+            UsuariosController
        ])
-       .controller('NuevoUsuarioController', [
-          NuevoUsuarioController
+       .controller('NuevoUsuarioController', [ '$state', 'usuariosService', 'formatosImputs',
+				    '$rootScope',
+            NuevoUsuarioController
        ])
-       .controller('EditarUsuarioController', [
-          EditarUsuarioController
+       .controller('EditarUsuarioController', [ '$stateParams', '$state', 'usuariosService', 'formatosImputs',
+				    '$rootScope',
+            EditarUsuarioController
        ]);
 
-  function UsuariosController() {
+  function UsuariosController(usuariosService, $mdDialog) {
     var vm = this;
+    vm.openMenu = openMenu;
+    vm.deleteUsuarios = deleteUsuarios;
+    vm.tableData = [];
+    vm.isOpen = false;
+    function cargaInicial() {
+  	   usuariosService.loadAllUsuarios()
+  		 .then(function (usuariosService) {
+    	    vm.tableData = usuariosService.data.map(function(usuariosService) {
+       		   usuariosService.open = false;
+       		   return usuariosService;
+    	 		});
+  		 });
+		}
 
+    var vm = this;
     vm.usersData = [
       {
         id: 1,
