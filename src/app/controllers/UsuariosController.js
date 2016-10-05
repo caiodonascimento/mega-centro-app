@@ -1,53 +1,6 @@
 (function(){
   angular
        .module('app')
-<<<<<<< HEAD
-       .controller('UsuariosController', [ 'usuariosService', '$mdDialog',
-            UsuariosController
-       ])
-       .controller('NuevoUsuarioController', [ '$state', 'usuariosService', 'formatosImputs',
-				    '$rootScope',
-            NuevoUsuarioController
-       ])
-       .controller('EditarUsuarioController', [ '$stateParams', '$state', 'usuariosService', 'formatosImputs',
-				    '$rootScope',
-            EditarUsuarioController
-       ]);
-
-  function UsuariosController(usuariosService, $mdDialog) {
-    var vm = this;
-    vm.openMenu = openMenu;
-    vm.deleteUsuarios = deleteUsuarios;
-    vm.tableData = [];
-    vm.isOpen = false;
-    function cargaInicial() {
-  	   usuariosService.loadAllUsuarios()
-  		 .then(function (usuariosService) {
-    	    vm.tableData = usuariosService.data.map(function(usuariosService) {
-       		   usuariosService.open = false;
-       		   return usuariosService;
-    	 		});
-  		 });
-		}
-
-    var vm = this;
-    vm.usersData = [
-      {
-        id: 1,
-        name: 'Caio Medeiros',
-        email: 'caio.dona@gmail.com',
-        role: {
-          name: 'Administrador'
-        }
-      },
-      {
-        id: 2,
-        name: 'Rodrigo Saldias',
-        email: 'rodrigo.saldias@gmail.com',
-        role: {
-          name: 'Administrador'
-        }
-=======
        .controller('UsuariosController', [ 'usuariosService', '$mdDialog', 'storageService',
           UsuariosController
        ])
@@ -88,7 +41,6 @@
             .ok('Ok')
         );
         return false;
->>>>>>> 0c4f193521227cef223cff14f353258deb43f110
       }
 			var confirm = $mdDialog.confirm()
 	          .title('Usuarios')
