@@ -43,15 +43,29 @@
         </md-input-container>
       </div>
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
-        <md-input-container flex>
-          <!--<lf-ng-md-file-input lf-files="vm.carga.file" lf-browse-label="Elegir" lf-remove-label="Borrar"
+        <!--<md-input-container flex>
+          <lf-ng-md-file-input lf-files="vm.carga.file" lf-browse-label="Elegir" lf-remove-label="Borrar"
             progress lf-required>
-          </lf-ng-md-file-input>-->
+          </lf-ng-md-file-input>
           <input type="file" aria-label="Selecciona un archivo" onchange="vm.handleChange" required>
+        </md-input-container>-->
+        <md-input-container flex layout="row">
+          <!--<div class="button" ngf-select ng-model="vm.carga.file" name="file" ngf-pattern="'application/*'"
+            ngf-accept="'application/*'" ngf-max-size="200MB" ngf-min-height="100"
+            ngf-resize="{width: 100, height: 100}">
+            Seleccione un archivo
+          </div>-->
+          <md-button aria-label="Cargar Movimientos" class="md-raised md-primary md-fab md-mini"
+            ngf-select="vm.upload($file); $event.preventDefault();">
+            <md-icon class="material-icons">attach_file</md-icon>
+            <md-tooltip>
+              Subir archivo
+            </md-tooltip>
+          </md-button>
+          <input type="test" readonly disabled ng-model="vm.filename" >
         </md-input-container>
       </div>
-      <md-button type="submit" aria-label="Cargar Movimientos" class="md-raised md-primary"
-        ng-disabled="vm.cargaForm.$invalid">
+      <md-button type="submit" aria-label="Cargar Movimientos" class="md-raised md-primary">
         <md-icon class="material-icons">publish</md-icon>
         Cargar Movimientos
       </md-button>
@@ -93,7 +107,7 @@
     </thead>
     <tbody>
       <tr></tr>
-      <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
+      <tr class="tr-with-btn" ng-repeat="data in vm.carga.file track by $index">
         <td data-title="N. fila">{{$index + 1}}</td>
         <td data-title="Date">{{data.Date}}</td>
         <td data-title="Num">{{data.Num}}</td>

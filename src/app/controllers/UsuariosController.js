@@ -58,7 +58,7 @@
 		      	$mdDialog.alert()
 			        .clickOutsideToClose(true)
 			        .title('Eliminando Usuario')
-			        .textContent('Usuario ' + empresa.name + ' eliminado con éxito.')
+			        .textContent('Usuario ' + usuario.name + ' eliminado con éxito.')
 			        .ok('Ok')
 		    	);
 				});
@@ -77,24 +77,25 @@
 		vm.formUsers = {};
 		//vm.formatosImputs = formatosImputs.formUsers;
 		vm.usuario = {
-      "name": "",
-      "lastName": "",
-      "photo": "",
-      "role": "",
-      "username": "",
-      "email": ""
+      name: '',
+      lastName: '',
+      photo: '',
+      role: '',
+      username: '',
+      email: '',
+      password: '',
+      rewritePassword: ''
     };
 
 		function createUsuario() {
 			usuariosService.insertUsuario(vm.usuario)
 			.then(function() {
-				console.log('Exito');
 				rootScope.$broadcast(
 					'event:toastMessage',
-					'Empresa registrada con éxito.',
+					'Usuario registrado con éxito.',
 					'md-primary'
 				);
-				$state.go('home.empresas', {}, {location: 'replace'});
+				$state.go('home.usuarios', {}, {location: 'replace'});
 			});
 		}
   }
@@ -107,12 +108,12 @@
       'Contador'
     ];
     vm.user = {
-      "name": "",
-      "lastName": "",
-      "photo": "",
-      "role": "",
-      "username": "",
-      "email": ""
+      name: '',
+      lastName: '',
+      photo: '',
+      role: '',
+      username: '',
+      email: ''
     };
     vm.handleSubmit = guardarUsuario;
     vm.formUsers = {};

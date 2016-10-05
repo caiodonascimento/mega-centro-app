@@ -14,7 +14,7 @@
     <thead>
       <tr>
         <th>#</th>
-        <th>Nombre</th>
+        <th>Nombre Completo</th>
         <th>Email</th>
         <th>Perfil</th>
         <th></th>
@@ -24,7 +24,7 @@
       <tr></tr>
       <tr class="tr-with-btn" ng-repeat="user in vm.usersData track by user.id">
         <td data-title="ID">{{user.id}}</td>
-        <td data-title="Nombre">{{user.name}}</td>
+        <td data-title="Nombre">{{user.name || '--'}} {{user.lastName}}</td>
         <td data-title="Email">{{user.email}}</td>
         <td data-title="Perfil">
           {{user.role}}
