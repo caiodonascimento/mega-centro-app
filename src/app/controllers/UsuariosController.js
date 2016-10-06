@@ -5,7 +5,8 @@
           'storageService', '$rootScope',
           UsuariosController
        ])
-       .controller('NuevoUsuarioController', [ 'usuariosService',
+       .controller('NuevoUsuarioController', [ 'usuariosService', '$rootScope',
+          '$state',
           NuevoUsuarioController
        ])
        .controller('EditarUsuarioController', [ 'usuariosService', '$stateParams', '$rootScope',
@@ -76,18 +77,18 @@
 		}
   }
 
-  function NuevoUsuarioController() {
+  function NuevoUsuarioController(usuariosService, rootScope, state) {
     var vm = this;
 
-		vm.createUsuario = createUsuario;
+		vm.handleSubmit = createUsuario;
     vm.roles = [
       'Administrador',
       'Contralor',
       'Contador'
     ];
 		vm.formUsers = {};
-		//vm.formatosImputs = formatosImputs.formUsers;
-		vm.usuario = {
+
+		vm.user = {
       name: '',
       lastName: '',
       photo: '',
@@ -99,29 +100,59 @@
     };
 
 		function createUsuario() {
-			usuariosService.insertUsuario(vm.usuario)
+			usuariosService.insertUsuario(vm.user)
 			.then(function() {
 				rootScope.$broadcast(
 					'event:toastMessage',
 					'Usuario registrado con éxito.',
 					'md-primary'
 				);
-				$state.go('home.usuarios', {}, {location: 'replace'});
+				state.go('home.usuarios', {}, {location: 'replace'});
 			});
 		}
   }
 
-  function EditarUsuarioController() {
+  function EditarUsuarioController(usuariosService, stateParams, rootScope, state) {
     var vm = this;
-
     vm.user = {
       name: '',
       lastName: '',
       photo: '',
       role: '',
       username: '',
-      email: ''
+      email: '',
+      password: '',
+      rewritePassword: ''
     };
+    vm.roles = [
+      'Administrador',
+      'Contralor',
+      'Contador'
+    ];
+    vm.handleSubmit = guardarUsuario;
+		vm.formEditar = {};
+    vm.changePass = false;
+
+		if (stateParams.id) {
+			usuariosService.getById(stateParams.id)
+			.then(function(getResult) {
+				vm.user = getResult.data;
+			});
+		} else {
+			state.go('home.usuarios');
+		}
+
+		function guardarUsuario() {
+			usuariosService.updateUsuario(vm.user, vm.changePass)
+			.then(function(updateResult) {
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'Datos guardados con éxito.',
+					'md-primary'
+				);
+				state.go('home.usuarios');
+			});
+		}
   }
 
 })();

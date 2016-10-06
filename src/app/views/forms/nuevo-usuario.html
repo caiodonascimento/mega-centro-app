@@ -41,7 +41,17 @@
         </md-select>
       </md-input-container>
     </div>
-    <md-button class="md-raised md-primary" aria-label="Crear Usuario" ui-sref="home.usuarios">
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
+      <md-input-container flex>
+        <label>Contraseña</label>
+        <input type="password" ng-model="vm.user.password" required>
+      </md-input-container>
+      <md-input-container flex>
+        <label>Repetir contraseña</label>
+        <input type="password" ng-model="vm.user.rewritePassword" required>
+      </md-input-container>
+    </div>
+    <md-button class="md-raised md-primary" aria-label="Crear Usuario" type="submit">
       Crear Usuario
     </md-button>
   </form>

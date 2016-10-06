@@ -33,7 +33,8 @@
 		      username: usuario.username,
 		      email: usuario.email,
 				  status: 0,
-				  createDate: now.toString()
+				  createDate: now.toString(),
+					password: usuario.password
 				};
 				return $q.when(
 					$http.post(
@@ -47,7 +48,7 @@
 					)
 				);
 			},
-			updateUsuario : function(usuario) {
+			updateUsuario : function(usuario, changePass) {
 				var data = {
 					name: usuario.name,
 		      lastName: usuario.lastName,
@@ -55,6 +56,9 @@
 		      username: usuario.username,
 		      email: usuario.email
 				};
+				if (changePass) {
+					data.password = usuario.password;
+				}
 				return $q.when(
 					$http.put(
 						apiRoutes.usuarios + '/' + usuario.id.toString(),
