@@ -2,7 +2,7 @@
   angular
        .module('app')
        .controller('PlanChileController', [ 'planCtaChileService', '$mdDialog',
-          '$rootScope', 'storageService',
+          '$rootScope', 'storageService', '$q', 'empresasService',
           PlanChileController
        ])
        .controller('NuevoPlanChileController', [ '$state', 'planCtaChileService', 'formatosImputs',
@@ -13,13 +13,36 @@
 			    '$rootScope',
           EditarPlanChileController
        ]);
-   function PlanChileController(planCtaChileService, $mdDialog, rootScope, localStorage) {
+   function PlanChileController(planCtaChileService, $mdDialog, rootScope, localStorage, $q, empresasService) {
       var vm = this;
       vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		  vm.openMenu = openMenu;
 		  vm.deletePlanCtaChile = deletePlanCtaChile;
 		  vm.tableData = [];
 		  vm.isOpen = false;
+      vm.searchText = null;
+      vm.empresa = null;
+      vm.querySearchEmpresa = querySearchEmpresa;
+      vm.searchProcess = false;
+      vm.filterAccounts = filterAccounts;
+
+      function querySearchEmpresa(query) {
+        var defer = $q.defer();
+        empresasService.findLikeName(query)
+        .then(function (response) {
+          defer.resolve(response.data);
+        }, function (error) {
+          defer.reject([]);
+        });
+        return defer.promise;
+      }
+
+      function filterAccounts() {
+        if (vm.searchForm.$valid) {
+          vm.searchProcess = true;
+        }
+      }
+
 		  function cargaInicial() {
 			   planCtaChileService.loadAllPlanCtaChile()
 			   .then(function (planCtaChile) {

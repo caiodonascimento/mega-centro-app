@@ -33,7 +33,7 @@
         <td>
           <md-menu>
             <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
-              ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canEdit===0 || vm.viewAccess.canDelete===0">
+              ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1">
               <md-tooltip md-direction="bottom">
                 Realizar acción
               </md-tooltip>

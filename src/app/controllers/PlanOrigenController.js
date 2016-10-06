@@ -14,7 +14,8 @@
         vm.empresa = null;
         vm.querySearchEmpresa = querySearchEmpresa;
         vm.searchProcess = false;
-
+        vm.filterAccounts = filterAccounts;
+        
         function querySearchEmpresa(query) {
           var defer = $q.defer();
           empresasService.findLikeName(query)
@@ -24,6 +25,12 @@
             defer.reject([]);
           });
           return defer.promise;
+        }
+
+        function filterAccounts() {
+          if (vm.searchForm.$valid) {
+            vm.searchProcess = true;
+          }
         }
     }
 
