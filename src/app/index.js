@@ -2,7 +2,7 @@
 
 angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
   'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app',
-  'angular-js-xlsx', 'ngFileUpload'])
+  'angular-js-xlsx', 'ngFileUpload', 'md.data.table', 'angular-cache'])
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
     //$cryptoProvider.setCryptographyKey('ec23e698-8661-11e6-ae22-56b6b6499611');
     $stateProvider
@@ -17,7 +17,12 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         templateUrl: 'app/views/main.html',
         controller: 'MainController',
         controllerAs: 'vm',
-        abstract: true
+        abstract: true,
+        resolve: {
+          navItems: function(navService) {
+            return navService.loadAllItems();
+          }
+        }
       })
       .state('home.inicio', {
         url: '/inicio',

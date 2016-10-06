@@ -32,7 +32,7 @@
         if (!$window.localStorage[key]) {
           $window.localStorage[key] = "";
         }
-        return myDeserializer($window.localStorage[key]) || defaultValue;
+        return myDeserializer($window.localStorage[key] || defaultValue);
       },
       setObject: function (key, value) {
 				key = mySerializer(key);
@@ -40,7 +40,10 @@
       },
       getObject: function (key) {
 				key = mySerializer(key);
-        return JSON.parse(myDeserializer($window.localStorage[key]) || '{}');
+				if ($window.localStorage[key] && $window.localStorage[key] !== 'undefined') {
+					return JSON.parse(myDeserializer($window.localStorage[key]));
+				}
+        return {};
       },
       remove: function (key) {
 				key = mySerializer(key);

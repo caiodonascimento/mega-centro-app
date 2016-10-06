@@ -2,7 +2,8 @@
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
       <span>Listado de registros</span>
-      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Usuario" ui-sref="home.usuarios-nuevo">
+      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Usuario"
+        ui-sref="home.usuarios-nuevo" ng-if="vm.viewAccess.canCreate===0">
         <md-tooltip md-direction="bottom">
           Agregar Usuario
         </md-tooltip>
@@ -31,20 +32,21 @@
         </td>
         <td>
           <md-menu>
-            <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar" ng-click="vm.openMenu($mdOpenMenu, $event)">
+            <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
+              ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canEdit===0 || vm.viewAccess.canDelete===0">
               <md-tooltip md-direction="bottom">
                 Realizar acción
               </md-tooltip>
               <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
             </md-button>
             <md-menu-content>
-              <md-menu-item>
+              <md-menu-item ng-if="vm.viewAccess.canEdit===0">
                 <md-button ui-sref="home.usuarios-edit({id: user.id})">
                   <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
                   Editar
                 </md-button>
               </md-menu-item>
-              <md-menu-item>
+              <md-menu-item ng-if="vm.viewAccess.canDelete===0">
                 <md-button ng-click="vm.deleteUsuario(user, $event)">
                   <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
                   Eliminar

@@ -3,11 +3,11 @@
   angular
     .module('app')
     .controller('CargaMovimientosController', [
-      '$q', 'empresasService',
+      '$q', 'empresasService', '$rootScope',
       CargaMovimientosController
     ]);
 
-  function CargaMovimientosController($q, empresasService) {
+  function CargaMovimientosController($q, empresasService, rootScope) {
     var vm = this;
     vm.handleSubmitCarga = handleSubmitCarga;
     vm.cargaForm = {};
@@ -73,7 +73,13 @@
         name: 'Diciembre'
       }
     ]
-
+    vm.selected = [];
+    vm.query = {
+      order: 'Date',
+      limit: 5,
+      page: 1
+    };
+    vm.mimeTypes = 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     function querySearchEmpresa(query) {
       var defer = $q.defer();
       empresasService.findLikeName(query)
@@ -96,13 +102,38 @@
     }
 
     function handleSubmitCarga() {
-      console.log(vm.carga);
       vm.searchProcess = true;
     }
 
     function upload(file) {
-      console.log(file);
+      if (!file) {
+        rootScope.$broadcast(
+          'event:toastMessage',
+          'Debes seleccionar un archivo de carga válido.',
+          'md-primary'
+        );
+        return false;
+      }
       vm.filename = file.name;
+      var extensions = vm.filename.split('.');
+      if (extensions.length <= 1) {
+        rootScope.$broadcast(
+          'event:toastMessage',
+          'El archivo cargado no es válido.',
+          'md-primary'
+        );
+        return false;
+      }
+      console.log(extension);
+      var extension = extensions[extension.length - 1];
+      if (extension !== 'xls' || extension !== 'xlsx') {
+        rootScope.$broadcast(
+          'event:toastMessage',
+          'Debe ser un archivo excel (.xls, .xlsx).',
+          'md-primary'
+        );
+        return false;
+      }
       var reader = new FileReader();
       reader.onload = function(e) {
         var data = e.target.result;
@@ -111,6 +142,13 @@
         workbook.SheetNames.forEach(function(sheetName) {
       		vm.carga.file = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
       	});
+      };
+      reader.onerror = function(e) {
+        rootScope.$broadcast(
+					'event:toastMessage',
+					'El archivo cargado no es válido.',
+					'md-primary'
+				);
       };
       reader.readAsBinaryString(file);
     };

@@ -2,19 +2,21 @@
 	angular
 		.module('app')
 		.controller('EmpresaController', [ 'empresasService', '$mdDialog',
-				EmpresaController
+			'$rootScope', 'storageService',
+			EmpresaController
 		])
 		.controller('NuevaEmpresaController', [ '$state', 'empresasService', 'formatosImputs',
-				'$rootScope',
-				NuevaEmpresaController
+			'$rootScope',
+			NuevaEmpresaController
 		])
 		.controller('EditarEmpresaController', [ '$stateParams', '$state', 'empresasService', 'formatosImputs',
-				'$rootScope',
-				EditarEmpresaController
+			'$rootScope',
+			EditarEmpresaController
 		]);
 
-	function EmpresaController(empresasService, $mdDialog) {
+	function EmpresaController(empresasService, $mdDialog, rootScope, localStorage) {
 		var vm = this;
+		vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		vm.openMenu = openMenu;
 		vm.deleteEmpresa = deleteEmpresa;
 		vm.tableData = [];
@@ -27,17 +29,26 @@
 		}
 		cargaInicial();
 		function openMenu($mdOpenMenu, event) {
+			if (vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1) {
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'No tienes acceso, favor comunicarse con el Administrador.',
+					'md-alert'
+				);
+				event.stopPropagation();
+				return false;
+      }
 			originatorEv = event;
       $mdOpenMenu(event);
 		}
 		function deleteEmpresa(empresa, event) {
 			var confirm = $mdDialog.confirm()
-	          .title('Empresas')
-	          .textContent('¿Desea eliminar la empresa ' + empresa.name + ' definitivamente?')
-	          .ariaLabel('Lucky day')
-	          .targetEvent(event)
-	          .ok('Confirmar')
-	          .cancel('Cancelar');
+        .title('Empresas')
+        .textContent('¿Desea eliminar la empresa ' + empresa.name + ' definitivamente?')
+        .ariaLabel('Lucky day')
+        .targetEvent(event)
+        .ok('Confirmar')
+        .cancel('Cancelar');
 	    $mdDialog.show(confirm).then(function() {
 				empresasService.deleteEmpresa(empresa)
 				.then(function() {

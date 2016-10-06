@@ -43,20 +43,10 @@
         </md-input-container>
       </div>
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
-        <!--<md-input-container flex>
-          <lf-ng-md-file-input lf-files="vm.carga.file" lf-browse-label="Elegir" lf-remove-label="Borrar"
-            progress lf-required>
-          </lf-ng-md-file-input>
-          <input type="file" aria-label="Selecciona un archivo" onchange="vm.handleChange" required>
-        </md-input-container>-->
         <md-input-container flex layout="row">
-          <!--<div class="button" ngf-select ng-model="vm.carga.file" name="file" ngf-pattern="'application/*'"
-            ngf-accept="'application/*'" ngf-max-size="200MB" ngf-min-height="100"
-            ngf-resize="{width: 100, height: 100}">
-            Seleccione un archivo
-          </div>-->
           <md-button aria-label="Cargar Movimientos" class="md-raised md-primary md-fab md-mini"
-            ngf-select="vm.upload($file); $event.preventDefault();">
+            ngf-select="vm.upload($file); $event.preventDefault();" ngf-pattern="vm.mimeTypes"
+            ngf-accept="vm.mimeTypes" ngf-max-size="200MB">
             <md-icon class="material-icons">attach_file</md-icon>
             <md-tooltip>
               Subir archivo
@@ -90,43 +80,40 @@
       </md-button>
     </div>
   </md-toolbar>
-  <table id="table" class="table table-hover table-bordered">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Date</th>
-        <th>Num</th>
-        <th>Name</th>
-        <th>Memo</th>
-        <th>Account</th>
-        <th>Split</th>
-        <th>Amount</th>
-        <th>TC</th>
-        <th>Pesos Liabilities</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr></tr>
-      <tr class="tr-with-btn" ng-repeat="data in vm.carga.file track by $index">
-        <td data-title="N. fila">{{$index + 1}}</td>
-        <td data-title="Date">{{data.Date}}</td>
-        <td data-title="Num">{{data.Num}}</td>
-        <td data-title="Name">{{data.Name}}</td>
-        <td data-title="Memo">{{data.Memo}}</td>
-        <td data-title="Account">{{data.Account}}</td>
-        <td data-title="Split">{{data.Split}}</td>
-        <td data-title="Split">{{data.Split}}</td>
-        <td data-title="Account">{{data.Amount}}</td>
-        <td data-title="TC">
-          {{data.TC}}
-          <md-button class="md-fab md-mini fab-btn-td" aria-label="Cambiar Cuenta Chile">
-            <md-tooltip md-direction="bottom">
-              Cambiar Cuenta Chile
-            </md-tooltip>
-            <md-icon class="material-icons">create</md-icon>
-          </md-button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <md-table-container>
+    <table md-table md-row-select multiple ng-model="vm.selected">
+      <thead md-head md-order="query.order" md-on-reorder="vm.carga.file">
+        <tr md-row>
+          <th md-column>#</th>
+          <th md-column md-order-by="DateToLower">Date</th>
+          <th md-column>Num</th>
+          <th md-column>Name</th>
+          <th md-column>Memo</th>
+          <th md-column md-numeric>Account</th>
+          <th md-column>Split</th>
+          <th md-column md-numeric>Amount</th>
+          <th md-column md-numeric>TC</th>
+          <th md-column md-numeric>Pesos Liabilities</th>
+        </tr>
+      </thead>
+      <tbody md-body>
+        <tr></tr>
+        <tr md-row md-select="data" md-select-id="$index" md-auto-select ng-repeat="data in vm.carga.file">
+          <td md-cell data-title="N. fila">{{$index + 1}}</td>
+          <td md-cell data-title="Date">{{data.Date}}</td>
+          <td md-cell data-title="Num">{{data.Num}}</td>
+          <td md-cell data-title="Name">{{data.Name}}</td>
+          <td md-cell data-title="Memo">{{data.Memo}}</td>
+          <td md-cell data-title="Account">{{data.Account}}</td>
+          <td md-cell data-title="Split">{{data.Split}}</td>
+          <td md-cell data-title="Split">{{data.Split}}</td>
+          <td md-cell data-title="Account">{{data.Amount}}</td>
+          <td md-cell data-title="TC">
+            {{data.TC}}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </md-table-container>
+  <md-table-pagination md-limit="vm.query.limit" md-limit-options="[5, 10, 15]" md-page="vm.query.page" md-total="{{vm.carga.file.count}}" md-on-paginate="vm.carga.file" md-page-select></md-table-pagination>
 </div>

@@ -3,47 +3,25 @@
 
   angular.module('app')
           .service('navService', [
-          '$q',
+          '$q', '$http', 'apiRoutes',
           navService
   ]);
 
-  function navService($q){
-    var menuItems = [
-      {
-        "name": "Inicio",
-        "icon": "dashboard",
-        "sref": ".inicio"
-      },
-      {
-        "name": "Usuarios",
-        "icon": "group",
-        "sref": ".usuarios"
-      },
-      {
-        "name": "Empresas",
-        "icon": "business",
-        "sref": ".empresas"
-      },
-      {
-        "name": "Plan Cta. Chile",
-        "icon": "account_balance_wallet",
-        "sref": ".plan-chile"
-      },
-      {
-        "name": "Plan Cta. Origen",
-        "icon": "compare_arrows",
-        "sref": ".plan-origen"
-      },
-      {
-        "name": "Carga Movimientos",
-        "icon": "file_upload",
-        "sref": ".carga-movimientos"
-      }
-    ];
-
+  function navService($q, $http, apiRoutes){
     return {
       loadAllItems : function() {
-        return $q.when(menuItems);
+        var deferred = $q.defer();
+        $http.get(
+          apiRoutes.usuarios + '/menu'
+        ).then(function(response) {
+          var menuItems = response.data.menuItems.filter(function(menuItem) {
+            return menuItem.menuDetail.length > 0;
+          });
+          deferred.resolve(menuItems);
+        }, function(error) {
+          deferred.reject([]);
+        });
+        return deferred.promise;
       }
     };
   }

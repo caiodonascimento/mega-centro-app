@@ -2,59 +2,69 @@
   angular
        .module('app')
        .controller('PlanChileController', [ 'planCtaChileService', '$mdDialog',
-            PlanChileController
+          '$rootScope', 'storageService',
+          PlanChileController
        ])
        .controller('NuevoPlanChileController', [ '$state', 'planCtaChileService', 'formatosImputs',
-				    '$rootScope',
-            NuevoPlanChileController
+			    '$rootScope',
+          NuevoPlanChileController
        ])
        .controller('EditarPlanChileController', [ '$stateParams', '$state', 'planCtaChileService', 'formatosImputs',
-				    '$rootScope',
-            EditarPlanChileController
+			    '$rootScope',
+          EditarPlanChileController
        ]);
-
-  function PlanChileController(planCtaChileService, $mdDialog) {
-		  var vm = this;
+   function PlanChileController(planCtaChileService, $mdDialog, rootScope, localStorage) {
+      var vm = this;
+      vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		  vm.openMenu = openMenu;
 		  vm.deletePlanCtaChile = deletePlanCtaChile;
 		  vm.tableData = [];
 		  vm.isOpen = false;
 		  function cargaInicial() {
-  			   planCtaChileService.loadAllPlanCtaChile()
-  			   .then(function (planCtaChile) {
-    				    vm.tableData = planCtaChile.data.map(function(planCtaChile) {
-      					    planCtaChile.open = false;
-      					    return planCtaChile;
-    				    });
-  			   });
+			   planCtaChileService.loadAllPlanCtaChile()
+			   .then(function (planCtaChile) {
+				    vm.tableData = planCtaChile.data.map(function(plan) {
+					    plan.open = false;
+					    return planCtaChile;
+				    });
+			   });
 		  }
 		  cargaInicial();
 		  function openMenu($mdOpenMenu, event) {
-  		    originatorEv = event;
-          $mdOpenMenu(event);
+        if (vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1) {
+  				rootScope.$broadcast(
+  					'event:toastMessage',
+  					'No tienes acceso, favor comunicarse con el Administrador.',
+  					'md-alert'
+  				);
+  				event.stopPropagation();
+  				return false;
+        }
+        originatorEv = event;
+        $mdOpenMenu(event);
   		}
-		  function deletePlanCtaChile(planCtaChile, event) {
-  			   var confirm = $mdDialog.confirm()
-  	          .title('PlanesCtaChile')
-  	          .textContent('¿Desea eliminar el Plan Cta de Chile ' + planCtaChile.name + ' definitivamente?')
-  	          .ariaLabel('Lucky day')
-  	          .targetEvent(event)
-  	          .ok('Confirmar')
-  	          .cancel('Cancelar');
-  	       $mdDialog.show(confirm).then(function() {
-  				    planCtaChileService.deletePlanCtaChile(planCtaChile)
-              .then(function() {
-					          cargaInicial();
-					          $mdDialog.show(
-		      	             $mdDialog.alert()
-			                   .clickOutsideToClose(true)
-			                   .title('Eliminando Plan Cta de Chile')
-			                   .textContent('Plan Cta de Chile ' + planCtaChile.name + ' eliminada con éxito.')
-			                   .ok('Ok')
-		    	          );
-				      });
-  	       });
-  		}
+      function deletePlanCtaChile(planCtaChile, event) {
+		  var confirm = $mdDialog.confirm()
+        .title('PlanesCtaChile')
+        .textContent('¿Desea eliminar el Plan Cta de Chile ' + planCtaChile.name + ' definitivamente?')
+        .ariaLabel('Lucky day')
+        .targetEvent(event)
+        .ok('Confirmar')
+        .cancel('Cancelar');
+      $mdDialog.show(confirm).then(function() {
+        planCtaChileService.deletePlanCtaChile(planCtaChile)
+        .then(function() {
+          cargaInicial();
+          $mdDialog.show(
+            $mdDialog.alert()
+              .clickOutsideToClose(true)
+              .title('Eliminando Plan Cta de Chile')
+              .textContent('Plan Cta de Chile ' + planCtaChile.name + ' eliminada con éxito.')
+              .ok('Ok')
+          );
+        });
+      });
+    }
 	}
 
   function NuevoPlanChileController($state, planCtaChileService, formatosImputs, rootScope) {

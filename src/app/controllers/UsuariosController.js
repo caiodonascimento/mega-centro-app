@@ -1,7 +1,8 @@
 (function(){
   angular
        .module('app')
-       .controller('UsuariosController', [ 'usuariosService', '$mdDialog', 'storageService',
+       .controller('UsuariosController', [ 'usuariosService', '$mdDialog',
+          'storageService', '$rootScope',
           UsuariosController
        ])
        .controller('NuevoUsuarioController', [ 'usuariosService',
@@ -12,8 +13,9 @@
           EditarUsuarioController
        ]);
 
-  function UsuariosController(usuariosService, $mdDialog, localStorage) {
+  function UsuariosController(usuariosService, $mdDialog, localStorage, rootScope) {
     var vm = this;
+    vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
     vm.openMenu = openMenu;
 		vm.deleteUsuario = deleteUsuario;
     vm.usersData = [];
@@ -27,7 +29,16 @@
 		}
 		cargaInicial();
 		function openMenu($mdOpenMenu, event) {
-			originatorEv = event;
+      if (vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1) {
+        rootScope.$broadcast(
+					'event:toastMessage',
+					'No tienes acceso, favor comunicarse con el Administrador.',
+					'md-alert'
+				);
+        event.stopPropagation();
+        return false;
+      }
+      originatorEv = event;
       $mdOpenMenu(event);
 		}
 		function deleteUsuario(usuario, event) {
@@ -43,12 +54,12 @@
         return false;
       }
 			var confirm = $mdDialog.confirm()
-	          .title('Usuarios')
-	          .textContent('¿Desea eliminar el usuario ' + usuario.name + ' definitivamente?')
-	          .ariaLabel('Lucky day')
-	          .targetEvent(event)
-	          .ok('Confirmar')
-	          .cancel('Cancelar');
+        .title('Usuarios')
+        .textContent('¿Desea eliminar el usuario ' + usuario.name + ' definitivamente?')
+        .ariaLabel('Lucky day')
+        .targetEvent(event)
+        .ok('Confirmar')
+        .cancel('Cancelar');
 	    $mdDialog.show(confirm).then(function() {
 				usuariosService.deleteUsuario(usuario)
 				.then(function() {

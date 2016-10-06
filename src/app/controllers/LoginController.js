@@ -32,7 +32,6 @@
     function makeLogin() {
       authService.login(vm.formData)
       .then(function(loginResult) {
-        console.log(loginResult);
         localStorage.set('accessToken', loginResult.data.id);
         localStorage.setObject('currentUser', loginResult.data.user);
         state.go('home.inicio');
