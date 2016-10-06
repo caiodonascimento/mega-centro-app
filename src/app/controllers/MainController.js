@@ -10,7 +10,7 @@
 
   function MainController(navItems, $mdSidenav, $mdBottomSheet, $state, $mdToast, localStorage, rootScope) {
     var vm = this;
-
+    
     vm.menuItems = navItems;
     vm.selectItem = selectItem;
     vm.toggleItemsList = toggleItemsList;

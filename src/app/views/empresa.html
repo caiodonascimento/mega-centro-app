@@ -1,4 +1,4 @@
-<div class="table-responsive-vertical md-whiteframe-z1">
+<div class="table-responsive-vertical md-whiteframe-z1 anim-zoom-out speed-ng-anim">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
       <span>Listado de registros</span>
@@ -12,48 +12,54 @@
     </div>
   </md-toolbar>
   <table id="table" class="table table-hover table-bordered">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Empresa</th>
-          <th>Código</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr></tr>
-        <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
-          <td data-title="ID">{{data.id}}</td>
-          <td data-title="Empresa">{{data.name}}</td>
-          <td data-title="Código">
-            {{data.code}}
-          </td>
-          <td>
-            <md-menu>
-              <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
-                ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1">
-                <md-tooltip md-direction="bottom">
-                  Realizar acción
-                </md-tooltip>
-                <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
-              </md-button>
-              <md-menu-content>
-                <md-menu-item ng-if="vm.viewAccess.canEdit===0">
-                  <md-button ui-sref="home.empresas-editar({id: data.id})">
-                    <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
-                    Editar
-                  </md-button>
-                </md-menu-item>
-                <md-menu-item ng-if="vm.viewAccess.canDelete===0">
-                  <md-button ng-click="vm.deleteEmpresa(data, $event)">
-                    <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
-                    Eliminar
-                  </md-button>
-                </md-menu-item>
-              </md-menu-content>
-            </md-menu>
-          </td>
-        </tr>
-      </tbody>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Empresa</th>
+        <th>Código</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr></tr>
+      <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
+        <td data-title="ID">{{data.id}}</td>
+        <td data-title="Empresa">{{data.name}}</td>
+        <td data-title="Código">
+          {{data.code}}
+        </td>
+        <td>
+          <md-progress-circular md-mode="indeterminate" class="md-primary center-loading loading-row-table"
+            md-diameter="35px" ng-show="data.loading">
+          </md-progress-circular>
+          <md-menu ng-hide="data.loading">
+            <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
+              ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1">
+              <md-tooltip md-direction="bottom">
+                Realizar acción
+              </md-tooltip>
+              <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
+            </md-button>
+            <md-menu-content>
+              <md-menu-item ng-if="vm.viewAccess.canEdit===0">
+                <md-button ui-sref="home.empresas-editar({id: data.id})">
+                  <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
+                  Editar
+                </md-button>
+              </md-menu-item>
+              <md-menu-item ng-if="vm.viewAccess.canDelete===0">
+                <md-button ng-click="vm.deleteEmpresa(data, $event)">
+                  <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
+                  Eliminar
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+        </td>
+      </tr>
+    </tbody>
   </table>
 </div>
+<md-progress-circular md-mode="indeterminate" class="md-primary center-loading" md-diameter="40px"
+  ng-show="vm.loading">
+</md-progress-circular>

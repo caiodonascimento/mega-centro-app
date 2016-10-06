@@ -9,7 +9,7 @@
     <span>Editar datos de {{vm.user.name}}</span>
   </div>
 </md-toolbar>
-<md-content class="md-padding">
+<md-content class="md-padding" ng-hide="vm.charge">
   <form name="vm.formUsers" ng-submit="vm.handleSubmit(); $event.stopPropagation();" novalidate>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
@@ -58,9 +58,17 @@
           ng-disabled="!vm.changePass">
       </md-input-container>
     </div>
-    <md-button class="md-raised md-primary" aria-label="Guardar Cambios" type="submit"
-      ng-disabled="vm.formUsers.$invalid || vm.formUsers.$pristine">
-      Guardar Cambios
-    </md-button>
+    <div layout="row" flex >
+      <md-button class="md-raised md-primary" aria-label="Guardar Cambios" type="submit"
+        ng-disabled="(vm.formUsers.$invalid || vm.formUsers.$pristine) || vm.loading">
+        Guardar Cambios
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" class="md-primary" md-diameter="40px"
+        ng-show="vm.loading">
+      </md-progress-circular>
+    </div>
   </form>
 </md-content>
+<md-progress-circular md-mode="indeterminate" class="md-primary center-loading" md-diameter="40px"
+  ng-show="vm.charge">
+</md-progress-circular>

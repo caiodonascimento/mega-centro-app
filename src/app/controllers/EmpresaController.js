@@ -16,15 +16,25 @@
 
 	function EmpresaController(empresasService, $mdDialog, rootScope, localStorage) {
 		var vm = this;
+		vm.loading = false;
 		vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		vm.openMenu = openMenu;
 		vm.deleteEmpresa = deleteEmpresa;
 		vm.tableData = [];
 		vm.isOpen = false;
 		function cargaInicial() {
+			vm.loading = true;
 			empresasService.loadAllEmpresas()
 			.then(function (empresas) {
 				vm.tableData = empresas.data;
+				vm.loading = false;
+			}, function(error) {
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'Ha ocurrido un error, favor comunicarse con el Administrador.',
+					'md-alert'
+				);
+				vm.loading = false;
 			});
 		}
 		cargaInicial();
@@ -42,6 +52,7 @@
       $mdOpenMenu(event);
 		}
 		function deleteEmpresa(empresa, event) {
+			empresa.loading = true;
 			var confirm = $mdDialog.confirm()
         .title('Empresas')
         .textContent('¿Desea eliminar la empresa ' + empresa.name + ' definitivamente?')
@@ -60,8 +71,18 @@
 			        .textContent('Empresa ' + empresa.name + ' eliminada con éxito.')
 			        .ok('Ok')
 		    	);
+					empresa.loading = false;
+				}, function(error) {
+					rootScope.$broadcast(
+						'event:toastMessage',
+						'Ha ocurrido un error, favor comunicarse con el Administrador.',
+						'md-alert'
+					);
+					empresa.loading = false;
 				});
-	    });
+	    }, function() {
+				empresa.loading = false;
+			});
 		}
 	}
 

@@ -32,10 +32,15 @@
           required limit-caracter="{{vm.formatosImputs.password.maxlength}}"
           caracter-restrict="{{vm.formatosImputs.password.pattern}}">
       </md-input-container>
-      <md-button class="md-raised md-primary" ng-disabled="!vm.form.$valid && vm.validForm"
-        aria-label="Ingresar" type="submit">
-         Ingresar
-      </md-button>
+      <div layout="row" flex >
+        <md-button class="md-raised md-primary" ng-disabled="(!vm.form.$valid && vm.validForm) || vm.loading"
+          aria-label="Ingresar" type="submit">
+           Ingresar
+        </md-button>
+        <md-progress-circular md-mode="indeterminate" class="md-primary" md-diameter="40px"
+          ng-show="vm.loading">
+        </md-progress-circular>
+      </div>
     </md-card-content>
   </md-card>
 </form>

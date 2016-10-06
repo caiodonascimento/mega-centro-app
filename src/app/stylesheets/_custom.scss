@@ -214,3 +214,22 @@ md-item-template {
     }
   }
 }
+
+.speed-ng-anim {
+  -webkit-transition-duration: 0.5s;
+  -moz-transition-duration: 0.5s;
+  -ms-transition-duration: 0.5s;
+  -o-transition-duration: 0.5s;
+  transition-duration: 0.5s;
+}
+
+.center-loading {
+  display: block;
+  margin: 10px auto;
+}
+
+.loading-row-table {
+  position: absolute;
+  right: 30px;
+  margin-top: -8px;
+}

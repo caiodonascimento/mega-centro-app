@@ -16,16 +16,24 @@
 
   function UsuariosController(usuariosService, $mdDialog, localStorage, rootScope) {
     var vm = this;
+    vm.loading = false;
     vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
     vm.openMenu = openMenu;
 		vm.deleteUsuario = deleteUsuario;
     vm.usersData = [];
     function cargaInicial() {
+      vm.loading = true;
       usuariosService.loadAllUsuarios()
       .then(function(resultUsuarios) {
         vm.usersData = resultUsuarios.data;
+        vm.loading = false;
       }, function(error) {
-        console.log(error);
+        rootScope.$broadcast(
+					'event:toastMessage',
+					'Ha ocurrido un error, favor comunicarse con el Administrador.',
+					'md-alert'
+				);
+        vm.loading = false;
       });
 		}
 		cargaInicial();
@@ -33,7 +41,7 @@
       if (vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1) {
         rootScope.$broadcast(
 					'event:toastMessage',
-					'No tienes acceso, favor comunicarse con el Administrador.',
+					'Usted no tienes acceso, favor comunicarse con el Administrador.',
 					'md-alert'
 				);
         event.stopPropagation();
@@ -43,7 +51,6 @@
       $mdOpenMenu(event);
 		}
 		function deleteUsuario(usuario, event) {
-      console.log(usuario, localStorage.getObject('currentUser'));
       if (usuario.id === localStorage.getObject('currentUser').id) {
         $mdDialog.show(
           $mdDialog.alert()
@@ -54,7 +61,8 @@
         );
         return false;
       }
-			var confirm = $mdDialog.confirm()
+      usuario.loading = true;
+      var confirm = $mdDialog.confirm()
         .title('Usuarios')
         .textContent('¿Desea eliminar el usuario ' + usuario.name + ' definitivamente?')
         .ariaLabel('Lucky day')
@@ -72,14 +80,25 @@
 			        .textContent('Usuario ' + usuario.name + ' eliminado con éxito.')
 			        .ok('Ok')
 		    	);
-				});
-	    });
+          usuario.loading = false;
+				}, function(error) {
+          rootScope.$broadcast(
+  					'event:toastMessage',
+  					'Ha ocurrido un error, favor comunicarse con el Administrador.',
+  					'md-alert'
+  				);
+          usuario.loading = false;
+        });
+	    }, function() {
+        usuario.loading = false;
+      });
 		}
   }
 
   function NuevoUsuarioController(usuariosService, rootScope, state) {
     var vm = this;
 
+    vm.loading = false;
 		vm.handleSubmit = createUsuario;
     vm.roles = [
       'Administrador',
@@ -87,7 +106,6 @@
       'Contador'
     ];
 		vm.formUsers = {};
-
 		vm.user = {
       name: '',
       lastName: '',
@@ -100,6 +118,7 @@
     };
 
 		function createUsuario() {
+      vm.loading = true;
 			usuariosService.insertUsuario(vm.user)
 			.then(function() {
 				rootScope.$broadcast(
@@ -108,12 +127,22 @@
 					'md-primary'
 				);
 				state.go('home.usuarios', {}, {location: 'replace'});
-			});
+        vm.loading = false;
+			}, function(error) {
+        rootScope.$broadcast(
+					'event:toastMessage',
+					'Ha ocurrido un error, favor comunicarse con el Administrador.',
+					'md-primary'
+				);
+        vm.loading = false;
+      });
 		}
   }
 
   function EditarUsuarioController(usuariosService, stateParams, rootScope, state) {
     var vm = this;
+    vm.loading = false;
+    vm.charge = true;
     vm.user = {
       name: '',
       lastName: '',
@@ -137,12 +166,22 @@
 			usuariosService.getById(stateParams.id)
 			.then(function(getResult) {
 				vm.user = getResult.data;
-			});
+        vm.charge = false;
+			}, function(error) {
+        rootScope.$broadcast(
+					'event:toastMessage',
+					'Ha ocurrido un error, favor comunicarse con el Administrador.',
+					'md-primary'
+				);
+        state.go('home.usuarios');
+        vm.charge = false;
+      });
 		} else {
 			state.go('home.usuarios');
 		}
 
 		function guardarUsuario() {
+      vm.loading = true;
 			usuariosService.updateUsuario(vm.user, vm.changePass)
 			.then(function(updateResult) {
 				rootScope.$broadcast(
@@ -151,7 +190,15 @@
 					'md-primary'
 				);
 				state.go('home.usuarios');
-			});
+        vm.loading = false;
+			}, function(error) {
+        rootScope.$broadcast(
+					'event:toastMessage',
+					'Ha ocurrido un error, favor comunicarse con el Administrador.',
+					'md-primary'
+				);
+        vm.loading = false;
+      });
 		}
   }
 
