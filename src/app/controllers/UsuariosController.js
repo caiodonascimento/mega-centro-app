@@ -76,8 +76,9 @@
 		}
   }
 
-  function NuevoUsuarioController(usuariosService) {
+  function NuevoUsuarioController() {
     var vm = this;
+
 		vm.createUsuario = createUsuario;
     vm.roles = [
       'Administrador',
@@ -110,13 +111,9 @@
 		}
   }
 
-  function EditarUsuarioController(usuariosService, stateParams, rootScope, state) {
+  function EditarUsuarioController() {
     var vm = this;
-    vm.roles = [
-      'Administrador',
-      'Contralor',
-      'Contador'
-    ];
+
     vm.user = {
       name: '',
       lastName: '',
@@ -125,28 +122,6 @@
       username: '',
       email: ''
     };
-    vm.handleSubmit = guardarUsuario;
-    vm.formUsers = {};
-    if (stateParams.id) {
-			usuariosService.getById(stateParams.id)
-			.then(function(getResult) {
-        vm.user = getResult.data;
-			});
-		} else {
-			state.go('home.usuarios');
-		}
-
-		function guardarUsuario() {
-			usuariosService.updateUsuario(vm.user)
-			.then(function(updateResult) {
-				rootScope.$broadcast(
-					'event:toastMessage',
-					'Datos guardados con éxito.',
-					'md-primary'
-				);
-				state.go('home.usuarios');
-			})
-		}
   }
 
 })();
