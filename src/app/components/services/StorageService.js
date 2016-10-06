@@ -7,30 +7,44 @@
         storageService
 	]);
 
-	function storageService($q, $window) {
+	function storageService($q, $window, $crypto) {
+		var mySerializer = function (value) {
+			//return $crypto.encrypt(value);
+			return value;
+    };
+    var myDeserializer = function (value) {
+      //return $crypto.decrypt(value);
+			return value;
+    };
 		return {
       set: function (key, value) {
         var deferred = $q.defer();
         if (!_.isUndefined(key) && !_.isUndefined(value)){
+					key = mySerializer(key);
+					value = mySerializer(value);
           $window.localStorage[key] = value;
         }
         deferred.resolve(1);
         return deferred.promise;
       },
       get: function (key, defaultValue) {
-        if ( !$window.localStorage[key] ) {
+				key = mySerializer(key);
+        if (!$window.localStorage[key]) {
           $window.localStorage[key] = "";
         }
-        return $window.localStorage[key] || defaultValue;
+        return myDeserializer($window.localStorage[key]) || defaultValue;
       },
       setObject: function (key, value) {
-        $window.localStorage[key] = JSON.stringify(value);
+				key = mySerializer(key);
+        $window.localStorage[key] = mySerializer(JSON.stringify(value));
       },
       getObject: function (key) {
-        return JSON.parse($window.localStorage[key] || '{}');
+				key = mySerializer(key);
+        return JSON.parse(myDeserializer($window.localStorage[key]) || '{}');
       },
       remove: function (key) {
-        if ( !$window.localStorage[key] ) return;
+				key = mySerializer(key);
+        if (!$window.localStorage[key]) return;
         $window.localStorage.removeItem(key);
         return;
       },

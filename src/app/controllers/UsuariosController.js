@@ -1,75 +1,115 @@
 (function(){
   angular
        .module('app')
-       .controller('UsuariosController', [ 'usuariosService', '$mdDialog',
-            UsuariosController
+       .controller('UsuariosController', [ 'usuariosService', '$mdDialog', 'storageService',
+          UsuariosController
        ])
-       .controller('NuevoUsuarioController', [ '$state', 'usuariosService', 'formatosImputs',
-				    '$rootScope',
-            NuevoUsuarioController
+       .controller('NuevoUsuarioController', [ 'usuariosService',
+          NuevoUsuarioController
        ])
-       .controller('EditarUsuarioController', [ '$stateParams', '$state', 'usuariosService', 'formatosImputs',
-				    '$rootScope',
-            EditarUsuarioController
+       .controller('EditarUsuarioController', [ 'usuariosService', '$stateParams', '$rootScope',
+          '$state',
+          EditarUsuarioController
        ]);
 
-  function UsuariosController(usuariosService, $mdDialog) {
+  function UsuariosController(usuariosService, $mdDialog, localStorage) {
     var vm = this;
     vm.openMenu = openMenu;
-    vm.deleteUsuarios = deleteUsuarios;
-    vm.tableData = [];
-    vm.isOpen = false;
+		vm.deleteUsuario = deleteUsuario;
+    vm.usersData = [];
     function cargaInicial() {
-  	   usuariosService.loadAllUsuarios()
-  		 .then(function (usuariosService) {
-    	    vm.tableData = usuariosService.data.map(function(usuariosService) {
-       		   usuariosService.open = false;
-       		   return usuariosService;
-    	 		});
-  		 });
+      usuariosService.loadAllUsuarios()
+      .then(function(resultUsuarios) {
+        vm.usersData = resultUsuarios.data;
+      }, function(error) {
+        console.log(error);
+      });
 		}
-    cargaInicial();
+		cargaInicial();
 		function openMenu($mdOpenMenu, event) {
-  	   originatorEv = event;
-       $mdOpenMenu(event);
-    }
-
-    var vm = this;
-    vm.usersData = [
-      {
-        id: 1,
-        name: 'Caio Medeiros',
-        email: 'caio.dona@gmail.com',
-        role: {
-          name: 'Administrador'
-        }
-      },
-      {
-        id: 2,
-        name: 'Rodrigo Saldias',
-        email: 'rodrigo.saldias@gmail.com',
-        role: {
-          name: 'Administrador'
-        }
+			originatorEv = event;
+      $mdOpenMenu(event);
+		}
+		function deleteUsuario(usuario, event) {
+      console.log(usuario, localStorage.getObject('currentUser'));
+      if (usuario.id === localStorage.getObject('currentUser').id) {
+        $mdDialog.show(
+          $mdDialog.alert()
+            .clickOutsideToClose(true)
+            .title('Proceso denegado')
+            .textContent('No puedes eliminar al usuario con el que estás autenticado.')
+            .ok('Ok')
+        );
+        return false;
       }
-    ];
+			var confirm = $mdDialog.confirm()
+	          .title('Usuarios')
+	          .textContent('¿Desea eliminar el usuario ' + usuario.name + ' definitivamente?')
+	          .ariaLabel('Lucky day')
+	          .targetEvent(event)
+	          .ok('Confirmar')
+	          .cancel('Cancelar');
+	    $mdDialog.show(confirm).then(function() {
+				usuariosService.deleteUsuario(usuario)
+				.then(function() {
+					cargaInicial();
+					$mdDialog.show(
+		      	$mdDialog.alert()
+			        .clickOutsideToClose(true)
+			        .title('Eliminando Usuario')
+			        .textContent('Usuario ' + usuario.name + ' eliminado con éxito.')
+			        .ok('Ok')
+		    	);
+				});
+	    });
+		}
   }
 
   function NuevoUsuarioController() {
     var vm = this;
 
+		vm.createUsuario = createUsuario;
+    vm.roles = [
+      'Administrador',
+      'Contralor',
+      'Contador'
+    ];
+		vm.formUsers = {};
+		//vm.formatosImputs = formatosImputs.formUsers;
+		vm.usuario = {
+      name: '',
+      lastName: '',
+      photo: '',
+      role: '',
+      username: '',
+      email: '',
+      password: '',
+      rewritePassword: ''
+    };
+
+		function createUsuario() {
+			usuariosService.insertUsuario(vm.usuario)
+			.then(function() {
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'Usuario registrado con éxito.',
+					'md-primary'
+				);
+				$state.go('home.usuarios', {}, {location: 'replace'});
+			});
+		}
   }
 
   function EditarUsuarioController() {
     var vm = this;
 
     vm.user = {
-      id: 1,
-      name: 'Caio Medeiros',
-      email: 'caio.dona@gmail.com',
-      role: {
-        name: 'Administrador'
-      }
+      name: '',
+      lastName: '',
+      photo: '',
+      role: '',
+      username: '',
+      email: ''
     };
   }
 

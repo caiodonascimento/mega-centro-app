@@ -1,14 +1,10 @@
 'use strict';
 
-angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch', 'lfNgMdFileInput',
-  'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app', 'ngStorage',
-  'mdo-angular-cryptography', 'angular-js-xlsx', 'file-model'])
-  .config(function ($stateProvider, $urlRouterProvider, $mdThemingProvider,
-                    $mdIconProvider, $httpProvider, $localStorageProvider,
-                    $cryptoProvider) {
-    $httpProvider.defaults.useXDomain = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
-    $cryptoProvider.setCryptographyKey('ec23e698-8661-11e6-ae22-56b6b6499611');
+angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
+  'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app',
+  'angular-js-xlsx', 'ngFileUpload'])
+  .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+    //$cryptoProvider.setCryptographyKey('ec23e698-8661-11e6-ae22-56b6b6499611');
     $stateProvider
       .state('login', {
         url: '/login',
@@ -141,12 +137,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch', 'lfNgMdFileI
         }
       });
     $urlRouterProvider.otherwise('/inicio');
-    var mySerializer = function (value) {
-      return value;
-    };
-    var myDeserializer = function (value) {
-      return value;
-    };
-    $localStorageProvider.setSerializer(mySerializer);
-    $localStorageProvider.setDeserializer(myDeserializer);
+
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
   });

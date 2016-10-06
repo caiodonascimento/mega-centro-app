@@ -17,10 +17,11 @@
       month: '',
       file: null
     };
-    vm.handleChange = handleChange;
+    vm.filename = '';
     vm.searchProcess = false;
     vm.searchText = null;
     vm.querySearchEmpresa = querySearchEmpresa;
+    vm.upload = upload;
     vm.years = years;
     vm.months = [
       {
@@ -96,43 +97,23 @@
 
     function handleSubmitCarga() {
       console.log(vm.carga);
-      /*
-      var reader = new FileReader();
-      reader.onload = function(e){
-        var data = e.target.result;
-        var workbook = XLSX.read(data, {type : 'binary'});
-        workbook.SheetNames.forEach(function(sheetName){
-          // Here is your object
-          var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-          var json_object = JSON.stringify(XL_row_object);
-          console.log(json_object);
-        });
-      };
-      reader.onerror = function(ex){
-        console.log(ex);
-      };
-      reader.readAsBinaryString(vm.carga.file);
-      */
       vm.searchProcess = true;
     }
 
-    function handleChange(e) {
-      var files = e.target.files;
-      var i,f;
-      for (i = 0, f = files[i]; i != files.length; ++i) {
-        var reader = new FileReader();
-        var name = f.name;
-        reader.onload = function(e) {
-          var data = e.target.result;
-
-          var workbook = XLSX.read(data, {type: 'binary'});
-
-          /* DO SOMETHING WITH workbook HERE */
-          console.log(workbook);
-        };
-        reader.readAsBinaryString(f);
-      }
-    }
+    function upload(file) {
+      console.log(file);
+      vm.filename = file.name;
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var data = e.target.result;
+        var workbook = XLSX.read(data, {type: 'binary'});
+        /* DO SOMETHING WITH workbook HERE */
+        workbook.SheetNames.forEach(function(sheetName) {
+      		vm.carga.file = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+      	});
+      };
+      reader.readAsBinaryString(file);
+    };
   }
 
 })();
