@@ -1,48 +1,30 @@
 <md-content class="md-padding">
-    <form name="userForm">
-        <div layout layout-sm="column">
-            <md-input-container flex="80">
-                <label>Company (Disabled)</label>
-                <input ng-model="vm.user.company" disabled>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Submission Date</label>
-                <input type="date" ng-model="vm.user.submissionDate">
-            </md-input-container>
-        </div>
-        <div layout layout-sm="column">
-            <md-input-container flex>
-                <label>First Name</label>
-                <input ng-model="vm.user.firstName"
-                       placeholder="Placeholder text">
-            </md-input-container>
-            <md-input-container flex>
-                <label>Last Name</label>
-                <input ng-model="vm.user.lastName">
-            </md-input-container>
-        </div>
-        <md-input-container flex>
-            <label>Address</label>
-            <input ng-model="vm.user.address">
-        </md-input-container>
-        <div layout layout-sm="column">
-            <md-input-container flex>
-                <label>City</label>
-                <input ng-model="vm.user.city">
-            </md-input-container>
-            <md-input-container flex>
-                <label>State</label>
-                <input ng-model="user.state">
-            </md-input-container>
-            <md-input-container flex>
-                <label>Postal Code</label>
-                <input ng-model="vm.user.postalCode">
-            </md-input-container>
-        </div>
-        <md-input-container flex>
-            <label>About us</label>
-            <textarea ng-model="vm.user.biography" columns="1"
-                      md-maxlength="150"></textarea>
-        </md-input-container>
-    </form>
+  <form name="userForm">
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
+      <md-input-container flex>
+        <label>Alias</label>
+        <input type="text" ng-model="vm.user.username" disabled>
+      </md-input-container>
+      <md-input-container flex>
+        <label>Email</label>
+        <input type="email" ng-model="vm.user.email" disabled>
+      </md-input-container>
+    </div>
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
+      <md-input-container flex>
+        <label>Nombre</label>
+        <input type="text" ng-model="vm.user.name" disabled>
+      </md-input-container>
+      <md-input-container flex>
+        <label>Apellido</label>
+        <input type="text" ng-model="vm.user.lastName" disabled>
+      </md-input-container>
+    </div>
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
+      <md-input-container flex>
+        <label>Perfil</label>
+        <input type="text" ng-model="vm.user.role" disabled>
+      </md-input-container>
+    </div>
+  </form>
 </md-content>

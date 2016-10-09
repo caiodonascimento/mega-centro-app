@@ -100,13 +100,18 @@
 		function createEmpresa() {
 			empresasService.insertEmpresas(vm.empresa)
 			.then(function() {
-				console.log('Exito');
 				rootScope.$broadcast(
 					'event:toastMessage',
 					'Empresa registrada con éxito.',
 					'md-primary'
 				);
 				$state.go('home.empresas', {}, {location: 'replace'});
+			}, function(error) {
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'Ha ocurrido un problema, favor vuelva a intentarlo.',
+					'md-primary'
+				);
 			});
 		}
 	}

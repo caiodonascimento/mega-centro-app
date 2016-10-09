@@ -10,8 +10,22 @@
           maxlength: 30
         },
         password: {
-          pattern: '^[A-Za-z\\d\\.\\,\\-\\_\\:\\;\\!\\¡\\?\\¿]+$',
+          pattern: '^[A-Za-z\d\.,-_:;!¡?¿*+]+$',
           maxlength: 15
+        }
+      },
+      formUsuario: {
+        alias: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\s\\.\\-\\_\\!\\¡\\\'\\"]+$',
+          maxlength: 50
+        },
+        nombre: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\s\\.\\-\\_\\!\\¡\\\'\\"]+$',
+          maxlength: 50
+        },
+        apellido: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\s\\.\\-\\_\\!\\¡\\\'\\"]+$',
+          maxlength: 50
         }
       },
       formEmpresa: {

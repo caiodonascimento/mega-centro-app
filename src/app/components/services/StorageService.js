@@ -3,57 +3,77 @@
 
 	angular.module('app')
         .service('storageService', [
-        '$q', '$window',
+        '$q', '$window', 'cypherService', 'appConfig',
         storageService
 	]);
 
-	function storageService($q, $window, $crypto) {
-		var mySerializer = function (value) {
-			//return $crypto.encrypt(value);
-			return value;
+	function storageService($q, $window, cypherService, CONFIG) {
+		var encrypt = function(value) {
+      return _.isString(value) && value !== "" ? cypherService.encode(CONFIG.secret, value) : value;
     };
-    var myDeserializer = function (value) {
-      //return $crypto.decrypt(value);
-			return value;
+    var decrypt = function(value) {
+      return _.isString(value) && value !== "" ? cypherService.decode(CONFIG.secret, value) : value;
     };
-		return {
-      set: function (key, value) {
-        var deferred = $q.defer();
+    var _toggleEncryption = function(obj, reverse) {
+      _.each(obj, function(value, key){
+        if (reverse) {
+          obj[decrypt(key)] = _.isObject(value) ? _toggleEncryption(value, reverse) : decrypt(value) ;
+        } else {
+          obj[encrypt(key)] = _.isObject(value) ? _toggleEncryption(value, reverse) : encrypt(value) ;
+        }
+        if (_.isString(key)) delete obj[key];
+      });
+      return obj;
+    };
+    var encryptObject = function(obj) {
+      return _toggleEncryption(obj, false);
+    };
+    var decryptObject = function(obj) {
+      return _toggleEncryption(obj, true);
+    };
+    return {
+      set: function(key, value) {
         if (!_.isUndefined(key) && !_.isUndefined(value)){
-					key = mySerializer(key);
-					value = mySerializer(value);
-          $window.localStorage[key] = value;
+          $window.localStorage[encrypt(key)] = encrypt(value);
         }
-        deferred.resolve(1);
-        return deferred.promise;
+        return true;
       },
-      get: function (key, defaultValue) {
-				key = mySerializer(key);
-        if (!$window.localStorage[key]) {
-          $window.localStorage[key] = "";
+      get: function(key, defaultValue) {
+        var valueEncrypted = $window.localStorage[encrypt(key)];
+        var isInt = parseInt(valueEncrypted);
+        var isBoolean = _.contains(["true", "false"], valueEncrypted);
+        var valueDecrypted;
+        if (isInt) {
+          valueDecrypted = valueEncrypted.indexOf(".") >= 0 ? parseFloat(valueEncrypted) : isInt;
+        } else{
+          if (isBoolean) {
+            valueDecrypted = valueEncrypted == "true" ? true : false;
+          } else {
+            valueDecrypted = decrypt(valueEncrypted);
+          }
         }
-        return myDeserializer($window.localStorage[key] || defaultValue);
+        return valueDecrypted || defaultValue;
       },
-      setObject: function (key, value) {
-				key = mySerializer(key);
-        $window.localStorage[key] = mySerializer(JSON.stringify(value));
+      setObject: function(key, objectToSet) {
+        if (_.isEmpty(objectToSet)){
+          service.remove(key);
+          return false;
+        }
+        $window.localStorage[encrypt(key)] = JSON.stringify(encryptObject(angular.copy(objectToSet)));
+        return true;
       },
-      getObject: function (key) {
-				key = mySerializer(key);
-				if ($window.localStorage[key] && $window.localStorage[key] !== 'undefined') {
-					return JSON.parse(myDeserializer($window.localStorage[key]));
-				}
-        return {};
+      getObject: function(key) {
+        var objectEncrypted = JSON.parse(angular.copy($window.localStorage[encrypt(key)]) || '{}');
+        return decryptObject(objectEncrypted);
       },
-      remove: function (key) {
-				key = mySerializer(key);
-        if (!$window.localStorage[key]) return;
-        $window.localStorage.removeItem(key);
+      remove: function(key) {
+        if ( !$window.localStorage[encrypt(key)] ) return;
+        $window.localStorage.removeItem(encrypt(key));
         return;
       },
-      clearAll: function () {
+      clearAll: function() {
         return $window.localStorage.clear();
       }
-		};
+    };
 	}
 })();

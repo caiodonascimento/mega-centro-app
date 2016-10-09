@@ -55,7 +55,8 @@
           <input type="test" readonly disabled ng-model="vm.filename" >
         </md-input-container>
       </div>
-      <md-button type="submit" aria-label="Cargar Movimientos" class="md-raised md-primary">
+      <md-button type="submit" aria-label="Cargar Movimientos" class="md-raised md-primary"
+        ng-disabled="vm.cargaForm.$invalid">
         <md-icon class="material-icons">publish</md-icon>
         Cargar Movimientos
       </md-button>
@@ -84,7 +85,6 @@
     <table md-table md-row-select multiple ng-model="vm.selected">
       <thead md-head md-order="query.order" md-on-reorder="vm.carga.file">
         <tr md-row>
-          <th md-column>#</th>
           <th md-column md-order-by="DateToLower">Date</th>
           <th md-column>Num</th>
           <th md-column>Name</th>
@@ -99,7 +99,6 @@
       <tbody md-body>
         <tr></tr>
         <tr md-row md-select="data" md-select-id="$index" md-auto-select ng-repeat="data in vm.carga.file">
-          <td md-cell data-title="N. fila">{{$index + 1}}</td>
           <td md-cell data-title="Date">{{data.Date}}</td>
           <td md-cell data-title="Num">{{data.Num}}</td>
           <td md-cell data-title="Name">{{data.Name}}</td>
@@ -115,5 +114,5 @@
       </tbody>
     </table>
   </md-table-container>
-  <md-table-pagination md-limit="vm.query.limit" md-limit-options="[5, 10, 15]" md-page="vm.query.page" md-total="{{vm.carga.file.count}}" md-on-paginate="vm.carga.file" md-page-select></md-table-pagination>
+  <md-table-pagination md-limit="vm.query.limit" md-page="vm.query.page" md-total="{{vm.carga.file.length}}" md-on-paginate="vm.carga.file" md-page-select></md-table-pagination>
 </div>

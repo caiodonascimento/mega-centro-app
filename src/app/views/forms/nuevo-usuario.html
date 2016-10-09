@@ -24,11 +24,11 @@
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Nombre</label>
-        <input type="text" ng-model="vm.user.name" required>
+        <input type="text" ng-model="vm.user.name">
       </md-input-container>
       <md-input-container flex>
         <label>Apellido</label>
-        <input type="text" ng-model="vm.user.lastName" required>
+        <input type="text" ng-model="vm.user.lastName">
       </md-input-container>
     </div>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
@@ -51,7 +51,7 @@
         <input type="password" ng-model="vm.user.rewritePassword" required>
       </md-input-container>
     </div>
-    <div layout="row" flex >
+    <div layout="row" flex>
       <md-button class="md-raised md-primary" aria-label="Crear Usuario"
         type="submit" ng-disabled="vm.formUsers.$invalid || vm.loading">
         Crear Usuario
