@@ -1,4 +1,4 @@
-<div class="table-responsive-vertical md-whiteframe-z1">
+<div class="table-responsive-vertical md-whiteframe-z1 anim-zoom-out speed-ng-anim">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
       <span>Listado de registros</span>
@@ -11,7 +11,7 @@
       </md-button>
     </div>
   </md-toolbar>
-  <table id="table" class="table table-hover table-bordered">
+  <table id="table" class="table table-hover table-bordered" ng-hide="vm.loading">
     <thead>
       <tr>
         <th>#</th>
@@ -31,7 +31,10 @@
           {{user.role}}
         </td>
         <td>
-          <md-menu>
+          <md-progress-circular md-mode="indeterminate" class="md-primary center-loading loading-row-table"
+            md-diameter="35px" ng-show="user.loading">
+          </md-progress-circular>
+          <md-menu ng-hide="user.loading">
             <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
               ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1">
               <md-tooltip md-direction="bottom">
@@ -59,3 +62,6 @@
     </tbody>
   </table>
 </div>
+<md-progress-circular md-mode="indeterminate" class="md-primary center-loading" md-diameter="40px"
+  ng-show="vm.loading">
+</md-progress-circular>

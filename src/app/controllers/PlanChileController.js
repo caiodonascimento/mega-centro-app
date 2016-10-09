@@ -40,19 +40,21 @@
       function filterAccounts() {
         if (vm.searchForm.$valid) {
           vm.searchProcess = true;
+          cargaInicial();
         }
       }
 
 		  function cargaInicial() {
-			   planCtaChileService.loadAllPlanCtaChile()
-			   .then(function (planCtaChile) {
-				    vm.tableData = planCtaChile.data.map(function(plan) {
-					    plan.open = false;
-					    return planCtaChile;
-				    });
-			   });
+			  planCtaChileService.loadAllPlanCtaChile(vm.empresa)
+			  .then(function (planCtaChile) {
+          console.log(planCtaChile);
+          vm.tableData = planCtaChile.data.map(function(plan) {
+				    plan.open = false;
+				    return plan;
+          });
+			  });
 		  }
-		  cargaInicial();
+
 		  function openMenu($mdOpenMenu, event) {
         if (vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1) {
   				rootScope.$broadcast(

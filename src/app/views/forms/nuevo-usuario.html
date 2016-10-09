@@ -9,7 +9,7 @@
     <span>Datos del nuevo Usuario</span>
   </div>
 </md-toolbar>
-<md-content class="md-padding">
+<md-content class="md-padding anim-zoom-out speed-ng-anim">
   <form name="vm.formUsers" ng-submit="vm.handleSubmit(); $event.stopPropagation();" novalidate>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
@@ -41,8 +41,24 @@
         </md-select>
       </md-input-container>
     </div>
-    <md-button class="md-raised md-primary" aria-label="Crear Usuario" ui-sref="home.usuarios">
-      Crear Usuario
-    </md-button>
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
+      <md-input-container flex>
+        <label>Contraseña</label>
+        <input type="password" ng-model="vm.user.password" required>
+      </md-input-container>
+      <md-input-container flex>
+        <label>Repetir contraseña</label>
+        <input type="password" ng-model="vm.user.rewritePassword" required>
+      </md-input-container>
+    </div>
+    <div layout="row" flex >
+      <md-button class="md-raised md-primary" aria-label="Crear Usuario"
+        type="submit" ng-disabled="vm.formUsers.$invalid || vm.loading">
+        Crear Usuario
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" class="md-primary" md-diameter="40px"
+        ng-show="vm.loading">
+      </md-progress-circular>
+    </div>
   </form>
 </md-content>
