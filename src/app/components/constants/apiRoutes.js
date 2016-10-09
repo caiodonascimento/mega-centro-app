@@ -7,6 +7,7 @@
       empresas: hostServer + '/enterprises',
       chileanAccounts: hostServer + '/chileanAccounts',
       originAccounts: hostServer + '/originAccounts',
-      accountTransactions: hostServer + '/accountTransactions'
+      accountTransactions: hostServer + '/accountTransactions',
+      levels: hostServer + '/levels'
     });
 })();

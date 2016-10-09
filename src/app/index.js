@@ -140,7 +140,35 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         data: {
           title: 'Carga de Movimientos'
         }
-      });
+      })
+      .state('home.levels', {
+        url: '/levels',
+        controller: 'LevelController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/level.html',
+        data: {
+          title: 'Niveles'
+        }
+      })
+      .state('home.levels-nuevo', {
+        url: '/levels/nuevo',
+        controller: 'NuevoLevelController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/forms/nuevo-level.html',
+        data: {
+          title: 'Niveles',
+        }
+      })
+      .state('home.levels-editar', {
+        url: '/levels/editar/{id}',
+        controller: 'EditarLevelController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/forms/editar-level.html',
+        data: {
+          title: 'Niveles',
+        }
+      })
+      ;
     $urlRouterProvider.otherwise('/inicio');
 
     $httpProvider.defaults.useXDomain = true;

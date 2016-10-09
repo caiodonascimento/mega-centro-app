@@ -1,0 +1,41 @@
+<md-toolbar md-scroll-shrink>
+  <div class="md-toolbar-tools">
+    <md-button class="md-fab md-mini" aria-label="Volver a Niveles" ui-sref="home.levels">
+      <md-tooltip md-direction="bottom">
+        Volver
+      </md-tooltip>
+      <i class="material-icons">arrow_back</i>
+    </md-button>
+    <span>Datos del nuevo Nivel</span>
+  </div>
+</md-toolbar>
+<md-content class="md-padding">
+  <form name="vm.formLevel" ng-submit="vm.createLevel();" novalidate>
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
+      <md-input-container flex>
+        <label>Nombre</label>
+        <input type="text" name="name" ng-model="vm.level.name"
+         limit-caracter="{{vm.formatosImputs.name.maxlength}}"
+         caracter-restrict="{{vm.formatosImputs.name.pattern}}" required>
+		    <div ng-messages="vm.formLevel.name.$error" role="alert">
+        </div>
+      </md-input-container>
+      <md-input-container flex>
+        <label>Descripción</label>
+        <input type="text" name="description" ng-model="vm.level.description"
+        limit-caracter="{{vm.formatosImputs.description.maxlength}}"
+        caracter-restrict="{{vm.formatosImputs.description.pattern}}" required>
+      </md-input-container>
+      <md-input-container flex>
+        <label>Tipo</label>
+        <input type="text" name="type" ng-model="vm.level.type"
+        limit-caracter="{{vm.formatosImputs.type.maxlength}}"
+        caracter-restrict="{{vm.formatosImputs.type.pattern}}" required>
+      </md-input-container>
+    </div>
+    <md-button ng-disabled="!vm.formLevel.$valid" aria-label="Crear Nivel" type="submit"
+      class="md-raised md-primary">
+      Crear Nivel
+    </md-button>
+  </form>
+</md-content>
