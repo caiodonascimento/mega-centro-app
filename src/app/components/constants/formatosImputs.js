@@ -14,23 +14,37 @@
           maxlength: 15
         }
       },
+      formUsers: {
+        username: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s\\d\\.\\,\\:\\;\\-\\_\\!\\¡\\$\\&\\%\\?\\¿]+$',
+          maxlength: 30
+        },
+        email: {
+          pattern: '^[A-Za-z\\d\\.\\-\\_\\@]+$',
+          maxlength: 30
+        },
+        name: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s]+$',
+          maxlength: 50
+        },
+        lastName: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s]+$',
+          maxlength: 50
+        },
+        password: {
+          maxlength: 15
+        },
+        rewritePassword: {
+          maxlength: 15
+        }
+      },
       formEmpresa: {
         nombre: {
           pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\s\\.\\-\\_\\!\\¡\\\'\\"]+$',
           maxlength: 30
         },
         codigo: {
-          pattern: '^[A-Za-z\\d]+$',
-          maxlength: 30
-        }
-      },
-      formEditar: {
-        nombre: {
-          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\s\\.\\-\\_\\!\\¡\\\'\\"]+$',
-          maxlength: 30
-        },
-        codigo: {
-          pattern: '^[A-Za-z\\d]+$',
+          pattern: '^[A-Z\\d]+$',
           maxlength: 30
         }
       },

@@ -10,7 +10,7 @@
   </div>
 </md-toolbar>
 <md-content class="md-padding">
-  <form name="vm.formEditar" ng-submit="vm.handleSubmit(); $event.stopPropagation();" novalidate>
+  <form name="vm.formEmpresa" ng-submit="vm.handleSubmit(); $event.stopPropagation();" novalidate>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Nombre</label>
@@ -26,7 +26,7 @@
       </md-input-container>
     </div>
     <md-button type="submit" class="md-raised md-primary" aria-label="Guardar"
-      ng-disabled="vm.formEditar.$invalid || vm.formEditar.$pristine">
+      ng-disabled="vm.formEmpresa.$invalid || vm.formEmpresa.$pristine">
       Guardar
     </md-button>
   </form>

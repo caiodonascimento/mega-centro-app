@@ -14,21 +14,29 @@
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Alias</label>
-        <input type="text" ng-model="vm.user.username" required>
+        <input type="text" name="username" ng-model="vm.user.username"
+         limit-caracter="{{vm.formatosImputs.username.maxlength}}"
+         caracter-restrict="{{vm.formatosImputs.username.pattern}}" required>
       </md-input-container>
       <md-input-container flex>
         <label>Email</label>
-        <input type="email" ng-model="vm.user.email" required>
+        <input type="email" name="email" ng-model="vm.user.email"
+         limit-caracter="{{vm.formatosImputs.email.maxlength}}"
+         caracter-restrict="{{vm.formatosImputs.email.pattern}}" required>
       </md-input-container>
     </div>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Nombre</label>
-        <input type="text" ng-model="vm.user.name" required>
+        <input type="text" name="name" ng-model="vm.user.name"
+         limit-caracter="{{vm.formatosImputs.name.maxlength}}"
+         caracter-restrict="{{vm.formatosImputs.name.pattern}}" required>
       </md-input-container>
       <md-input-container flex>
         <label>Apellido</label>
-        <input type="text" ng-model="vm.user.lastName" required>
+        <input type="text" name="lastName" ng-model="vm.user.lastName"
+         limit-caracter="{{vm.formatosImputs.lastName.maxlength}}"
+         caracter-restrict="{{vm.formatosImputs.lastName.pattern}}" required>
       </md-input-container>
     </div>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
@@ -44,11 +52,13 @@
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Contraseña</label>
-        <input type="password" ng-model="vm.user.password" required>
+        <input type="password" name="password" ng-model="vm.user.password"
+         limit-caracter="{{vm.formatosImputs.password.maxlength}}" required>
       </md-input-container>
       <md-input-container flex>
         <label>Repetir contraseña</label>
-        <input type="password" ng-model="vm.user.rewritePassword" required>
+        <input type="password" name="rewritePassword" ng-model="vm.user.rewritePassword"
+         limit-caracter="{{vm.formatosImputs.rewritePassword.maxlength}}" required>
       </md-input-container>
     </div>
     <div layout="row" flex >
