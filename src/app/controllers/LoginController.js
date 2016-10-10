@@ -14,11 +14,14 @@
       email: '',
       password: '',
     };
+    vm.errors = {
+      email: false
+    }
     vm.form = {};
     vm.loading = false;
-    vm.validForm = true;
     vm.handleSubmit = makeLogin;
     vm.formatosImputs = formatosImputs.formLogin;
+    var regexEmail = new RegExp(vm.formatosImputs.email.format);
 
     function showResultToast(title, type) {
       $mdToast.show(
@@ -31,12 +34,21 @@
     }
 
     function makeLogin() {
+      vm.errors.email = !regexEmail.test(vm.formData.email);
+      if (vm.errors.email) {
+        return false;
+      }
       vm.loading = true;
       authService.login(vm.formData)
       .then(function(loginResult) {
-        localStorage.set('accessToken', loginResult.data.id);
-        localStorage.setObject('currentUser', loginResult.data.user);
-        state.go('home.inicio');
+        console.log(loginResult);
+        if (loginResult.status === 401) {
+          showResultToast('Usuario / contraseña inválidos', 'md-warn');
+        } else {
+          localStorage.set('accessToken', loginResult.data.id);
+          localStorage.setObject('currentUser', loginResult.data.user);
+          state.go('home.inicio');
+        }
         vm.loading = false;
       }, function(error) {
         vm.loading = false;
@@ -49,6 +61,19 @@
     scope.$on('event:logout', function() {
       showResultToast('Favor autenticarse primero', 'md-warn');
     })
+
+    scope.$watch('vm.formData.email', function(newValue, oldValue) {
+      if (!vm.form.$submitted) {
+        return false;
+      }
+      if (newValue === undefined || !_.isString(newValue)) {
+        return false;
+      }
+      if (newValue === "") {
+        return false;
+      }
+      vm.errors.email = !regexEmail.test(vm.formData.email);
+    });
   }
 
 })();

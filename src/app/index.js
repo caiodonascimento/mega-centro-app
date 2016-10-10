@@ -2,8 +2,8 @@
 
 angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
   'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app',
-  'angular-js-xlsx', 'ngFileUpload', 'md.data.table', 'angular-cache'])
-  .config(function ($stateProvider, $urlRouterProvider, $httpProvider) {
+  'angular-js-xlsx', 'ngFileUpload', 'md.data.table', 'angular-cache', 'ngIdle'])
+  .config(function ($stateProvider, $urlRouterProvider, $httpProvider, IdleProvider) {
     //$cryptoProvider.setCryptographyKey('ec23e698-8661-11e6-ae22-56b6b6499611');
     $stateProvider
       .state('login', {
@@ -173,4 +173,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
 
     $httpProvider.defaults.useXDomain = true;
     delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
+    IdleProvider.idle(10 * 60 - 5);
+    IdleProvider.timeout(5);
   });

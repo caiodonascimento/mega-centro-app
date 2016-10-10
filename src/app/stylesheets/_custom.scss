@@ -216,11 +216,11 @@ md-item-template {
 }
 
 .speed-ng-anim {
-  -webkit-transition-duration: 0.5s;
-  -moz-transition-duration: 0.5s;
-  -ms-transition-duration: 0.5s;
-  -o-transition-duration: 0.5s;
-  transition-duration: 0.5s;
+  -webkit-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  -ms-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
 }
 
 .center-loading {
@@ -232,4 +232,21 @@ md-item-template {
   position: absolute;
   right: 30px;
   margin-top: -8px;
+}
+
+.has-error {
+  label {
+    color: rgb(255, 0, 0);
+  }
+  input[type=text] {
+    border-bottom-color: rgb(255, 0, 0);
+    padding-bottom: 0px;
+    &:focus {
+      border-bottom-width: 2px;
+    }
+  }
+}
+.error-message {
+  color: rgb(255, 0, 0);
+  font-size: 70%;
 }

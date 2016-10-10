@@ -11,14 +11,12 @@
       </md-button>
     </md-toolbar>
     <md-toolbar show-xs show-sm class="sidebar-header header-cover" layout-padding>
-      <md-button layout="row">
-        <i class="material-icons md-48">account_circle</i>
-        {{vm.user.username}}
+      <md-button layout="row" ui-sref="home.perfil" ng-click="vm.seeProfile()">
+        <i class="material-icons md-48" style="padding-right:5px;">account_circle</i>
+        <span hide-lg hide-md hide-sm>{{vm.user.username}}</span>
+        <span hide-xs>{{vm.user.username|limitTo:10}}</span>
+        <span hide-xs>{{vm.user.username.length > 10 ? '...' : ''}}</span>
       </md-button>
-      <span>
-        {{vm.user.email|limitTo:30}}
-        {{vm.user.email.length >= 30 ? '...' : ''}}
-      </span>
     </md-toolbar>
   </header
   <md-content flex>

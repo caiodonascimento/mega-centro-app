@@ -5,29 +5,29 @@
     .constant('formatosImputs', {
       formLogin: {
         email: {
-          pattern: '^[A-Za-z\\d\\.\\-\\_\\@]+$',
+          pattern: '^[A-Za-zñÑ\\d\\.@!#\\$%&\\\'*+-/=?\\^_`{|}~]+$',
           format: '^(?!.*\\.\\.)("[!-~ ]+"|[0-9A-Z!#-\'*-\\/=?^-~]+)@((?![-])[A-Za-z0-9-]*[A-Za-z-]+[A-Za-z0-9-]*(?![-])\\.*)+\\.[a-z]+$',
           maxlength: 30
         },
         password: {
-          pattern: '^[A-Za-z\\d\\.\\,\\-\\_\\:\\;\\!\\¡\\?\\¿]+$',
+          pattern: '^[A-Za-z\\d\\.!"#$%&\\\'()*+,-/:;?@[\\\]^_`{|}~]+$',
           maxlength: 15
         }
       },
       formUsers: {
         username: {
-          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s\\d\\.\\,\\:\\;\\-\\_\\!\\¡\\$\\&\\%\\?\\¿]+$',
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s\\.\\,\\:\\;\\-\\_\\!\\¡\\?\\¿\\$\\&\\%]+$',
           maxlength: 30
         },
         email: {
           pattern: '^[A-Za-z\\d\\.\\-\\_\\@]+$',
           maxlength: 30
         },
-        name: {
+        nombre: {
           pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s]+$',
           maxlength: 50
         },
-        lastName: {
+        apellido: {
           pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s]+$',
           maxlength: 50
         },

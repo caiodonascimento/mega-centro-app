@@ -3,11 +3,11 @@
   angular
     .module('app')
     .controller('CargaMovimientosController', [
-      '$q', 'empresasService', '$rootScope',
+      '$q', 'empresasService', '$rootScope', '$timeout',
       CargaMovimientosController
     ]);
 
-  function CargaMovimientosController($q, empresasService, rootScope) {
+  function CargaMovimientosController($q, empresasService, rootScope, $timeout) {
     var vm = this;
     vm.handleSubmitCarga = handleSubmitCarga;
     vm.cargaForm = {};
@@ -80,6 +80,30 @@
       page: 1
     };
     vm.mimeTypes = 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    vm.loadingCarga = false;
+    vm.reader = new FileReader();
+    vm.reader.onload = function(e) {
+      var data = e.target.result;
+      var workbook = XLSX.read(data, {type: 'binary'});
+      workbook.SheetNames.forEach(function(sheetName) {
+        vm.carga.file = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+      });
+    };
+    vm.reader.onerror = function(e) {
+      rootScope.$broadcast(
+        'event:toastMessage',
+        'Hubo un error al leer el archivo, favor comunicarse con un Administardor.',
+        'md-primary'
+      );
+    };
+    vm.reader.onloadstart = function(e) {
+      vm.loadingCarga = true;
+    };
+    vm.reader.onloadend = function(e) {
+      $timeout(function() {
+        vm.loadingCarga = false;
+      }, 1500);
+    };
     function querySearchEmpresa(query) {
       var defer = $q.defer();
       empresasService.findLikeName(query)
@@ -93,7 +117,7 @@
 
     function years() {
       var array = [];
-      var yearInit = 2000;
+      var yearInit = parseInt((new Date()).getFullYear()) - 3;
       var yearFinish = parseInt((new Date()).getFullYear());
       for (var intervalo = 0; intervalo <= yearFinish - yearInit; intervalo++) {
         array.push(yearInit + intervalo);
@@ -107,51 +131,42 @@
 
     function upload(file) {
       if (!file) {
-        rootScope.$broadcast(
-          'event:toastMessage',
-          'Debes seleccionar un archivo de carga válido.',
-          'md-primary'
-        );
         return false;
       }
-      vm.filename = file.name;
-      var extensions = vm.filename.split('.');
+      var extensions = file.name.split('.');
       if (extensions.length <= 1) {
         rootScope.$broadcast(
           'event:toastMessage',
           'El archivo cargado no es válido.',
           'md-primary'
         );
+        vm.filename = '';
         return false;
       }
-      console.log(extension);
-      var extension = extensions[extension.length - 1];
-      if (extension !== 'xls' || extension !== 'xlsx') {
+      var extension = extensions[extensions.length - 1];
+      if (extension !== 'xls' && extension !== 'xlsx') {
         rootScope.$broadcast(
           'event:toastMessage',
-          'Debe ser un archivo excel (.xls, .xlsx).',
+          'Favor cargar archivos solo en formato excel.',
           'md-primary'
         );
+        vm.filename = '';
         return false;
       }
-      var reader = new FileReader();
-      reader.onload = function(e) {
-        var data = e.target.result;
-        var workbook = XLSX.read(data, {type: 'binary'});
-        /* DO SOMETHING WITH workbook HERE */
-        workbook.SheetNames.forEach(function(sheetName) {
-      		vm.carga.file = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-      	});
-      };
-      reader.onerror = function(e) {
-        rootScope.$broadcast(
-					'event:toastMessage',
-					'El archivo cargado no es válido.',
-					'md-primary'
-				);
-      };
-      reader.readAsBinaryString(file);
+      vm.filename = file.name;
+      vm.reader.readAsBinaryString(file);
     };
+
+    function cancelarCarga() {
+      vm.carga = {
+        empresa: '',
+        year: '',
+        month: '',
+        file: null
+      };
+      vm.filename = '';
+      vm.searchProcess = false;
+    }
   }
 
 })();

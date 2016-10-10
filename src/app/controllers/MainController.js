@@ -10,10 +10,11 @@
 
   function MainController(navItems, $mdSidenav, $mdBottomSheet, $state, $mdToast, localStorage, rootScope) {
     var vm = this;
-    
+
     vm.menuItems = navItems;
     vm.selectItem = selectItem;
     vm.toggleItemsList = toggleItemsList;
+    vm.seeProfile = seeProfile;
     vm.title = $state.current.data.title;
     vm.showSimpleToast = showSimpleToast;
     vm.toggleRightSidebar = toggleRightSidebar;
@@ -37,7 +38,14 @@
       });
     }
 
-    function selectItem (item) {
+    function seeProfile() {
+      selectItem({
+        name: 'Mi Perfil',
+        menuDetail: [{}]
+      });
+    }
+
+    function selectItem(item) {
       localStorage.setObject('selectedMenuItem', item.menuDetail[0]);
       vm.title = item.name;
       vm.toggleItemsList();
