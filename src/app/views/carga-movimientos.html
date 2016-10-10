@@ -8,6 +8,7 @@
     <form ng-submit="vm.handleSubmitCarga(); $event.preventDefault();" name="vm.cargaForm" novalidate>
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
         <md-autocomplete required flex
+          ng-disabled="vm.loadingCarga"
           md-input-name="empresa"
           md-selected-item="vm.carga.empresa"
           md-search-text="vm.searchText"
@@ -27,7 +28,7 @@
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
         <md-input-container flex>
           <label>Año</label>
-          <md-select ng-model="vm.carga.year" required>
+          <md-select ng-model="vm.carga.year" required ng-disabled="vm.loadingCarga">
             <md-option ng-repeat="year in vm.years()" ng-value="year">
               {{year}}
             </md-option>
@@ -35,7 +36,7 @@
         </md-input-container>
         <md-input-container flex>
           <label>Mes</label>
-          <md-select ng-model="vm.carga.month" required>
+          <md-select ng-model="vm.carga.month" required ng-disabled="vm.loadingCarga">
             <md-option ng-repeat="month in vm.months" ng-value="month.id">
               {{month.name}}
             </md-option>
@@ -46,7 +47,7 @@
         <md-input-container flex layout="row">
           <md-button aria-label="Cargar Movimientos" class="md-raised md-primary md-fab md-mini"
             ngf-select="vm.upload($file); $event.preventDefault();" ngf-pattern="vm.mimeTypes"
-            ngf-accept="vm.mimeTypes" ngf-max-size="200MB">
+            ngf-accept="vm.mimeTypes" ngf-max-size="200MB" ng-disabled="vm.loadingCarga">
             <md-icon class="material-icons">attach_file</md-icon>
             <md-tooltip>
               Subir archivo
@@ -55,18 +56,23 @@
           <input type="test" readonly disabled ng-model="vm.filename" >
         </md-input-container>
       </div>
-      <md-button type="submit" aria-label="Cargar Movimientos" class="md-raised md-primary"
-        ng-disabled="vm.cargaForm.$invalid">
-        <md-icon class="material-icons">publish</md-icon>
-        Cargar Movimientos
-      </md-button>
+      <div layout="row" flex>
+        <md-button type="submit" aria-label="Cargar Movimientos" class="md-raised md-primary"
+          ng-disabled="vm.cargaForm.$invalid">
+          <md-icon class="material-icons">publish</md-icon>
+          Cargar Movimientos
+        </md-button>
+        <md-progress-circular md-mode="indeterminate" class="md-primary" md-diameter="40px"
+          ng-show="vm.loadingCarga">
+        </md-progress-circular>
+      </div>
     </form>
   </md-card-content>
 </md-card>
 <div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
-      <md-button class="md-fab md-mini" aria-label="Volver a Empresa" ng-click="vm.searchProcess=!vm.searchProcess">
+      <md-button class="md-fab md-mini" aria-label="Volver a Empresa" ng-click="vm.cancelarCarga()">
         <md-tooltip md-direction="bottom">
           Volver
         </md-tooltip>
@@ -85,15 +91,15 @@
     <table md-table md-row-select multiple ng-model="vm.selected">
       <thead md-head md-order="query.order" md-on-reorder="vm.carga.file">
         <tr md-row>
-          <th md-column md-order-by="DateToLower">Date</th>
+          <th md-column>Date</th>
           <th md-column>Num</th>
           <th md-column>Name</th>
           <th md-column>Memo</th>
-          <th md-column md-numeric>Account</th>
+          <th md-column>Account</th>
           <th md-column>Split</th>
-          <th md-column md-numeric>Amount</th>
-          <th md-column md-numeric>TC</th>
-          <th md-column md-numeric>Pesos Liabilities</th>
+          <th md-column>Amount</th>
+          <th md-column>TC</th>
+          <th md-column>Pesos Liabilities</th>
         </tr>
       </thead>
       <tbody md-body>
@@ -107,9 +113,8 @@
           <td md-cell data-title="Split">{{data.Split}}</td>
           <td md-cell data-title="Split">{{data.Split}}</td>
           <td md-cell data-title="Account">{{data.Amount}}</td>
-          <td md-cell data-title="TC">
-            {{data.TC}}
-          </td>
+          <td md-cell data-title="TC">{{data.TC}}</td>
+          <td md-cell data-title="Pesos Liabilities">{{data['Pesos Liabilities']}}</td>
         </tr>
       </tbody>
     </table>
