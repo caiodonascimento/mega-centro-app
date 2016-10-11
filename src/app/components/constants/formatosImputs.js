@@ -14,18 +14,28 @@
           maxlength: 15
         }
       },
-      formUsuario: {
-        alias: {
-          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\s\\.\\-\\_\\!\\¡\\\'\\"]+$',
+      formUsers: {
+        username: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s\\.\\,\\:\\;\\-\\_\\!\\¡\\?\\¿\\$\\&\\%]+$',
+          maxlength: 30
+        },
+        email: {
+          pattern: '^[A-Za-z\\d\\.\\-\\_\\@]+$',
+          maxlength: 30
+        },
+        name: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s]+$',
           maxlength: 50
         },
-        nombre: {
-          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\s\\.\\-\\_\\!\\¡\\\'\\"]+$',
+        lastName: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s]+$',
           maxlength: 50
         },
-        apellido: {
-          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\s\\.\\-\\_\\!\\¡\\\'\\"]+$',
-          maxlength: 50
+        password: {
+          maxlength: 15
+        },
+        rewritePassword: {
+          maxlength: 15
         }
       },
       formEmpresa: {
@@ -34,18 +44,22 @@
           maxlength: 30
         },
         codigo: {
-          pattern: '^[A-Za-z\\d]+$',
+          pattern: '^[A-Z\\d]+$',
           maxlength: 30
         }
       },
-      formEditar: {
-        nombre: {
-          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\d\\s\\.\\-\\_\\!\\¡\\\'\\"]+$',
-          maxlength: 30
+      formLevel: {
+        name: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s]+$',
+          maxlength: 50
         },
-        codigo: {
-          pattern: '^[A-Za-z\\d]+$',
-          maxlength: 30
+        description: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s\\-\\_\\.\\,]+$',
+          maxlength: 50
+        },
+        type: {
+          pattern: '^[0-9]+$',
+          maxlength: 50
         }
       },
       formPlanChile: {

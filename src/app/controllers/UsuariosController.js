@@ -5,12 +5,12 @@
           'storageService', '$rootScope',
           UsuariosController
        ])
-       .controller('NuevoUsuarioController', [ 'usuariosService', '$rootScope',
-          '$state',
+       .controller('NuevoUsuarioController', [ '$state', 'usuariosService',
+          'formatosImputs', '$rootScope',
           NuevoUsuarioController
        ])
-       .controller('EditarUsuarioController', [ 'usuariosService', '$stateParams', '$rootScope',
-          '$state',
+       .controller('EditarUsuarioController', [ '$stateParams', '$state', 'usuariosService', 'formatosImputs',
+          '$rootScope',
           EditarUsuarioController
        ]);
 
@@ -95,7 +95,7 @@
 		}
   }
 
-  function NuevoUsuarioController(usuariosService, rootScope, state) {
+  function NuevoUsuarioController(state, usuariosService, formatosImputs, rootScope) {
     var vm = this;
 
     vm.loading = false;
@@ -106,6 +106,7 @@
       'Contador'
     ];
 		vm.formUsers = {};
+    vm.formatosImputs = formatosImputs.formUsers;
 		vm.user = {
       name: '',
       lastName: '',
@@ -139,10 +140,11 @@
 		}
   }
 
-  function EditarUsuarioController(usuariosService, stateParams, rootScope, state) {
+  function EditarUsuarioController(stateParams, state, usuariosService, formatosImputs, rootScope) {
     var vm = this;
     vm.loading = false;
     vm.charge = true;
+    vm.formatosImputs = formatosImputs.formUsers;
     vm.user = {
       name: '',
       lastName: '',
@@ -159,7 +161,7 @@
       'Contador'
     ];
     vm.handleSubmit = guardarUsuario;
-		vm.formEditar = {};
+		vm.formUsers = {};
     vm.changePass = false;
 
 		if (stateParams.id) {

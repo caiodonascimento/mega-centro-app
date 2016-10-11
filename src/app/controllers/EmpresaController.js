@@ -119,13 +119,13 @@
   function EditarEmpresaController(stateParams, state, empresasService, formatosImputs, rootScope) {
 		var vm = this;
 		//Agregando codigo para probar las validaciones.
-		vm.formatosImputs = formatosImputs.formEditar;
+		vm.formatosImputs = formatosImputs.formEmpresa;
 		vm.empresa = {
 			name: '',
 			code: ''
 		};
 		vm.handleSubmit = guardarEmpresa;
-		vm.formEditar = {};
+		vm.formEmpresa = {};
 
 		if (stateParams.id) {
 			empresasService.getById(stateParams.id)

@@ -94,14 +94,14 @@
   function EditarLevelController(stateParams, state, levelsService, formatosImputs, rootScope) {
 		var vm = this;
 		//Agregando codigo para probar las validaciones.
-		vm.formatosImputs = formatosImputs.formEditarLevel;
+		vm.formatosImputs = formatosImputs.formLevel;
 		vm.level = {
       name: '',
 			description: '',
       type: ''
 		};
 		vm.handleSubmit = guardarLevel;
-		vm.formEditar = {};
+		vm.formLevel = {};
 
 		if (stateParams.id) {
 			levelsService.getById(stateParams.id)
