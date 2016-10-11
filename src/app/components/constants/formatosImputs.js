@@ -23,11 +23,11 @@
           pattern: '^[A-Za-z\\d\\.\\-\\_\\@]+$',
           maxlength: 30
         },
-        nombre: {
+        name: {
           pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s]+$',
           maxlength: 50
         },
-        apellido: {
+        lastName: {
           pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s]+$',
           maxlength: 50
         },
@@ -46,6 +46,20 @@
         codigo: {
           pattern: '^[A-Z\\d]+$',
           maxlength: 30
+        }
+      },
+      formLevel: {
+        name: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s]+$',
+          maxlength: 50
+        },
+        description: {
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s\\-\\_\\.\\,]+$',
+          maxlength: 50
+        },
+        type: {
+          pattern: '^[0-9]+$',
+          maxlength: 50
         }
       },
       formPlanChile: {
