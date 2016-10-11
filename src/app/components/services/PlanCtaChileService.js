@@ -16,7 +16,7 @@
 											apiRoutes.chileanAccounts,
 											{
 												params: {
-													'filter[where][and][1][enterpriseId]': empresa.id,
+													'filter[where][and][0][enterpriseId]': empresa.id,
 													'filter[where][and][1][status]': 0
 												}
 											}

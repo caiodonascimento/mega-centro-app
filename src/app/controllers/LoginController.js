@@ -45,9 +45,13 @@
         if (loginResult.status === 401) {
           showResultToast('Usuario / contraseña inválidos', 'md-warn');
         } else {
-          localStorage.set('accessToken', loginResult.data.id);
-          localStorage.setObject('currentUser', loginResult.data.user);
-          state.go('home.inicio');
+          if (loginResult.data.user.status !== "0") {
+            showResultToast('Usuario bloqueado, favor comunicarse con un Administrador', 'md-warn');
+          } else {
+            localStorage.set('accessToken', loginResult.data.id);
+            localStorage.setObject('currentUser', loginResult.data.user);
+            state.go('home.inicio');
+          }
         }
         vm.loading = false;
       }, function(error) {

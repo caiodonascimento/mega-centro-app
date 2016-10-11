@@ -8,6 +8,7 @@
     <form ng-submit="vm.filterAccounts(); $event.preventDefault();" name="vm.searchForm" novalidate>
       <md-autocomplete required flex
         md-input-name="empresa"
+        ng-disabled="vm.loading"
         md-selected-item="vm.empresa"
         md-search-text="vm.searchText"
         md-no-cache="true"
@@ -23,12 +24,28 @@
         <md-not-found>
           No hay empresas con el nombre indicado.
         </md-not-found>
+        <div class="error-message" ng-show="vm.errors.cuenta">
+          Empresa {{vm.empresa.name}} no tiene cuentas vinculadas.
+        </div>
       </md-autocomplete>
-      <md-button type="submit" aria-label="Filtrar" class="md-raised md-primary"
-        ng-disabled="vm.searchForm.$invalid">
-        Buscar
-        <md-icon class="material-icons">search</md-icon>
-      </md-button>
+      <md-input-container layout="row" flex>
+          <label>Cuenta de destino</label>
+          <md-select flex ng-model="vm.cuenta" required ng-disabled="vm.chileanAccounts.length===0 || vm.loading">
+            <md-option ng-repeat="account in vm.chileanAccounts" ng-value="account.id">
+              {{account.name}} - {{account.account}}
+            </md-option>
+          </md-select>
+      </md-input-container>
+      <div layout="row" flex>
+        <md-button type="submit" aria-label="Filtrar" class="md-raised md-primary"
+          ng-disabled="vm.searchForm.$invalid || vm.loading">
+          Buscar
+          <md-icon class="material-icons">search</md-icon>
+        </md-button>
+        <md-progress-circular md-mode="indeterminate" class="md-primary" md-diameter="40px"
+          ng-show="vm.loading">
+        </md-progress-circular>
+      </div>
     </form>
   </md-card-content>
 </md-card>
@@ -36,7 +53,8 @@
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
       <span>Cuentas asociadas a {{vm.empresa.name}}</span>
-      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta">
+      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta"
+        ui-sref="home.plan-origen-nuevo({id: vm.cuenta.id})" ng-if="vm.viewAccess.canCreate===0">
         <md-tooltip md-direction="bottom">
           Agregar Cuenta
         </md-tooltip>
@@ -50,28 +68,54 @@
         <th>#</th>
         <th>Cuenta</th>
         <th>Nombre</th>
-        <th>Cuenta Chile</th>
+        <th>Cuenta Destino</th>
         <th></th>
       </tr>
     </thead>
     <tbody>
+      <tr ng-show="!vm.loading && vm.cuentasOrigin.length===0">
+        <td colspan="5" style="text-align:center;">
+          No hay datos registrados
+        </td>
+      </tr>
       <tr></tr>
-      <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
+      <tr class="tr-with-btn" ng-repeat="data in vm.cuentasOrigin track by $index">
         <td data-title="ID">{{data.id}}</td>
         <td data-title="Cuenta">{{data.accont}}</td>
         <td data-title="Nombre">{{data.name}}</td>
-        <td data-title="Cuenta Chile">
-          {{data.ctaChile.name}}
-        </td>
+        <td data-title="Cuenta Destino">{{data.chileanAccount.name}}</td>
         <td>
-          <md-button class="md-fab md-mini fab-btn-td" aria-label="Cambiar Cuenta Chile">
-            <md-tooltip md-direction="bottom">
-              Cambiar Cuenta Chile
-            </md-tooltip>
-            <md-icon class="material-icons">create</md-icon>
-          </md-button>
+          <md-progress-circular md-mode="indeterminate" class="md-primary center-loading loading-row-table"
+            md-diameter="35px" ng-show="data.loading">
+          </md-progress-circular>
+          <md-menu ng-hide="data.loading">
+            <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
+              ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1">
+              <md-tooltip md-direction="bottom">
+                Realizar acción
+              </md-tooltip>
+              <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
+            </md-button>
+            <md-menu-content>
+              <md-menu-item ng-if="vm.viewAccess.canEdit===0">
+                <md-button ui-sref="home.plan-origen-editar({id: data.id})">
+                  <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
+                  Editar
+                </md-button>
+              </md-menu-item>
+              <md-menu-item ng-if="vm.viewAccess.canDelete===0">
+                <md-button ng-click="vm.deleteCuenta(data, $event)">
+                  <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
+                  Eliminar
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
+<md-progress-circular md-mode="indeterminate" class="md-primary center-loading" md-diameter="40px"
+  ng-show="vm.searchProcess && vm.loading">
+</md-progress-circular>

@@ -4,7 +4,6 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
   'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app',
   'angular-js-xlsx', 'ngFileUpload', 'md.data.table', 'angular-cache', 'ngIdle'])
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider, IdleProvider) {
-    //$cryptoProvider.setCryptographyKey('ec23e698-8661-11e6-ae22-56b6b6499611');
     $stateProvider
       .state('login', {
         url: '/login',
@@ -115,10 +114,28 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.plan-origen', {
-        url: '/plan-origen',
+        url: '/plan-origen?id',
         controller: 'PlanOrigenController',
         controllerAs: 'vm',
         templateUrl: 'app/views/plan-origen.html',
+        data: {
+          title: 'Plan Cta. Origen'
+        }
+      })
+      .state('home.plan-origen-nuevo', {
+        url: '/plan-origen/nuevo/{id}',
+        controller: 'PlanOrigenNuevoController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/forms/nuevo-plan-origen.html',
+        data: {
+          title: 'Plan Cta. Origen'
+        }
+      })
+      .state('home.plan-origen-editar', {
+        url: '/plan-origen/editar/{id}',
+        controller: 'PlanOrigenEditarController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/forms/editar-plan-origen.html',
         data: {
           title: 'Plan Cta. Origen'
         }

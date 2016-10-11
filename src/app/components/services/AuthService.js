@@ -3,16 +3,16 @@
 
 	angular.module('app')
         .service('authService', [
-        '$q', '$http', 'storageService', 'apiRoutes',
+        '$q', '$http', 'storageService', 'apiRoutes', 'cypherService', 'appConfig',
         authService
 	]);
 
-	function authService($q, $http, localStorage, apiRoutes) {
+	function authService($q, $http, localStorage, apiRoutes, cypherService, CONFIG) {
 		return {
 			login : function(usuario) {
         var data = {
           'email': usuario.email,
-          'password': usuario.password
+          'password': cypherService.encode(CONFIG.secret, usuario.password)
         };
 				return $q.when(
 					$http.post(

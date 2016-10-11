@@ -3,20 +3,17 @@
 
 	angular.module('app')
         .service('usuariosService', [
-        '$q', '$http', 'apiRoutes', 'storageService',
+        '$q', '$http', 'apiRoutes', 'cypherService', 'appConfig',
         usuariosService
 	]);
 
-	function usuariosService($q, $http, apiRoutes, localStorage) {
+	function usuariosService($q, $http, apiRoutes, cypherService, CONFIG) {
 		return {
 			loadAllUsuarios : function() {
 				return $q.when(
 					$http.get(
 						apiRoutes.usuarios,
 						{
-              headers: {
-                'Authorization': localStorage.get('accessToken')
-              },
 							params: {
 								'filter[where][status]': 0
 							}
@@ -34,17 +31,12 @@
 		      email: usuario.email,
 				  status: 0,
 				  createDate: now.toString(),
-					password: usuario.password
+					password: cypherService.encode(CONFIG.secret, usuario.password)
 				};
 				return $q.when(
 					$http.post(
 						apiRoutes.usuarios,
-						data,
-            {
-              headers: {
-                'Authorization': localStorage.get('accessToken')
-              }
-            }
+						data
 					)
 				);
 			},
@@ -57,29 +49,19 @@
 		      email: usuario.email
 				};
 				if (changePass) {
-					data.password = usuario.password;
+					data.password = cypherService.encode(CONFIG.secret, usuario.password);
 				}
 				return $q.when(
 					$http.put(
 						apiRoutes.usuarios + '/' + usuario.id.toString(),
-						data,
-            {
-              headers: {
-                'Authorization': localStorage.get('accessToken')
-              }
-            }
+						data
 					)
 				);
 			},
 			getById : function(id) {
 				return $q.when(
 					$http.get(
-						apiRoutes.usuarios + '/' + id,
-            {
-              headers: {
-                'Authorization': localStorage.get('accessToken')
-              }
-            }
+						apiRoutes.usuarios + '/' + id
 					)
 				);
 			},
@@ -90,12 +72,7 @@
 				return $q.when(
 					$http.put(
 						apiRoutes.usuarios + '/' + usuario.id.toString(),
-						data,
-            {
-              headers: {
-                'Authorization': localStorage.get('accessToken')
-              }
-            }
+						data
 					)
 				);
 			}
