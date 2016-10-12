@@ -46,6 +46,7 @@
   "scripts": {
     "init": "npm install",
     "install": "bower install",
-    "start": "gulp serve"
+    "start": "gulp serve",
+    "deploy-test": "gulp build && firebase deploy"
   }
 }
