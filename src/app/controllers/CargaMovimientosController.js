@@ -166,7 +166,7 @@
         }
         vm.correctResults.push(value);
       });
-      
+      rootScope.$broadcast('event:end-carga');
     }
 
     function upload(file) {
@@ -203,8 +203,6 @@
       vm.searchProcess = false;
       vm.cargaForm.$setPristine();
     }
-
-
 
     scope.$on('event:end-carga', function() {
       if (vm.correctResults.length === 0) {

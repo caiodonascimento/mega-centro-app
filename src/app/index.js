@@ -87,7 +87,16 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.plan-chile', {
-        url: '/plan-chile',
+        url: '/search-account/chile/?idEmpresa',
+        controller: 'SearchAccountController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/partials/search-account.html',
+        data: {
+          title: 'Plan Cta. Chile'
+        }
+      })
+      .state('home.plan-chile-data', {
+        url: '/plan-chile/{idEmpresa}',
         controller: 'PlanChileController',
         controllerAs: 'vm',
         templateUrl: 'app/views/plan-chile.html',
@@ -96,7 +105,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
 	  .state('home.plan-chile-nuevo', {
-        url: '/plan-chile/nuevo',
+        url: '/plan-chile/nuevo/{idEmpresa}',
         controller: 'NuevoPlanChileController',
         controllerAs: 'vm',
         templateUrl: 'app/views/forms/nuevo-plan-chile.html',
@@ -113,17 +122,17 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Plan Cta. Chile'
         }
       })
-      .state('home.search-account', {
-          url: '/search-account',
-          controller: 'SearchAccountController',
-          controllerAs: 'vm',
-          templateUrl: 'app/views/forms/search-account.html',
-          data: {
-            title: 'Plan Cta. Chile'
-          }
-        })
       .state('home.plan-origen', {
-        url: '/plan-origen',
+        url: '/search-account/origin/?idCuenta',
+        controller: 'SearchAccountController',
+        controllerAs: 'vm',
+        templateUrl: 'app/views/partials/search-account.html',
+        data: {
+          title: 'Plan Cta. Origen'
+        }
+      })
+      .state('home.plan-origen-data', {
+        url: '/plan-origen/{idCuenta}',
         controller: 'PlanOrigenController',
         controllerAs: 'vm',
         templateUrl: 'app/views/plan-origen.html',
@@ -132,7 +141,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.plan-origen-nuevo', {
-        url: '/plan-origen/nuevo/{id}',
+        url: '/plan-origen/nuevo/{idCuenta}',
         controller: 'PlanOrigenNuevoController',
         controllerAs: 'vm',
         templateUrl: 'app/views/forms/nuevo-plan-origen.html',

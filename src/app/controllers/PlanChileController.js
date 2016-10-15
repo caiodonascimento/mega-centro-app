@@ -2,50 +2,29 @@
   angular
        .module('app')
        .controller('PlanChileController', [ 'planCtaChileService', '$mdDialog',
-          '$rootScope', 'storageService', '$q', 'empresasService',
+          '$rootScope', 'storageService', '$q', 'empresasService', '$stateParams',
           PlanChileController
        ])
        .controller('NuevoPlanChileController', [ '$state', 'planCtaChileService', 'formatosImputs',
-			    '$rootScope',
+			    '$rootScope', '$stateParams', 'empresasService', 'levelsService', '$q',
           NuevoPlanChileController
        ])
        .controller('EditarPlanChileController', [ '$stateParams', '$state', 'planCtaChileService', 'formatosImputs',
 			    '$rootScope',
           EditarPlanChileController
        ]);
-   function PlanChileController(planCtaChileService, $mdDialog, rootScope, localStorage, $q, empresasService) {
+   function PlanChileController(planCtaChileService, $mdDialog, rootScope, localStorage, $q, empresasService, $stateParams) {
       var vm = this;
       vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		  vm.openMenu = openMenu;
 		  vm.deletePlanCtaChile = deletePlanCtaChile;
 		  vm.tableData = [];
 		  vm.isOpen = false;
-      vm.searchText = null;
-      vm.empresa = null;
-      vm.querySearchEmpresa = querySearchEmpresa;
-      vm.searchProcess = false;
-      vm.filterAccounts = filterAccounts;
-
-      function querySearchEmpresa(query) {
-        var defer = $q.defer();
-        empresasService.findLikeName(query)
-        .then(function (response) {
-          defer.resolve(response.data);
-        }, function (error) {
-          defer.reject([]);
-        });
-        return defer.promise;
-      }
-
-      function filterAccounts() {
-        if (vm.searchForm.$valid) {
-          vm.searchProcess = true;
-          cargaInicial();
-        }
-      }
-
+          vm.empresa = null;
 		  function cargaInicial() {
-			  planCtaChileService.loadAllPlanCtaChile(vm.empresa)
+			  planCtaChileService.loadAllPlanCtaChile({
+                id: parseInt(vm.idEmpresa)
+              })
 			  .then(function (planCtaChile) {
           console.log(planCtaChile);
           vm.tableData = planCtaChile.data.map(function(plan) {
@@ -54,7 +33,16 @@
           });
 			  });
 		  }
-
+       if ($stateParams.idEmpresa) {
+           vm.idEmpresa = $stateParams.idEmpresa;
+           empresasService.getById(vm.idEmpresa)
+           .then(function(result) {
+               vm.empresa = result.data;
+           });
+           cargaInicial();
+       } else {
+           state.go('home.plan-chile');
+       }
 		  function openMenu($mdOpenMenu, event) {
         if (vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1) {
   				rootScope.$broadcast(
@@ -92,21 +80,35 @@
     }
 	}
 
-  function NuevoPlanChileController($state, planCtaChileService, formatosImputs, rootScope) {
+  function NuevoPlanChileController($state, planCtaChileService, formatosImputs, rootScope, $stateParams, empresasService, levelsService, $q) {
 		  var vm = this;
 		  vm.createPlanCtaChile = createPlanCtaChile;
+        vm.empresa = null;
+        vm.searchText1 = '';
+        vm.searchText2 = '';
+        console.log($stateParams.idEmpresa);
+        if ($stateParams.idEmpresa) {
+            vm.idEmpresa = $stateParams.idEmpresa;
+            empresasService.getById(vm.idEmpresa)
+                .then(function(result) {
+                    vm.empresa = result.data;
+                });
+        } else {
+            $state.go('home.plan-chile');
+        }
 
   		vm.formPlanChile = {};
   		vm.formatosImputs = formatosImputs.formPlanChile;
   		vm.planCtaChile = {
           account: '',
-    			name: '',
-    			level1: '',
-    			level2: '',
-    			level3: ''
+            name: '',
+            level1: '',
+            level2: '',
+            level3: ''
   		};
 
   		function createPlanCtaChile() {
+            vm.planCtaChile.enterpriseId = vm.empresa.id;
     			planCtaChileService.insertPlanCtaChile(vm.planCtaChile)
     			.then(function() {
     				  console.log('Exito');
@@ -115,9 +117,20 @@
         					'Plan Cta. de Chile registrada con éxito.',
         					'md-primary'
     				  );
-    				  $state.go('home.plan-chile', {}, {location: 'replace'});
+    				  $state.go('home.plan-chile-data', {idEmpresa: vm.idEmpresa}, {location: 'replace'});
     			});
   		}
+
+        vm.querySearchNiveles = querySearchNiveles;
+        function querySearchNiveles(searchText, levelType) {
+            var deferred = $q.defer();
+            levelsService.findByTypeAndName(searchText, levelType)
+            .then(function (result) {
+                console.log(result);
+                deferred.resolve(result.data);
+            });
+            return deferred.promise;
+        }
 	}
 
   function EditarPlanChileController(stateParams, state, planCtaChileService, formatosImputs, rootScope) {
