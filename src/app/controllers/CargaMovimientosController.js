@@ -3,11 +3,11 @@
   angular
     .module('app')
     .controller('CargaMovimientosController', [
-      '$q', 'empresasService', '$rootScope', '$timeout',
+      '$q', 'empresasService', '$rootScope', '$timeout', '$scope',
       CargaMovimientosController
     ]);
 
-  function CargaMovimientosController($q, empresasService, rootScope, $timeout) {
+  function CargaMovimientosController($q, empresasService, rootScope, $timeout, scope) {
     var vm = this;
     vm.handleSubmitCarga = handleSubmitCarga;
     vm.cargaForm = {};
@@ -17,9 +17,11 @@
       month: '',
       file: null
     };
+    var oriCarga = angular.copy(vm.carga);
     vm.filename = '';
     vm.searchProcess = false;
     vm.searchText = null;
+    vm.promise = null;
     vm.querySearchEmpresa = querySearchEmpresa;
     vm.upload = upload;
     vm.years = years;
@@ -74,6 +76,8 @@
       }
     ]
     vm.selected = [];
+    vm.correctResults = [];
+    vm.arrayResults = [];
     vm.query = {
       order: 'Date',
       limit: 5,
@@ -81,6 +85,8 @@
     };
     vm.mimeTypes = 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     vm.loadingCarga = false;
+    vm.getResults = getResults;
+    vm.cancelarCarga = cancelarCarga;
     vm.reader = new FileReader();
     vm.reader.onload = function(e) {
       var data = e.target.result;
@@ -88,6 +94,7 @@
       workbook.SheetNames.forEach(function(sheetName) {
         vm.carga.file = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
       });
+      console.log(vm.carga.file);
     };
     vm.reader.onerror = function(e) {
       rootScope.$broadcast(
@@ -104,6 +111,17 @@
         vm.loadingCarga = false;
       }, 1500);
     };
+
+    function getResults() {
+      vm.promise = $q.when(
+        vm.arrayResults = _.filter(vm.correctResults, function(value, index) {
+          var initIndex = (vm.query.page * vm.query.limit) - vm.query.limit;
+          var endIndex = vm.query.page * vm.query.limit;
+          return index >= initIndex && index < endIndex;
+        })
+      );
+    }
+
     function querySearchEmpresa(query) {
       var defer = $q.defer();
       empresasService.findLikeName(query)
@@ -126,7 +144,29 @@
     }
 
     function handleSubmitCarga() {
-      vm.searchProcess = true;
+      vm.loadingCarga = true;
+      console.log(new Date(), 'Init validation');
+      _.forEach(vm.carga.file, function(value, index) {
+        if (!value.hasOwnProperty('Date') || !value.hasOwnProperty('Num')
+            || !value.hasOwnProperty('Name') || !value.hasOwnProperty('Memo')
+            || !value.hasOwnProperty('Account') || !value.hasOwnProperty('Split')
+            || !value.hasOwnProperty('Amount') || !value.hasOwnProperty('TC') || !value.hasOwnProperty('Pesos Liabilities')) {
+          return false;
+        }
+        var date = new Date(value.Date);
+        console.log(index);
+        if (date === null || date === undefined) {
+          return false;
+        }
+        if (date.getFullYear() !== vm.carga.year) {
+          return false;
+        }
+        if (date.getMonth()+1 !== vm.carga.month) {
+          return false;
+        }
+        vm.correctResults.push(value);
+      });
+      
     }
 
     function upload(file) {
@@ -158,15 +198,31 @@
     };
 
     function cancelarCarga() {
-      vm.carga = {
-        empresa: '',
-        year: '',
-        month: '',
-        file: null
-      };
+      vm.carga = angular.copy(oriCarga);
       vm.filename = '';
       vm.searchProcess = false;
+      vm.cargaForm.$setPristine();
     }
+
+
+
+    scope.$on('event:end-carga', function() {
+      if (vm.correctResults.length === 0) {
+        rootScope.$broadcast(
+          'event:toastMessage',
+          'Archivo no tiene filas válidas para la carga, favor revisarlo y volver a intentarlo.',
+          'md-primary'
+        );
+      } else {
+        rootScope.$broadcast(
+          'event:toastMessage',
+          'Archivo cargado, ' + vm.correctResults.length + ' filas se cargaron con éxito.',
+          'md-primary'
+        );
+        vm.searchProcess = true;
+      }
+      vm.loadingCarga = false;
+    });
   }
 
 })();

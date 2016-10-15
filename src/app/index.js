@@ -114,7 +114,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.plan-origen', {
-        url: '/plan-origen?id',
+        url: '/plan-origen',
         controller: 'PlanOrigenController',
         controllerAs: 'vm',
         templateUrl: 'app/views/plan-origen.html',

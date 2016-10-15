@@ -41,7 +41,6 @@
       vm.loading = true;
       authService.login(vm.formData)
       .then(function(loginResult) {
-        console.log(loginResult);
         if (loginResult.status === 401) {
           showResultToast('Usuario / contraseña inválidos', 'md-warn');
         } else {
