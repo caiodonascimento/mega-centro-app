@@ -1,0 +1,34 @@
+<md-card layout-fill ng-hide="vm.searchProcess">
+  <md-toolbar md-scroll-shrink>
+    <div class="md-toolbar-tools">
+      <span>Selecciona una empresa</span>
+    </div>
+  </md-toolbar>
+  <md-card-content>
+    <form ng-submit="vm.filterAccounts(); $event.preventDefault();" name="vm.searchForm" novalidate>
+      <md-autocomplete required flex
+        md-input-name="empresa"
+        md-selected-item="vm.empresa"
+        md-search-text="vm.searchText"
+        md-no-cache="true"
+        md-items="item in vm.querySearchEmpresa(vm.searchText)"
+        md-item-text="item.name"
+        md-require-match
+        md-floating-label="Empresa">
+        <md-item-template>
+          <span md-highlight-text="vm.searchText">
+            {{item.name}}
+          </span>
+        </md-item-template>
+        <md-not-found>
+          No hay empresas con el nombre indicado.
+        </md-not-found>
+      </md-autocomplete>
+      <md-button type="submit" aria-label="Filtrar" class="md-raised md-primary"
+        ng-disabled="vm.searchForm.$invalid">
+        Buscar
+        <md-icon class="material-icons">search</md-icon>
+      </md-button>
+    </form>
+  </md-card-content>
+</md-card>

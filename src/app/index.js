@@ -113,6 +113,15 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Plan Cta. Chile'
         }
       })
+      .state('home.search-account', {
+          url: '/search-account',
+          controller: 'SearchAccountController',
+          controllerAs: 'vm',
+          templateUrl: 'app/views/forms/search-account.html',
+          data: {
+            title: 'Plan Cta. Chile'
+          }
+        })
       .state('home.plan-origen', {
         url: '/plan-origen?id',
         controller: 'PlanOrigenController',

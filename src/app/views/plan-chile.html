@@ -35,6 +35,12 @@
 <div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
+      <md-button class="md-fab md-mini" aria-label="Volver a Plan-Chile" ng-click="vm.searchProcess = false">
+        <md-tooltip md-direction="bottom">
+          Volver
+        </md-tooltip>
+        <i class="material-icons">arrow_back</i>
+      </md-button>
       <span>Cuentas asociadas a {{vm.empresa.name}}</span>
       <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta"
         ui-sref="home.plan-chile-nuevo" ng-if="vm.viewAccess.canCreate===0">
@@ -65,9 +71,7 @@
           <td data-title="Nombre">{{data.name}}</td>
           <td data-title="Nivel 1">{{data.level1}}</td>
           <td data-title="Nivel 2">{{data.level2}}</td>
-          <td data-title="Nivel 3">
-            {{data.level3}}
-          </td>
+          <td data-title="Nivel 3">{{data.level3}}</td>
           <td>
             <md-menu>
               <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
