@@ -9,8 +9,8 @@
     <span>Datos del nuevo Nivel</span>
   </div>
 </md-toolbar>
-<md-content class="md-padding">
-  <form name="vm.formLevel" ng-submit="vm.createLevel();" novalidate>
+<md-content class="md-padding anim-zoom-out speed-ng-anim">
+  <form name="vm.formLevel" ng-submit="vm.createLevel(); $event.stopPropagation();" novalidate>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Nombre</label>
@@ -33,9 +33,14 @@
         caracter-restrict="{{vm.formatosImputs.type.pattern}}" required>
       </md-input-container>
     </div>
-    <md-button ng-disabled="!vm.formLevel.$valid" aria-label="Crear Nivel" type="submit"
-      class="md-raised md-primary">
-      Crear Nivel
-    </md-button>
+    <div layout="row" flex>
+      <md-button class="md-raised md-primary" aria-label="Crear Nivel" type="submit"
+       ng-disabled="!vm.formLevel.$valid || vm.loading">
+        Crear Nivel
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" class="md-primary" md-diameter="40px"
+	     ng-show="vm.loading">
+	    </md-progress-circular>
+    </div>
   </form>
 </md-content>

@@ -1,30 +1,41 @@
 (function(){
 	angular
-		.module('app')
-		.controller('LevelController', [ 'levelsService', '$mdDialog',
-			'$rootScope', 'storageService',
-			LevelController
-		])
-		.controller('NuevoLevelController', [ '$state', 'levelsService', 'formatosImputs',
-			'$rootScope',
-			NuevoLevelController
-		])
-		.controller('EditarLevelController', [ '$stateParams', '$state', 'levelsService', 'formatosImputs',
-			'$rootScope',
-			EditarLevelController
-		]);
+			.module('app')
+			.controller('LevelController', [ 'levelsService', '$mdDialog',
+				'storageService', '$rootScope',
+				LevelController
+			])
+			.controller('NuevoLevelController', [ '$state', 'levelsService',
+				'formatosImputs', '$rootScope',
+				NuevoLevelController
+			])
+			.controller('EditarLevelController', [ '$stateParams', '$state',
+				'levelsService', 'formatosImputs', '$rootScope',
+				EditarLevelController
+			]);
 
-	function LevelController(levelsService, $mdDialog, rootScope, localStorage) {
+	function LevelController(levelsService, $mdDialog, localStorage, rootScope) {
 		var vm = this;
+		vm.loading = false;
 		vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		vm.openMenu = openMenu;
 		vm.deleteLevel = deleteLevel;
 		vm.tableData = [];
 		vm.isOpen = false;
 		function cargaInicial() {
+			vm.loading = true;
 			levelsService.loadAllLevels()
 			.then(function (levels) {
-				vm.tableData = levels.data;
+					vm.tableData = levels.data;
+					vm.loading = false;
+			},
+			function(error) {
+					rootScope.$broadcast(
+							'event:toastMessage',
+							'Ha ocurrido un error, favor comunicarse con el Administrador.',
+							'md-alert'
+					);
+					vm.loading = false;
 			});
 		}
 		cargaInicial();
@@ -42,6 +53,7 @@
       $mdOpenMenu(event);
 		}
 		function deleteLevel(level, event) {
+			level.loading = true;
 			var confirm = $mdDialog.confirm()
         .title('Levels')
         .textContent('¿Desea eliminar el nivel ' + level.name + ' definitivamente?')
@@ -56,19 +68,32 @@
 					$mdDialog.show(
 		      	$mdDialog.alert()
 			        .clickOutsideToClose(true)
-			        .title('Eliminando Level')
-			        .textContent('Nivel ' + level.name + ' eliminada con éxito.')
+			        .title('Eliminando el Nivel')
+			        .textContent('Nivel ' + level.name + ' eliminado con éxito.')
 			        .ok('Ok')
 		    	);
+					level.loading = false;
+				},
+				function(error) {
+					rootScope.$broadcast(
+						'event:toastMessage',
+						'Ha ocurrido un error, favor comunicarse con el administrador.',
+						'md-alert'
+					);
+					level.loading = false;
 				});
-	    });
+	    },
+			function() {
+				level.loading = false;
+			});
 		}
 	}
 
 	function NuevoLevelController($state, levelsService, formatosImputs, rootScope) {
 		var vm = this;
-		vm.createLevel = createLevel;
 
+		vm.loading = false;
+		vm.createLevel = createLevel;
 		vm.formLevel = {};
 		vm.formatosImputs = formatosImputs.formLevel;
 		vm.level = {
@@ -78,22 +103,32 @@
 		};
 
 		function createLevel() {
+			vm.loading = true;
 			levelsService.insertLevels(vm.level)
 			.then(function() {
-				console.log('Exito');
 				rootScope.$broadcast(
 					'event:toastMessage',
 					'Nivel registrado con éxito.',
 					'md-primary'
 				);
 				$state.go('home.levels', {}, {location: 'replace'});
+				vm.loading = false;
+			},
+			function(error) {
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'Ha ocurrido un problema, favor vuelva a intentarlo.',
+					'md-primary'
+				);
+				vm.loading = false;
 			});
 		}
 	}
 
   function EditarLevelController(stateParams, state, levelsService, formatosImputs, rootScope) {
 		var vm = this;
-		//Agregando codigo para probar las validaciones.
+		vm.loading = false;
+		vm.charge = true;
 		vm.formatosImputs = formatosImputs.formLevel;
 		vm.level = {
       name: '',
@@ -107,12 +142,23 @@
 			levelsService.getById(stateParams.id)
 			.then(function(getResult) {
 				vm.level = getResult.data;
+				vm.charge = false;
+			},
+			function(error) {
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'Ha ocurrido un error, favor comunicarse con el Administrador.',
+					'md-primary'
+					);
+					state.go('home.levels');
+					vm.charge = false;
 			});
 		} else {
 			state.go('home.levels');
 		}
 
 		function guardarLevel() {
+			vm.loading = true;
 			levelsService.updateLevel(vm.level)
 			.then(function(updateResult) {
 				rootScope.$broadcast(
@@ -121,7 +167,16 @@
 					'md-primary'
 				);
 				state.go('home.levels');
-			})
+				vm.loading = false;
+			},
+			function(error) {
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'Ha ocurrido un error, favor comunicarse con el Administrador.',
+					'md-primary'
+				);
+				vm.loading = false;
+			});
 		}
   }
 
