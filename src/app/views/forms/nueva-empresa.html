@@ -9,8 +9,8 @@
     <span>Datos de la nueva Empresa</span>
   </div>
 </md-toolbar>
-<md-content class="md-padding">
-  <form name="vm.formEmpresa" ng-submit="vm.createEmpresa();" novalidate>
+<md-content class="md-padding anim-zoom-out speed-ng-anim">
+  <form name="vm.formEmpresa" ng-submit="vm.createEmpresa(); $event.stopPropagation();" novalidate>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Nombre</label>
@@ -27,9 +27,14 @@
         caracter-restrict="{{vm.formatosImputs.codigo.pattern}}" required>
       </md-input-container>
     </div>
-    <md-button ng-disabled="!vm.formEmpresa.$valid" aria-label="Crear Empresa" type="submit"
-      class="md-raised md-primary">
-      Crear Empresa
-    </md-button>
+    <div layout="row" flex>
+      <md-button class="md-raised md-primary" aria-label="Crear Empresa" type="submit"
+        ng-disabled="!vm.formEmpresa.$valid || vm.loading">
+        Crear Empresa
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" class="md-primary" md-diameter="40px"
+	     ng-show="vm.loading">
+	    </md-progress-circular>
+    </div>
   </form>
 </md-content>

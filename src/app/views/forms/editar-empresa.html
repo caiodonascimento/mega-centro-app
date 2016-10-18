@@ -6,10 +6,10 @@
       </md-tooltip>
       <i class="material-icons">arrow_back</i>
     </md-button>
-    <span>Datos de la nueva Empresa {{vm.empresa.name}}</span>
+    <span>Datos de la Empresa {{vm.empresa.name}}</span>
   </div>
 </md-toolbar>
-<md-content class="md-padding">
+<md-content class="md-padding" ng-hide="vm.charge">
   <form name="vm.formEmpresa" ng-submit="vm.handleSubmit(); $event.stopPropagation();" novalidate>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
@@ -25,9 +25,17 @@
         caracter-restrict="{{vm.formatosImputs.codigo.pattern}}" required>
       </md-input-container>
     </div>
-    <md-button type="submit" class="md-raised md-primary" aria-label="Guardar"
-      ng-disabled="vm.formEmpresa.$invalid || vm.formEmpresa.$pristine">
-      Guardar
-    </md-button>
+    <div layout="row" flex>
+      <md-button class="md-raised md-primary" aria-label="Guardar" type="submit"
+       ng-disabled="(vm.formEmpresa.$invalid || vm.formEmpresa.$pristine) || vm.loading">
+        Guardar Cambios
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" class="md-primary" md-diameter="40px"
+	     ng-show="vm.loading">
+	    </md-progress-circular>
+    </div>
   </form>
 </md-content>
+<md-progress-circular md-mode="indeterminate" class="md-primary center-loading" md-diameter="40px"
+ ng-show="vm.charge">
+</md-progress-circular>

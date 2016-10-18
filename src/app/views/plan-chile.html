@@ -1,4 +1,4 @@
-<div class="table-responsive-vertical md-whiteframe-z1">
+<div class="table-responsive-vertical md-whiteframe-z1 anim-zoom-out speed-ng-anim">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
       <md-button class="md-fab md-mini" aria-label="Volver a Plan-Chile" ui-sref="home.plan-chile({idEmpresa: vm.idEmpresa})">
@@ -39,7 +39,10 @@
           <td data-title="Nivel 2">{{data.level2}}</td>
           <td data-title="Nivel 3">{{data.level3}}</td>
           <td>
-            <md-menu>
+            <md-progress-circular md-mode="indeterminate" class="md-primary center-loading loading-row-table"
+              md-diameter="35px" ng-show="data.loading">
+            </md-progress-circular>
+            <md-menu ng-hide="data.loading">
               <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
                 ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1">
                 <md-tooltip md-direction="bottom">
@@ -67,3 +70,6 @@
       </tbody>
   </table>
 </div>
+<md-progress-circular md-mode="indeterminate" class="md-primary center-loading" md-diameter="40px"
+  ng-show="vm.loading">
+</md-progress-circular>

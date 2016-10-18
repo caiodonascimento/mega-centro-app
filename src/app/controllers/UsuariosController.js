@@ -9,8 +9,8 @@
           'formatosImputs', '$rootScope',
           NuevoUsuarioController
        ])
-       .controller('EditarUsuarioController', [ '$stateParams', '$state', 'usuariosService', 'formatosImputs',
-          '$rootScope',
+       .controller('EditarUsuarioController', [ '$stateParams', '$state',
+          'usuariosService', 'formatosImputs', '$rootScope',
           EditarUsuarioController
        ]);
 

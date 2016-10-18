@@ -1,20 +1,20 @@
 (function(){
 	angular
-		.module('app')
-		.controller('EmpresaController', [ 'empresasService', '$mdDialog',
-			'$rootScope', 'storageService',
-			EmpresaController
-		])
-		.controller('NuevaEmpresaController', [ '$state', 'empresasService', 'formatosImputs',
-			'$rootScope',
-			NuevaEmpresaController
-		])
-		.controller('EditarEmpresaController', [ '$stateParams', '$state', 'empresasService', 'formatosImputs',
-			'$rootScope',
-			EditarEmpresaController
-		]);
+			.module('app')
+			.controller('EmpresaController', [ 'empresasService', '$mdDialog',
+				'storageService', '$rootScope',
+				EmpresaController
+			])
+			.controller('NuevaEmpresaController', [ '$state', 'empresasService',
+				'formatosImputs', '$rootScope',
+				NuevaEmpresaController
+			])
+			.controller('EditarEmpresaController', [ '$stateParams', '$state',
+				'empresasService', 'formatosImputs', '$rootScope',
+				EditarEmpresaController
+			]);
 
-	function EmpresaController(empresasService, $mdDialog, rootScope, localStorage) {
+	function EmpresaController(empresasService, $mdDialog, localStorage, rootScope) {
 		var vm = this;
 		vm.loading = false;
 		vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
@@ -28,7 +28,8 @@
 			.then(function (empresas) {
 				vm.tableData = empresas.data;
 				vm.loading = false;
-			}, function(error) {
+			},
+			function(error) {
 				rootScope.$broadcast(
 					'event:toastMessage',
 					'Ha ocurrido un error, favor comunicarse con el Administrador.',
@@ -67,12 +68,13 @@
 					$mdDialog.show(
 		      	$mdDialog.alert()
 			        .clickOutsideToClose(true)
-			        .title('Eliminando Empresa')
+			        .title('Eliminando la Empresa')
 			        .textContent('Empresa ' + empresa.name + ' eliminada con éxito.')
 			        .ok('Ok')
 		    	);
 					empresa.loading = false;
-				}, function(error) {
+				},
+				function(error) {
 					rootScope.$broadcast(
 						'event:toastMessage',
 						'Ha ocurrido un error, favor comunicarse con el Administrador.',
@@ -80,7 +82,8 @@
 					);
 					empresa.loading = false;
 				});
-	    }, function() {
+	    },
+			function() {
 				empresa.loading = false;
 			});
 		}
@@ -88,8 +91,9 @@
 
 	function NuevaEmpresaController($state, empresasService, formatosImputs, rootScope) {
 		var vm = this;
-		vm.createEmpresa = createEmpresa;
 
+		vm.loading = false;
+		vm.createEmpresa = createEmpresa;
 		vm.formEmpresa = {};
 		vm.formatosImputs = formatosImputs.formEmpresa;
 		vm.empresa = {
@@ -98,6 +102,7 @@
 		};
 
 		function createEmpresa() {
+			vm.loading = true;
 			empresasService.insertEmpresas(vm.empresa)
 			.then(function() {
 				rootScope.$broadcast(
@@ -106,19 +111,23 @@
 					'md-primary'
 				);
 				$state.go('home.empresas', {}, {location: 'replace'});
-			}, function(error) {
+				vm.loading = false;
+			},
+			function(error) {
 				rootScope.$broadcast(
 					'event:toastMessage',
 					'Ha ocurrido un problema, favor vuelva a intentarlo.',
 					'md-primary'
 				);
+				vm.loading = false;
 			});
 		}
 	}
 
   function EditarEmpresaController(stateParams, state, empresasService, formatosImputs, rootScope) {
 		var vm = this;
-		//Agregando codigo para probar las validaciones.
+		vm.loading = false;
+		vm.charge = true;
 		vm.formatosImputs = formatosImputs.formEmpresa;
 		vm.empresa = {
 			name: '',
@@ -131,12 +140,23 @@
 			empresasService.getById(stateParams.id)
 			.then(function(getResult) {
 				vm.empresa = getResult.data;
+				vm.charge = false;
+			},
+			function(error) {
+				rootScope.$broadcast(
+					'event:toastMessage',
+          'Ha ocurrido un error, favor comunicarse con el Administrador.',
+	        'md-primary'
+				);
+				state.go('home.empresas');
+        vm.charge = false;
 			});
 		} else {
 			state.go('home.empresas');
 		}
 
 		function guardarEmpresa() {
+			vm.loading = true;
 			empresasService.updateEmpresa(vm.empresa)
 			.then(function(updateResult) {
 				rootScope.$broadcast(
@@ -145,7 +165,16 @@
 					'md-primary'
 				);
 				state.go('home.empresas');
-			})
+				vm.loading = false;
+			},
+			function(error) {
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'Ha ocurrido un error, favor comunicarse con el Administrador.',
+					'md-primary'
+				);
+				vm.loading = false;
+			});
 		}
   }
 

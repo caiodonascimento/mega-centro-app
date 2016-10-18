@@ -81,20 +81,20 @@
 					)
 				);
 			},
-            findByTypeAndName: function(name, level) {
-                return $q.when(
-                    $http.get(
-                        apiRoutes.levels,
-                        {
-                            params: {
-                                'filter[where][and][0][name][like]': name + '%',
-                                'filter[where][and][1][type]': level,
-                                'filter[where][and][2][status]': 0
-                            }
-                        }
-                    )
-                );
+      findByTypeAndName: function(name, level) {
+      	return $q.when(
+        	$http.get(
+          	apiRoutes.levels,
+            {
+            	params: {
+                      	'filter[where][and][0][name][like]': name + '%',
+                        'filter[where][and][1][type]': level,
+                        'filter[where][and][2][status]': 0
+              }
             }
+          )
+        );
+      }
 		};
 	}
 })();
