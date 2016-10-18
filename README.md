@@ -11,13 +11,13 @@ Instalar dependencias:
     $ cd mega-centro-app
     $ npm install
 
-Instalar el gem 'sass':
+Instalar el gem 'sass': (*Es necesario installar ruby antes en tu host*)
 
     $ gem install sass
 
 Ejecutar ambiente de desarrollo:
 
-    $ gulp serve
+    $ npm start
 
 ## Descripción del proyecto
 
