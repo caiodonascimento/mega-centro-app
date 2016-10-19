@@ -33,8 +33,8 @@
 				    plan.open = false;
 				    return plan;
           });
-          //vm.loading = false;
-			  }/*,
+          vm.loading = false;
+			  },
         function(error) {
 					rootScope.$broadcast(
 							'event:toastMessage',
@@ -42,7 +42,7 @@
 							'md-alert'
 					);
 					vm.loading = false;
-			  }*/);
+			  });
 		  }
       if ($stateParams.idEmpresa) {
         vm.idEmpresa = $stateParams.idEmpresa;
