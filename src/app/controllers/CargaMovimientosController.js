@@ -166,6 +166,9 @@
         }
         vm.correctResults.push(value);
       });
+      var arrayProcess = vm.correctResults.map(function(value) {
+        return $q.when();
+      });
       rootScope.$broadcast('event:end-carga');
     }
 

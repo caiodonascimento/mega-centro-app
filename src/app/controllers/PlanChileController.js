@@ -34,7 +34,7 @@
 				    return plan;
           });
           vm.loading = false;
-			  },
+        },
         function(error) {
 					rootScope.$broadcast(
 							'event:toastMessage',
@@ -70,7 +70,7 @@
   		}
 
       function deletePlanCtaChile(planCtaChile, event) {
-        level.loading = true;
+          planCtaChile.loading = true;
   		  var confirm = $mdDialog.confirm()
           .title('PlanesCtaChile')
           .textContent('¿Desea eliminar el Plan Cta de Chile ' + planCtaChile.name + ' definitivamente?')
@@ -89,7 +89,7 @@
                   .textContent('Plan Cta de Chile ' + planCtaChile.name + ' eliminada con éxito.')
                   .ok('Ok')
               );
-              level.loading = false;
+                  planCtaChile.loading = false;
 
             },
             function(error) {
@@ -98,11 +98,11 @@
   							'Ha ocurrido un error, favor comunicarse con el administrador.',
   							'md-alert'
   						);
-  						level.loading = false;
+                planCtaChile.loading = false;
   					});
         },
         function() {
-  				level.loading = false;
+            planCtaChile.loading = false;
   			});
       }
 	}
