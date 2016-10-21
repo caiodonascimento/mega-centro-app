@@ -13,9 +13,9 @@
                 var data = {
                     "year": header.year,
                     "month": header.month,
-                    "status": 0,
+                    "status": 10,
                     "createDate": new Date(),
-                    "enterpriseId": header.enterprise.id
+                    "enterpriseId": header.empresa.id
                 };
                 return $q.when(
                     $http.post(
@@ -24,8 +24,53 @@
                     )
                 );
             },
-            saveAccountTransaction: function(accountTransaction) {
-
+            saveAccountTransaction: function(accountTransactions, chargeId) {
+                var arrayProcess = [];
+                _.forEach(accountTransactions, function(value) {
+                    var data = {
+                        "date": value.Date,
+                        "num": value.Num,
+                        "name": value.Name,
+                        "memo": value.Memo,
+                        "account": value.Account,
+                        "split": value.Split,
+                        "amount": value.Amount,
+                        "tc": value.TC,
+                        "liabilities": value['Pesos Liabilities'],
+                        "status": 0,
+                        "createDate": new Date(),
+                        "chargeId": chargeId
+                    };
+                    arrayProcess.push($q.when(
+                        $http.post(
+                            apiRoutes.accountTransactions,
+                            data
+                        )
+                    ));
+                });
+                return $q.all(arrayProcess);
+            },
+            finishCharge: function(id) {
+                var data = {
+                    "status": 0
+                };
+                return $q.when(
+                    $http.put(
+                        apiRoutes.chargeTransactions + '/' + id.toString(),
+                        data
+                    )
+                );
+            },
+            cancelCharge: function(id) {
+                var data = {
+                    "status": 1
+                };
+                return $q.when(
+                    $http.put(
+                        apiRoutes.chargeTransactions + '/' + id.toString(),
+                        data
+                    )
+                );
             }
         };
     }
