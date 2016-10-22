@@ -14,21 +14,20 @@
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
           <md-input-container flex>
               <label>Empresa asociada</label>
-              <input type="text" name="empresa" ng-model="vm.empresa.name"
-                     disabled readonly>
+              <input type="text" name="empresa" ng-model="vm.empresa.name" disabled readonly>
           </md-input-container>
       </div>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Cuenta</label>
-        <input type="text" name="cuenta" ng-model="vm.planCtaChile.account"
+        <input type="text" name="account" ng-model="vm.planCtaChile.account"
          limit-caracter="{{vm.formatosImputs.account.maxlength}}"
          caracter-restrict="{{vm.formatosImputs.account.pattern}}" required>
 		    <div ng-messages="vm.formPlanChile.account.$error" role="alert"></div>
       </md-input-container>
       <md-input-container flex>
         <label>Nombre</label>
-        <input type="text" name="nombre" ng-model="vm.planCtaChile.name"
+        <input type="text" name="name" ng-model="vm.planCtaChile.name"
          limit-caracter="{{vm.formatosImputs.name.maxlength}}"
          caracter-restrict="{{vm.formatosImputs.name.pattern}}" required>
 		    <div ng-messages="vm.formPlanChile.name.$error" role="alert"></div>

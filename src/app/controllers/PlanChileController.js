@@ -13,6 +13,7 @@
       '$rootScope', 'empresasService', 'levelsService', '$q',
       EditarPlanChileController
     ]);
+
   function PlanChileController(planCtaChileService, $mdDialog, rootScope, localStorage, $q,
   empresasService, $stateParams) {
     var vm = this;
@@ -101,6 +102,7 @@
       });
     }
   }
+
   function NuevoPlanChileController($state, planCtaChileService, formatosImputs, rootScope, $stateParams,
     empresasService, levelsService, $q) {
     var vm = this;
@@ -152,6 +154,7 @@
       return deferred.promise;
     }
   }
+  
   function EditarPlanChileController(stateParams, state, planCtaChileService, formatosImputs, rootScope,
     empresasService, levelsService, $q) {
     var vm = this;
