@@ -53,12 +53,12 @@
               Subir archivo
             </md-tooltip>
           </md-button>
-          <input type="test" readonly disabled ng-model="vm.filename" >
+          <input type="text" aria-label="name-file" ng-disabled="true" ng-model="vm.filename" >
         </md-input-container>
       </div>
       <div layout="row" flex>
         <md-button type="submit" aria-label="Cargar Movimientos" class="md-raised md-primary"
-          ng-disabled="vm.cargaForm.$invalid">
+          ng-disabled="(vm.cargaForm.$invalid || vm.carga.file.length === 0) || vm.loadingCarga">
           <md-icon class="material-icons">publish</md-icon>
           Cargar Movimientos
         </md-button>
@@ -67,6 +67,72 @@
         </md-progress-circular>
       </div>
     </form>
+  </md-card-content>
+</md-card>
+<md-card md-colors="{background: vm.colorResult }" ng-show="vm.searchProcessResult" class="result-charge-card">
+  <md-card-content ng-show="vm.carga.file.length !== vm.correctResults.length">
+    <span class="md-title" style="color:white;">
+      <md-icon class="material-icons">report_problem</md-icon>
+      Carga con errores:
+    </span>
+    <ul style="color:white;">
+      <li ng-show="vm.erroresCarga.dateLess > 0">
+        Filas sin valor en la columan "Date": {{vm.erroresCarga.dateLess}}
+      </li>
+      <li ng-show="vm.erroresCarga.numLess > 0">
+        Filas sin valor en la columan "Num": {{vm.erroresCarga.numLess}}
+      </li>
+      <li ng-show="vm.erroresCarga.nameLess > 0">
+        Filas sin valor en la columan "Name": {{vm.erroresCarga.nameLess}}
+      </li>
+      <li ng-show="vm.erroresCarga.memoLess > 0">
+        Filas sin valor en la columan "Memo": {{vm.erroresCarga.memoLess}}
+      </li>
+      <li ng-show="vm.erroresCarga.accountLess > 0">
+        Filas sin valor en la columan "Account": {{vm.erroresCarga.accountLess}}
+      </li>
+      <li ng-show="vm.erroresCarga.splitLess > 0">
+        Filas sin valor en la columan "Split": {{vm.erroresCarga.splitLess}}
+      </li>
+      <li ng-show="vm.erroresCarga.amountLess > 0">
+        Filas sin valor en la columan "Amount": {{vm.erroresCarga.amountLess}}
+      </li>
+      <li ng-show="vm.erroresCarga.tcLess > 0">
+        Filas sin valor en la columan "TC": {{vm.erroresCarga.tcLess}}
+      </li>
+      <li ng-show="vm.erroresCarga.liabilitiesLess > 0">
+        Filas sin valor en la columan "Pesos Liabilities": {{vm.erroresCarga.liabilitiesLess}}
+      </li>
+      <li ng-show="vm.erroresCarga.dateFail > 0">
+        Filas con la columan "Date" sin formato de fecha válido: {{vm.erroresCarga.dateFail}}
+      </li>
+      <li ng-show="vm.erroresCarga.notYear > 0">
+        Filas con año diferente al seleccionado para la carga ({{vm.carga.year}}): {{vm.erroresCarga.notYear}}
+      </li>
+      <li ng-show="vm.erroresCarga.notMonth > 0">
+        Filas con mes diferente al seleccionado para la carga ({{vm.months[vm.carga.month-1].name}}): {{vm.erroresCarga.notMonth}}
+      </li>
+      <li ng-show="vm.erroresCarga.amountFail > 0">
+        Filas con la columan "Amount" no numérico: {{vm.erroresCarga.amountFail}}
+      </li>
+      <li ng-show="vm.erroresCarga.liabilitiesFail > 0">
+        Filas con la columan "Pesos Liabilities" no numérico: {{vm.erroresCarga.liabilitiesFail}}
+      </li>
+    </ul>
+  </md-card-content>
+  <md-card-actions layout="row" layout-align="end center" ng-show="vm.carga.file.length !== vm.correctResults.length">
+    <md-button class="md-primary md-raised" aria-label="Favorite" ng-click="vm.continuarCarga()">
+      Obviar y continuar
+    </md-button>
+    <md-button class="md-warn md-raised" aria-label="Settings" ng-click="vm.cancelarCarga()">
+      Cancelar carga
+    </md-button>
+  </md-card-actions>
+  <md-card-content ng-hide="vm.carga.file.length !== vm.correctResults.length">
+    <i class="material-icons">done_all</i>
+    <span class="md-title" style="color:white;">
+      La carga ha tenido un 100% de éxito, ¡recuerda finalizar la carga!
+    </span>
   </md-card-content>
 </md-card>
 <div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
@@ -79,7 +145,10 @@
         <i class="material-icons">arrow_back</i>
       </md-button>
       <span>Datos desde del archivo</span>
-      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta">
+      <md-progress-circular md-mode="indeterminate" class="md-warn" md-diameter="40px" ng-show="vm.loadingFinish" style="position: absolute;right: 20px;">
+      </md-progress-circular>
+      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta" ng-disabled="!vm.activarFinalizados"
+        ng-hide="vm.loadingFinish" ng-click="vm.finishCharge()">
         <md-tooltip md-direction="bottom">
           Finalizar carga
         </md-tooltip>
@@ -88,7 +157,7 @@
     </div>
   </md-toolbar>
   <md-table-container>
-    <table md-table md-row-select multiple ng-model="vm.selected">
+    <table md-table>
       <thead md-head md-order="query.order">
         <tr md-row>
           <th md-column>Date</th>

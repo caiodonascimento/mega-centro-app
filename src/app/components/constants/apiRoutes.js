@@ -8,6 +8,7 @@
       chileanAccounts: hostServer + '/chileanAccounts',
       originAccounts: hostServer + '/originAccounts',
       accountTransactions: hostServer + '/accountTransactions',
+      chargeTransactions: hostServer + '/chargeTransactions',
       levels: hostServer + '/levels'
     });
 })();

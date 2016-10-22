@@ -99,7 +99,7 @@
 		vm.level = {
 			name: '',
 			description: '',
-      type: ''
+      		type: ''
 		};
 
 		function createLevel() {

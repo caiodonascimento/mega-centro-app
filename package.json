@@ -1,7 +1,9 @@
 {
   "name": "mega-centro-app",
   "version": "1.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "gulp-eslint": "^3.0.1"
+  },
   "devDependencies": {
     "browser-sync": "~1.7.1",
     "chalk": "~0.5.1",
@@ -47,6 +49,7 @@
     "init": "npm install",
     "install": "bower install",
     "start": "gulp serve",
+    "start:eslint" : "gulp serve:eslint",
     "deploy-test": "gulp build && firebase deploy"
   }
 }

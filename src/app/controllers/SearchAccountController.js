@@ -19,7 +19,6 @@
             cuenta: false
         };
         vm.searchText = null;
-        console.log(state.current.name);
         if (state.current.name === 'home.plan-chile') {
             vm.viewSearch = 'chilean';
         } else if (state.current.name === 'home.plan-origen') {

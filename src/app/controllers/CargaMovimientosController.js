@@ -3,11 +3,11 @@
   angular
     .module('app')
     .controller('CargaMovimientosController', [
-      '$q', 'empresasService', '$rootScope', '$timeout', '$scope',
+      '$q', 'empresasService', '$rootScope', '$timeout', '$scope', 'cargaService', '$mdDialog', '$state',
       CargaMovimientosController
     ]);
 
-  function CargaMovimientosController($q, empresasService, rootScope, $timeout, scope) {
+  function CargaMovimientosController($q, empresasService, rootScope, $timeout, scope, cargaService, $mdDialog, state) {
     var vm = this;
     vm.handleSubmitCarga = handleSubmitCarga;
     vm.cargaForm = {};
@@ -15,11 +15,17 @@
       empresa: '',
       year: '',
       month: '',
-      file: null
+      file: []
     };
+    vm.currentCharge = {
+      id: 0
+    }
     var oriCarga = angular.copy(vm.carga);
     vm.filename = '';
     vm.searchProcess = false;
+    vm.searchProcessResult = false;
+    vm.activarFinalizados = false;
+    vm.loadingFinish = false;
     vm.searchText = null;
     vm.promise = null;
     vm.querySearchEmpresa = querySearchEmpresa;
@@ -74,7 +80,8 @@
         id: 12,
         name: 'Diciembre'
       }
-    ]
+    ];
+    vm.colorResult = 'green-300';
     vm.selected = [];
     vm.correctResults = [];
     vm.arrayResults = [];
@@ -83,6 +90,24 @@
       limit: 5,
       page: 1
     };
+    vm.erroresCarga = {
+      dateLess: 0,
+      numLess: 0,
+      nameLess: 0,
+      memoLess: 0,
+      accountLess: 0,
+      splitLess: 0,
+      amountLess: 0,
+      tcLess: 0,
+      liabilitiesLess: 0,
+      dateFail: 0,
+      notYear: 0,
+      notMonth: 0,
+      amountFail: 0,
+      liabilitiesFail: 0,
+      notPushed: []
+    };
+    var erroresCargaOri = angular.copy(vm.erroresCarga);
     vm.mimeTypes = 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     vm.loadingCarga = false;
     vm.getResults = getResults;
@@ -94,7 +119,6 @@
       workbook.SheetNames.forEach(function(sheetName) {
         vm.carga.file = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
       });
-      console.log(vm.carga.file);
     };
     vm.reader.onerror = function(e) {
       rootScope.$broadcast(
@@ -111,6 +135,8 @@
         vm.loadingCarga = false;
       }, 1500);
     };
+    vm.continuarCarga = continuarCarga;
+    vm.finishCharge = finishCharge;
 
     function getResults() {
       vm.promise = $q.when(
@@ -143,33 +169,87 @@
       return array;
     }
 
+    function upCharge() {
+      cargaService.generateHeader(vm.carga)
+      .then(function(resultadoHeader) {
+        console.log(resultadoHeader);
+        vm.currentCharge = resultadoHeader.data;
+        cargaService.saveAccountTransaction(vm.correctResults, vm.currentCharge.id)
+        .then(function(resultadoFilas) {
+          console.log(resultadoFilas);
+          rootScope.$broadcast('event:end-carga');
+        });
+      });
+    }
+
     function handleSubmitCarga() {
       vm.loadingCarga = true;
-      console.log(new Date(), 'Init validation');
       _.forEach(vm.carga.file, function(value, index) {
-        if (!value.hasOwnProperty('Date') || !value.hasOwnProperty('Num')
-            || !value.hasOwnProperty('Name') || !value.hasOwnProperty('Memo')
-            || !value.hasOwnProperty('Account') || !value.hasOwnProperty('Split')
-            || !value.hasOwnProperty('Amount') || !value.hasOwnProperty('TC') || !value.hasOwnProperty('Pesos Liabilities')) {
-          return false;
+        var result = true;
+        if (!value.hasOwnProperty('Date')) {
+          result = false;
+        }
+        if (!value.hasOwnProperty('Num')) {
+          vm.erroresCarga.numLess++;
+          result = false;
+        }
+        if (!value.hasOwnProperty('Name')) {
+          vm.erroresCarga.nameLess++;
+          result = false;
+        }
+        if (!value.hasOwnProperty('Memo')) {
+          vm.erroresCarga.memoLess++;
+          result = false;
+        }
+        if (!value.hasOwnProperty('Account')) {
+          vm.erroresCarga.accountLess++;
+          result = false;
+        }
+        if (!value.hasOwnProperty('Split')) {
+          vm.erroresCarga.splitLess++;
+          result = false;
+        }
+        if (!value.hasOwnProperty('Amount')) {
+          vm.erroresCarga.amountLess++;
+          result = false;
+        }
+        if (!value.hasOwnProperty('TC')) {
+          vm.erroresCarga.tcLess++;
+          result = false;
+        }
+        if (!value.hasOwnProperty('Pesos Liabilities')) {
+          vm.erroresCarga.liabilitiesLess++;
+          result = false;
         }
         var date = new Date(value.Date);
-        console.log(index);
         if (date === null || date === undefined) {
-          return false;
+          vm.erroresCarga.dateFail++;
+          result = false;
         }
         if (date.getFullYear() !== vm.carga.year) {
-          return false;
+          vm.erroresCarga.notYear++;
+          result = false;
         }
         if (date.getMonth()+1 !== vm.carga.month) {
-          return false;
+          vm.erroresCarga.notMonth++;
+          result = false;
+        }
+        var amount = parseInt(value.Amount, 10);
+        if (!_.isNumber(amount)) {
+          vm.erroresCarga.amountFail++;
+          result = false;
+        }
+        var liabilities = parseInt(value['Pesos Liabilities'], 10);
+        if (!_.isNumber(liabilities)) {
+          vm.erroresCarga.liabilitiesFail++;
+          result = false;
+        }
+        if (!result) {
+          return result;
         }
         vm.correctResults.push(value);
       });
-      var arrayProcess = vm.correctResults.map(function(value) {
-        return $q.when();
-      });
-      rootScope.$broadcast('event:end-carga');
+      upCharge();
     }
 
     function upload(file) {
@@ -201,10 +281,65 @@
     };
 
     function cancelarCarga() {
-      vm.carga = angular.copy(oriCarga);
-      vm.filename = '';
-      vm.searchProcess = false;
-      vm.cargaForm.$setPristine();
+      var confirm = $mdDialog.confirm()
+      .title('Carga de Movimientos')
+      .textContent(
+        '¿Desea cancelar la carga en curso y volver al formulario de carga?'
+      )
+      .ariaLabel('Lucky day')
+      .targetEvent(event)
+      .ok('Cancelar la carga')
+      .cancel('Continuar con la carga actual');
+      $mdDialog.show(confirm).then(function() {
+        var dialog = $mdDialog.alert()
+          .clickOutsideToClose(true)
+          .title('Cancelando carga actual')
+          .textContent(
+            'Favor esperar, estamos cancelando la carga actual ...'
+          );
+        $mdDialog.show(dialog);
+        cargaService.cancelCharge(vm.currentCharge.id)
+        .then(function() {
+          $timeout(function() {
+            vm.searchProcessResult = false;
+            vm.carga = angular.copy(oriCarga);
+            vm.erroresCarga = angular.copy(erroresCargaOri);
+            vm.filename = '';
+            vm.searchProcess = false;
+            vm.cargaForm.$setPristine();
+            vm.cargaForm.$setUntouched();
+            $mdDialog.hide(dialog);
+          }, 1500);
+        });
+      });
+    }
+
+    function continuarCarga() {
+      vm.searchProcessResult = false;
+      vm.activarFinalizados = true;
+    }
+
+    function finishCharge() {
+      vm.loadingFinish = true;
+      console.log(vm.currentCharge);
+      cargaService.finishCharge(vm.currentCharge.id)
+      .then(function() {
+        $timeout(function() {
+          vm.searchProcessResult = false;
+          vm.carga = angular.copy(oriCarga);
+          vm.erroresCarga = angular.copy(erroresCargaOri);
+          vm.filename = '';
+          vm.searchProcess = false;
+          vm.cargaForm.$setPristine();
+          vm.cargaForm.$setUntouched();
+          rootScope.$broadcast(
+              'event:toastMessage',
+              'Carga finalizada con éxito.',
+              'md-primary'
+          );
+          vm.loadingFinish = false;
+        }, 1500);
+      });
     }
 
     scope.$on('event:end-carga', function() {
@@ -220,10 +355,52 @@
           'Archivo cargado, ' + vm.correctResults.length + ' filas se cargaron con éxito.',
           'md-primary'
         );
+        if (vm.carga.file.length !== vm.correctResults.length) {
+          vm.colorResult = 'red-300';
+          vm.activarFinalizados = false;
+        } else {
+          vm.colorResult = 'green-300';
+          vm.activarFinalizados = true;
+        }
+        vm.searchProcessResult = true;
         vm.searchProcess = true;
       }
       vm.loadingCarga = false;
     });
+
+    rootScope.$on('$stateChangeStart', function(event, toState){
+      if (vm.searchProcess) {
+        event.preventDefault();
+        var confirm = $mdDialog.confirm()
+            .title('Carga de Movimientos')
+            .textContent('¿Desea cancelar la carga en curso y volver al formulario de carga?')
+            .ariaLabel('Lucky day')
+            .targetEvent(event)
+            .ok('Cancelar la carga')
+            .cancel('Continuar con la carga actual');
+        $mdDialog.show(confirm).then(function() {
+          var dialog = $mdDialog.alert()
+              .clickOutsideToClose(true)
+              .title('Cancelando carga actual')
+              .textContent('Favor esperar, estamos cancelando la carga actual ...');
+          $mdDialog.show(dialog);
+          cargaService.cancelCharge(vm.currentCharge.id)
+              .then(function() {
+                $timeout(function() {
+                  vm.searchProcessResult = false;
+                  vm.carga = angular.copy(oriCarga);
+                  vm.erroresCarga = angular.copy(erroresCargaOri);
+                  vm.filename = '';
+                  vm.searchProcess = false;
+                  vm.cargaForm.$setPristine();
+                  vm.cargaForm.$setUntouched();
+                  $mdDialog.hide(dialog);
+                  state.go(toState.name);
+                }, 1500);
+              });
+        });
+      }
+    })
   }
 
 })();

@@ -44,15 +44,14 @@
                          md-require-match
                          md-floating-label="Nivel 1">
             <md-item-template>
-          <span md-highlight-text="vm.searchText1">
-            {{item.name}}
-          </span>
+                <span md-highlight-text="vm.searchText1">
+                  {{item.name}}
+                </span>
             </md-item-template>
             <md-not-found>
                 No hay niveles con el nombre indicado.
             </md-not-found>
         </md-autocomplete>
-
         <md-autocomplete required flex
                          md-input-name="level2"
                          md-selected-item="vm.planCtaChile.level2"
@@ -63,15 +62,14 @@
                          md-require-match
                          md-floating-label="Nivel 2">
             <md-item-template>
-          <span md-highlight-text="vm.searchText2">
-            {{item.name}}
-          </span>
+                <span md-highlight-text="vm.searchText2">
+                    {{item.name}}
+                </span>
             </md-item-template>
             <md-not-found>
                 No hay niveles con el nombre indicado.
             </md-not-found>
         </md-autocomplete>
-
     </div>
     <md-button ng-disabled="!vm.formPlanChile.$valid" aria-label="Crear Cta. Chile" type="submit"
       class="md-raised md-primary">

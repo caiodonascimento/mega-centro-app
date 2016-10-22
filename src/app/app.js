@@ -10,9 +10,11 @@
             event.preventDefault();
             $rootScope.$broadcast('event:start-logout');
           } else {
+            /*
             if (!Idle.running()) {
               Idle.watch();
             }
+            */
           }
         }
       }
@@ -27,7 +29,7 @@
       }
     );
     $rootScope.$on('IdleTimeout', function() {
-      $rootScope.$broadcast('event:start-logout');
+      //$rootScope.$broadcast('event:start-logout');
     });
   });
 })();
