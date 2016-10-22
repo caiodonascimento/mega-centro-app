@@ -13,14 +13,14 @@
     <md-toolbar show-xs show-sm class="sidebar-header header-cover" layout-padding>
       <md-button layout="row" ui-sref="home.perfil" ng-click="vm.seeProfile()">
         <i class="material-icons md-48" style="padding-right:5px;">account_circle</i>
-        <span hide-lg hide-md hide-sm>{{vm.user.username}}</span>
-        <span hide-xs>{{vm.user.username|limitTo:10}}</span>
-        <span hide-xs>{{vm.user.username.length > 10 ? '...' : ''}}</span>
+        <span hide-lg hide-md>{{vm.user.username}}</span>
+        <span hide-xs hide-sm>{{vm.user.username|limitTo:10}}</span>
+        <span hide-xs hide-sm>{{vm.user.username.length > 10 ? '...' : ''}}</span>
       </md-button>
     </md-toolbar>
   </header
   <md-content flex>
-    <md-button ng-repeat-start="item in vm.menuItems" layout="row" layout-align="start center"
+    <md-button ng-repeat-start="item in vm.menuItems | orderBy:'order'" layout="row" layout-align="start center"
       class="capitalize" ng-click="vm.selectItem(item)"
       ui-sref-active="md-warn" ui-sref="{{item.sref}}">
       <div class="md-tile-content">

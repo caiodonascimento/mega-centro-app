@@ -52,8 +52,8 @@
             if (state.current.name === 'home.plan-chile') {
                 state.go('home.plan-chile-data', {idEmpresa: vm.empresa.id});
             }
-            if (state.current.name === 'home.plan-origin') {
-                state.go('home.plan-origin-data', {idEmpresa: vm.cuenta.id});
+            if (state.current.name === 'home.plan-origen') {
+                state.go('home.plan-origen-data', {idCuenta: vm.cuenta});
             }
         }
 

@@ -1,9 +1,9 @@
-<div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
+<div class="table-responsive-vertical md-whiteframe-z1">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
       <span>Cuentas asociadas a {{vm.empresa.name}}</span>
       <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta"
-        ui-sref="home.plan-origen-nuevo({id: vm.cuenta.id})" ng-if="vm.viewAccess.canCreate===0">
+        ui-sref="home.plan-origen-nuevo({idCuenta: vm.chileanAccountId})" ng-if="vm.viewAccess.canCreate===0">
         <md-tooltip md-direction="bottom">
           Agregar Cuenta
         </md-tooltip>
@@ -66,5 +66,5 @@
   </table>
 </div>
 <md-progress-circular md-mode="indeterminate" class="md-primary center-loading" md-diameter="40px"
-  ng-show="vm.searchProcess && vm.loading">
+  ng-show="vm.loading">
 </md-progress-circular>

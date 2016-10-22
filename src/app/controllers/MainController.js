@@ -21,7 +21,6 @@
     vm.user = localStorage.getObject('currentUser');
     vm.exitToApp = exitToApp;
     vm.selectedItem = null;
-
     function exitToApp() {
       localStorage.clearAll();
       $state.go('login', {}, {location: 'replace'});
@@ -48,8 +47,8 @@
 
     function selectItem(item) {
       vm.selectedItem = item;
+      localStorage.setObject('selectedItem', vm.selectedItem);
       vm.toggleItemsList();
-      vm.showSimpleToast(vm.title);
     }
 
     function showSimpleToast(title) {
@@ -76,15 +75,15 @@
     });
 
     rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-      var item = vm.selectedItem;
-      console.log(item);
-      if (item === undefined || item === {} || item === null) {
+      var item = vm.selectedItem || localStorage.getObject('selectedItem');
+      if (!item || item === {}) {
         event.preventDefault();
         $state.go('home.inicio');
         return;
       }
       localStorage.setObject('selectedMenuItem', item.menuDetail[0]);
       vm.title = item.name;
+      vm.showSimpleToast(vm.title);
     });
   }
 

@@ -10,7 +10,7 @@
   </div>
 </md-toolbar>
 <md-content class="md-padding">
-  <form name="vm.formPlanChile" ng-submit="vm.createPlanCtaChile();" novalidate>
+  <form name="vm.formPlanChile" ng-submit="vm.createPlanCtaChile(); $event.stopPropagation();" novalidate>
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
           <md-input-container flex>
               <label>Empresa asociada</label>

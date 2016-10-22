@@ -1,0 +1,58 @@
+<md-toolbar md-scroll-shrink>
+    <div class="md-toolbar-tools">
+        <md-button class="md-fab md-mini" aria-label="Volver a Plan Cta. Origen" ui-sref="home.plan-origin">
+            <md-tooltip md-direction="bottom">
+                Volver
+            </md-tooltip>
+            <i class="material-icons">arrow_back</i>
+        </md-button>
+        <span>Datos del nuevo Plan Cta. Origen</span>
+    </div>
+</md-toolbar>
+<md-content class="md-padding">
+    <form name="vm.formPlanOrigin" ng-submit="vm.createPlanCtaOrigin();" novalidate>
+        <div layout layout-md="row" layout-sm="column" layout-xs="column">
+            <md-input-container flex>
+                <label>Cuenta</label>
+                <input type="text" name="cuenta" ng-model="vm.planCtaChile.account"
+                       limit-caracter="{{vm.formatosImputs.account.maxlength}}"
+                       caracter-restrict="{{vm.formatosImputs.account.pattern}}" required>
+                <div ng-messages="vm.formPlanChile.account.$error" role="alert"></div>
+            </md-input-container>
+            <md-input-container flex>
+                <label>Nombre</label>
+                <input type="text" name="nombre" ng-model="vm.planCtaChile.name"
+                       limit-caracter="{{vm.formatosImputs.name.maxlength}}"
+                       caracter-restrict="{{vm.formatosImputs.name.pattern}}" required>
+                <div ng-messages="vm.formPlanChile.name.$error" role="alert"></div>
+            </md-input-container>
+        </div>
+        <div layout layout-md="row" layout-sm="column" layout-xs="column">
+            <md-input-container flex>
+                <label>Nivel 1</label>
+                <input type="text" name="nivel1" ng-model="vm.planCtaChile.level1"
+                       limit-caracter="{{vm.formatosImputs.level1.maxlength}}"
+                       caracter-restrict="{{vm.formatosImputs.level1.pattern}}" required>
+                <div ng-messages="vm.formPlanChile.level1.$error" role="alert"></div>
+            </md-input-container>
+            <md-input-container flex>
+                <label>Nivel 2</label>
+                <input type="text" name="nivel2" ng-model="vm.planCtaChile.level2"
+                       limit-caracter="{{vm.formatosImputs.level2.maxlength}}"
+                       caracter-restrict="{{vm.formatosImputs.level2.pattern}}" required>
+                <div ng-messages="vm.formPlanChile.level2.$error" role="alert"></div>
+            </md-input-container>
+            <md-input-container flex>
+                <label>Nivel 3</label>
+                <input type="text" name="nivel3" ng-model="vm.planCtaChile.level3"
+                       limit-caracter="{{vm.formatosImputs.level3.maxlength}}"
+                       caracter-restrict="{{vm.formatosImputs.level3.pattern}}" required>
+                <div ng-messages="vm.formPlanChile.level3.$error" role="alert"></div>
+            </md-input-container>
+        </div>
+        <md-button ng-disabled="!vm.formPlanOrigin.$valid" aria-label="Crear Cta. Origen" type="submit"
+                   class="md-raised md-primary">
+            Crear Plan
+        </md-button>
+    </form>
+</md-content>

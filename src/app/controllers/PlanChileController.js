@@ -126,7 +126,6 @@
       vm.planCtaChile.enterpriseId = vm.empresa.id;
       planCtaChileService.insertPlanCtaChile(vm.planCtaChile)
       .then(function() {
-      console.log('Exito');
         rootScope.$broadcast(
           'event:toastMessage',
           'Plan Cta. de Chile registrada con éxito.',

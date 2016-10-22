@@ -10,12 +10,12 @@
 	function planCtaChileService($q, $http, apiRoutes) {
 		return {
 			loadAllPlanCtaChile : function(empresa) {
-				console.log(empresa);
 				return $q.when(
 					$http.get(
 						apiRoutes.chileanAccounts,
 						{
 							params: {
+								'filter[include]': 'enterprise',
 								'filter[where][and][0][enterpriseId]': empresa.id,
 								'filter[where][and][1][status]': 0
 							}
@@ -60,7 +60,12 @@
 			getById : function(id) {
 				return $q.when(
 					$http.get(
-						apiRoutes.chileanAccounts + '/' + id
+						apiRoutes.chileanAccounts + '/' + id,
+						{
+							params: {
+								'filter[include]': 'enterprise'
+							}
+						}
 					)
 				);
 			},

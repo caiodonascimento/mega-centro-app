@@ -29,6 +29,11 @@
         </tr>
       </thead>
       <tbody>
+        <tr ng-show="!vm.loading && vm.tableData.length===0">
+          <td colspan="6" style="text-align:center;">
+            No hay datos registrados
+          </td>
+        </tr>
         <tr></tr>
         <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
           <td data-title="ID">{{data.id}}</td>

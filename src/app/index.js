@@ -150,7 +150,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.plan-origen-editar', {
-        url: '/plan-origen/editar/{id}',
+        url: '/plan-origen/editar/{idCuentaOrigen}',
         controller: 'PlanOrigenEditarController',
         controllerAs: 'vm',
         templateUrl: 'app/views/forms/editar-plan-origen.html',

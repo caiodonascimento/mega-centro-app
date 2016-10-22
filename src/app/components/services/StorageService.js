@@ -56,7 +56,7 @@
       },
       setObject: function(key, objectToSet) {
         if (_.isEmpty(objectToSet)){
-          service.remove(key);
+          //service.remove(key);
           return false;
         }
         $window.localStorage[encrypt(key)] = JSON.stringify(encryptObject(angular.copy(objectToSet)));

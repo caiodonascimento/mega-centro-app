@@ -10,7 +10,7 @@
   </div>
 </md-toolbar>
 <md-content class="md-padding">
-  <form name="vm.formPlanOrigin" ng-submit="vm.createPlanCtaOrigin();" novalidate>
+  <form name="vm.formPlanOrigin" ng-submit="vm.createPlanCtaOrigin(); $event.stopPropagation();" novalidate>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Cuenta</label>

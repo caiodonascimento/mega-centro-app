@@ -5,7 +5,7 @@
     </div>
   </md-toolbar>
   <md-card-content ng-show="vm.viewSearch==='chilean'">
-    <form ng-submit="vm.filterAccounts(); $event.preventDefault();" name="searchFormChilean" novalidate>
+    <form ng-submit="vm.filterAccounts(); $event.preventDefault();" name="vm.searchFormChilean" novalidate>
       <md-autocomplete required flex
         md-input-name="empresa"
         md-selected-item="vm.empresa"

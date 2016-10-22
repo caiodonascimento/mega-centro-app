@@ -3,89 +3,75 @@
     angular
         .module('app')
         .controller('PlanOrigenController', [
-          '$q', 'empresasService', '$scope', 'planCtaChileService', 'planCtaOriginService', 'storageService',
-          PlanOrigenController
+            'planCtaChileService', 'planCtaOriginService', 'storageService', '$stateParams', '$state',
+            PlanOrigenController
         ])
         .controller('PlanOrigenNuevoController', [
-          PlanOrigenNuevoController
+            'planCtaChileService', '$stateParams', '$state',
+            PlanOrigenNuevoController
         ])
         .controller('PlanOrigenEditarController', [
           PlanOrigenEditarController
         ]);
 
-    function PlanOrigenController($q, empresasService, $scope, planCtaChileService, planCtaOriginService, localStorage) {
+    function PlanOrigenController(planCtaChileService, planCtaOriginService, localStorage, stateParams, state) {
         var vm = this;
-
-        vm.chileanAccounts = [];
-        vm.searchForm = {};
-        vm.searchText = null;
+        vm.chileanAccountId = '';
         vm.empresa = null;
-        vm.cuenta = null;
-        vm.querySearchEmpresa = querySearchEmpresa;
-        vm.searchProcess = false;
-        vm.filterAccounts = filterAccounts;
         vm.loading = false;
         vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
-        vm.errors = {
-          cuenta: false
-        };
         vm.cuentasOrigin = [];
 
-        function querySearchEmpresa(query) {
-          var defer = $q.defer();
-          empresasService.findLikeName(query)
-          .then(function (response) {
-            defer.resolve(response.data);
-          }, function (error) {
-            defer.reject([]);
-          });
-          return defer.promise;
-        }
-
-        function filterAccounts() {
-          if (vm.searchForm.$valid) {
-            vm.searchProcess = true;
+        function init() {
             vm.loading = true;
-            planCtaOriginService.loadAllPlanCtaOrigin(vm.cuenta)
+            planCtaOriginService.loadAllPlanCtaOrigin(vm.chileanAccountId)
             .then(function(result) {
               console.log(result);
               vm.cuentasOrigin = result.data;
               vm.loading = false;
             });
-          }
         }
-
-        function chargeAccounts(newValue) {
-          if (newValue === null) {
-            vm.errors.cuenta = false;
-            vm.cuenta = null;
-            vm.chileanAccounts = [];
-          } else {
-            vm.loading = true;
-            planCtaChileService.loadAllPlanCtaChile(newValue)
-            .then(function(result) {
-              vm.chileanAccounts = result.data;
-              if (vm.chileanAccounts.length === 0) {
-                vm.errors.cuenta = true;
-              } else {
-                vm.errors.cuenta = false;
-              }
-              vm.loading = false;
+        if (stateParams.idCuenta) {
+            vm.chileanAccountId = stateParams.idCuenta;
+            planCtaChileService.getById(vm.chileanAccountId)
+            .then(function(resultAccount) {
+                vm.empresa = resultAccount.data.enterprise;
             });
-          }
+            init();
+        } else {
+            state.go('home.plan-origen');
         }
-
-        $scope.$watch('vm.empresa', chargeAccounts);
     }
 
-    function PlanOrigenNuevoController() {
-      var vm = this;
+    function PlanOrigenNuevoController(planCtaChileService, stateParams, state) {
+        var vm = this;
+        if (stateParams.idCuenta) {
+            vm.chileanAccountId = stateParams.idCuenta;
+            planCtaChileService.getById(vm.chileanAccountId)
+            .then(function(resultAccount) {
+                vm.empresa = resultAccount.data.enterprise;
+            });
+        } else {
+            state.go('home.plan-origen');
+        }
+        vm.createPlanCtaOrigin = createPlanCtaOrigin;
+        function createPlanCtaOrigin() {
 
+        }
     }
 
     function PlanOrigenEditarController() {
-      var vm = this;
+        var vm = this;
 
+        function init() {
+
+        }
+        if (stateParams.idCuentaOrigen) {
+            vm.chileanAccountId = stateParams.idCuentaOrigen;
+            init();
+        } else {
+            state.go('home.plan-origen');
+        }
     }
 
 })();
