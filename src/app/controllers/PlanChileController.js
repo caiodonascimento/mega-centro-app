@@ -1,8 +1,8 @@
 (function(){
   angular
        .module('app')
-       .controller('PlanChileController', [ 'planCtaChileService', '$mdDialog',
-          '$rootScope', 'storageService', '$q', 'empresasService', '$stateParams',
+       .controller('PlanChileController', [ 'planCtaChileService', '$mdDialog', '$rootScope'
+          '$levelsService', 'storageService', '$q', 'empresasService', '$stateParams',
           PlanChileController
        ])
        .controller('NuevoPlanChileController', [ '$state', 'planCtaChileService', 'formatosImputs',
@@ -14,7 +14,7 @@
           EditarPlanChileController
        ]);
 
-  function PlanChileController(planCtaChileService, $mdDialog, rootScope, localStorage, $q, empresasService, $stateParams) {
+  function PlanChileController(planCtaChileService, $mdDialog, rootScope, levelsService, localStorage, $q, empresasService, $stateParams) {
       var vm = this;
       vm.loading = false;
       vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
@@ -89,8 +89,7 @@
                   .textContent('Plan Cta de Chile ' + planCtaChile.name + ' eliminada con éxito.')
                   .ok('Ok')
               );
-                  planCtaChile.loading = false;
-
+              planCtaChile.loading = false;
             },
             function(error) {
   						rootScope.$broadcast(
@@ -98,7 +97,7 @@
   							'Ha ocurrido un error, favor comunicarse con el administrador.',
   							'md-alert'
   						);
-                planCtaChile.loading = false;
+              planCtaChile.loading = false;
   					});
         },
         function() {

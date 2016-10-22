@@ -25,7 +25,6 @@
           <th>Nombre</th>
           <th>Nivel 1</th>
           <th>Nivel 2</th>
-          <th>Nivel 3</th>
           <th></th>
         </tr>
       </thead>
@@ -35,9 +34,8 @@
           <td data-title="ID">{{data.id}}</td>
           <td data-title="Cuenta">{{data.account}}</td>
           <td data-title="Nombre">{{data.name}}</td>
-          <td data-title="Nivel 1">{{data.level1}}</td>
-          <td data-title="Nivel 2">{{data.level2}}</td>
-          <td data-title="Nivel 3">{{data.level3}}</td>
+          <td data-title="Nivel 1">{{data.levels.name}}</td>
+          <td data-title="Nivel 2">{{data.levels.name}}</td>
           <td>
             <md-progress-circular md-mode="indeterminate" class="md-primary center-loading loading-row-table"
               md-diameter="35px" ng-show="data.loading">
