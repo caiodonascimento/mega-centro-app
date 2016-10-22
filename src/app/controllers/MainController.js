@@ -48,6 +48,8 @@
 
     function selectItem(item) {
       vm.selectedItem = item;
+      vm.toggleItemsList();
+      vm.showSimpleToast(vm.title);
     }
 
     function showSimpleToast(title) {
@@ -75,10 +77,14 @@
 
     rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
       var item = vm.selectedItem;
+      console.log(item);
+      if (item === undefined || item === {} || item === null) {
+        event.preventDefault();
+        $state.go('home.inicio');
+        return;
+      }
       localStorage.setObject('selectedMenuItem', item.menuDetail[0]);
       vm.title = item.name;
-      vm.toggleItemsList();
-      vm.showSimpleToast(vm.title);
     });
   }
 

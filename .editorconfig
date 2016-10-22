@@ -8,7 +8,7 @@ root = true
 [*]
 
 # Change for personal preference
-indent_size = 2
+indent_size = 4
 
 # Do not change
 indent_style = tab

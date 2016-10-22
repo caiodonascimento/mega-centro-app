@@ -11,6 +11,13 @@
 </md-toolbar>
 <md-content class="md-padding">
   <form name="vm.formPlanChile" ng-submit="vm.handleSubmit(); $event.stopPropagation();" novalidate>
+      <div layout layout-md="row" layout-sm="column" layout-xs="column">
+          <md-input-container flex>
+              <label>Empresa asociada</label>
+              <input type="text" name="empresa" ng-model="vm.empresa.name"
+                     disabled readonly>
+          </md-input-container>
+      </div>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Cuenta</label>
@@ -26,24 +33,42 @@
       </md-input-container>
     </div>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
-      <md-input-container flex>
-        <label>Nivel 1</label>
-        <input type="text" name="level1" ng-model="vm.planCtaChile.level1"
-         limit-caracter="{{vm.formatosImputs.level1.maxlength}}"
-         caracter-restrict="{{vm.formatosImputs.level1.pattern}}" required>
-      </md-input-container>
-      <md-input-container flex>
-        <label>Nivel 2</label>
-        <input type="text" name="level2" ng-model="vm.planCtaChile.level2"
-         limit-caracter="{{vm.formatosImputs.level2.maxlength}}"
-         caracter-restrict="{{vm.formatosImputs.level2.pattern}}" required>
-      </md-input-container>
-      <md-input-container flex>
-        <label>Nivel 3</label>
-        <input type="text" name="level3" ng-model="vm.planCtaChile.level3"
-         limit-caracter="{{vm.formatosImputs.level3.maxlength}}"
-         caracter-restrict="{{vm.formatosImputs.level3.pattern}}" required>
-      </md-input-container>
+        <md-autocomplete required flex
+            md-input-name="level1"
+            md-selected-item="vm.planCtaChile.level1"
+            md-search-text="vm.searchText1"
+            md-no-cache="true"
+            md-items="item in vm.querySearchNiveles(vm.searchText1, 1)"
+            md-item-text="item.name"
+            md-require-match
+            md-floating-label="Nivel 1">
+          <md-item-template>
+            <span md-highlight-text="vm.searchText1">
+              {{item.name}}
+            </span>
+          </md-item-template>
+            <md-not-found>
+              No hay niveles con el nombre indicado.
+            </md-not-found>
+        </md-autocomplete>
+        <md-autocomplete required flex
+            md-input-name="level2"
+            md-selected-item="vm.planCtaChile.level2"
+            md-search-text="vm.searchText2"
+            md-no-cache="true"
+            md-items="item in vm.querySearchNiveles(vm.searchText2, 2)"
+            md-item-text="item.name"
+            md-require-match
+            md-floating-label="Nivel 2">
+          <md-item-template>
+            <span md-highlight-text="vm.searchText2">
+              {{item.name}}
+            </span>
+          </md-item-template>
+          <md-not-found>
+            No hay niveles con el nombre indicado.
+          </md-not-found>
+        </md-autocomplete>
     </div>
     <md-button ng-disabled="vm.formPlanChile.$invalid || vm.formPlanChile.$pristine"
       aria-label="Guardar" type="submit" class="md-raised md-primary">

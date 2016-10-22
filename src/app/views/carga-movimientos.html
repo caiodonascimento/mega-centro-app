@@ -121,17 +121,17 @@
     </ul>
   </md-card-content>
   <md-card-actions layout="row" layout-align="end center" ng-show="vm.carga.file.length !== vm.correctResults.length">
-    <md-button class="md-primary md-raised" aria-label="Favorite">
+    <md-button class="md-primary md-raised" aria-label="Favorite" ng-click="vm.continuarCarga()">
       Obviar y continuar
     </md-button>
-    <md-button class="md-warn md-raised" aria-label="Settings">
+    <md-button class="md-warn md-raised" aria-label="Settings" ng-click="vm.cancelarCarga()">
       Cancelar carga
     </md-button>
   </md-card-actions>
   <md-card-content ng-hide="vm.carga.file.length !== vm.correctResults.length">
     <i class="material-icons">done_all</i>
     <span class="md-title" style="color:white;">
-      La carga ha tenido un 100% de éxito, ¡recordar finalizar la carga!
+      La carga ha tenido un 100% de éxito, ¡recuerda finalizar la carga!
     </span>
   </md-card-content>
 </md-card>
@@ -145,7 +145,10 @@
         <i class="material-icons">arrow_back</i>
       </md-button>
       <span>Datos desde del archivo</span>
-      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta">
+      <md-progress-circular md-mode="indeterminate" class="md-warn" md-diameter="40px" ng-show="vm.loadingFinish" style="position: absolute;right: 20px;">
+      </md-progress-circular>
+      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta" ng-disabled="!vm.activarFinalizados"
+        ng-hide="vm.loadingFinish" ng-click="vm.finishCharge()">
         <md-tooltip md-direction="bottom">
           Finalizar carga
         </md-tooltip>

@@ -24,6 +24,8 @@
     vm.filename = '';
     vm.searchProcess = false;
     vm.searchProcessResult = false;
+    vm.activarFinalizados = false;
+    vm.loadingFinish = false;
     vm.searchText = null;
     vm.promise = null;
     vm.querySearchEmpresa = querySearchEmpresa;
@@ -133,6 +135,8 @@
         vm.loadingCarga = false;
       }, 1500);
     };
+    vm.continuarCarga = continuarCarga;
+    vm.finishCharge = finishCharge;
 
     function getResults() {
       vm.promise = $q.when(
@@ -310,6 +314,34 @@
       });
     }
 
+    function continuarCarga() {
+      vm.searchProcessResult = false;
+      vm.activarFinalizados = true;
+    }
+
+    function finishCharge() {
+      vm.loadingFinish = true;
+      console.log(vm.currentCharge);
+      cargaService.finishCharge(vm.currentCharge.id)
+      .then(function() {
+        $timeout(function() {
+          vm.searchProcessResult = false;
+          vm.carga = angular.copy(oriCarga);
+          vm.erroresCarga = angular.copy(erroresCargaOri);
+          vm.filename = '';
+          vm.searchProcess = false;
+          vm.cargaForm.$setPristine();
+          vm.cargaForm.$setUntouched();
+          rootScope.$broadcast(
+              'event:toastMessage',
+              'Carga finalizada con éxito.',
+              'md-primary'
+          );
+          vm.loadingFinish = false;
+        }, 1500);
+      });
+    }
+
     scope.$on('event:end-carga', function() {
       if (vm.correctResults.length === 0) {
         rootScope.$broadcast(
@@ -325,8 +357,10 @@
         );
         if (vm.carga.file.length !== vm.correctResults.length) {
           vm.colorResult = 'red-300';
+          vm.activarFinalizados = false;
         } else {
           vm.colorResult = 'green-300';
+          vm.activarFinalizados = true;
         }
         vm.searchProcessResult = true;
         vm.searchProcess = true;
