@@ -23,14 +23,14 @@
 					)
 				);
 			},
-			insertPlanCtaOrigin : function(planCtaChile) {
+			insertPlanCtaOrigin : function(planCtaOrigin) {
 				var now = new Date();
 				var data = {
                 	account: planCtaOrigin.account,
 					name: planCtaOrigin.name,
                 	status: 0,
             		createDate: new Date(),
-            		chileanAccountId: planCtaOrigin.chileanAccount.id
+            		chileanAccountId: planCtaOrigin.chileanAccountId
 				};
 				return $q.when(
 					$http.post(

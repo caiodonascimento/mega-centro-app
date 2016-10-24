@@ -1,6 +1,6 @@
 (function(){
   'use strict';
-  var hostServer = 'https://megacentroapi-mosschile.rhcloud.com/api'
+  var hostServer = 'http://localhost:3000/api';//'https://megacentroapi-mosschile.rhcloud.com/api';
   angular.module('app')
     .constant('apiRoutes', {
       usuarios: hostServer + '/users',

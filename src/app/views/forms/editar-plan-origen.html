@@ -1,6 +1,6 @@
 <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
-        <md-button class="md-fab md-mini" aria-label="Volver a Plan Cta. Origen" ui-sref="home.plan-origin">
+        <md-button class="md-fab md-mini" aria-label="Volver a Plan Cta. Origen" ui-sref="home.plan-origen-data({idCuenta: vm.chileanAccountId})">
             <md-tooltip md-direction="bottom">
                 Volver
             </md-tooltip>
@@ -10,49 +10,34 @@
     </div>
 </md-toolbar>
 <md-content class="md-padding">
-    <form name="vm.formPlanOrigin" ng-submit="vm.createPlanCtaOrigin();" novalidate>
+    <form name="vm.formPlanOrigin" ng-submit="vm.guardarPlanCtaOrigin(); $event.stopPropagation();" novalidate>
+        <div layout layout-md="row" layout-sm="column" layout-xs="column">
+            <md-input-container flex>
+                <label>Empresa</label>
+                <input type="text" name="empresa" ng-model="vm.empresa.name" ng-disabled="true">
+            </md-input-container>
+            <md-input-container flex>
+                <label>Cuenta de Destino</label>
+                <input type="text" name="nombre" ng-model="vm.cuenta.name" ng-disabled="true">
+            </md-input-container>
+        </div>
         <div layout layout-md="row" layout-sm="column" layout-xs="column">
             <md-input-container flex>
                 <label>Cuenta</label>
-                <input type="text" name="cuenta" ng-model="vm.planCtaChile.account"
+                <input type="text" name="cuenta" ng-model="vm.planCtaOrigen.account"
                        limit-caracter="{{vm.formatosImputs.account.maxlength}}"
                        caracter-restrict="{{vm.formatosImputs.account.pattern}}" required>
-                <div ng-messages="vm.formPlanChile.account.$error" role="alert"></div>
             </md-input-container>
             <md-input-container flex>
                 <label>Nombre</label>
-                <input type="text" name="nombre" ng-model="vm.planCtaChile.name"
+                <input type="text" name="nombre" ng-model="vm.planCtaOrigen.name"
                        limit-caracter="{{vm.formatosImputs.name.maxlength}}"
                        caracter-restrict="{{vm.formatosImputs.name.pattern}}" required>
-                <div ng-messages="vm.formPlanChile.name.$error" role="alert"></div>
             </md-input-container>
         </div>
-        <div layout layout-md="row" layout-sm="column" layout-xs="column">
-            <md-input-container flex>
-                <label>Nivel 1</label>
-                <input type="text" name="nivel1" ng-model="vm.planCtaChile.level1"
-                       limit-caracter="{{vm.formatosImputs.level1.maxlength}}"
-                       caracter-restrict="{{vm.formatosImputs.level1.pattern}}" required>
-                <div ng-messages="vm.formPlanChile.level1.$error" role="alert"></div>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Nivel 2</label>
-                <input type="text" name="nivel2" ng-model="vm.planCtaChile.level2"
-                       limit-caracter="{{vm.formatosImputs.level2.maxlength}}"
-                       caracter-restrict="{{vm.formatosImputs.level2.pattern}}" required>
-                <div ng-messages="vm.formPlanChile.level2.$error" role="alert"></div>
-            </md-input-container>
-            <md-input-container flex>
-                <label>Nivel 3</label>
-                <input type="text" name="nivel3" ng-model="vm.planCtaChile.level3"
-                       limit-caracter="{{vm.formatosImputs.level3.maxlength}}"
-                       caracter-restrict="{{vm.formatosImputs.level3.pattern}}" required>
-                <div ng-messages="vm.formPlanChile.level3.$error" role="alert"></div>
-            </md-input-container>
-        </div>
-        <md-button ng-disabled="!vm.formPlanOrigin.$valid" aria-label="Crear Cta. Origen" type="submit"
+        <md-button ng-disabled="!vm.formPlanOrigin.$valid" aria-label="Guardar" type="submit"
                    class="md-raised md-primary">
-            Crear Plan
+            Guardar
         </md-button>
     </form>
 </md-content>

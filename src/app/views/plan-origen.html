@@ -30,7 +30,7 @@
       <tr></tr>
       <tr class="tr-with-btn" ng-repeat="data in vm.cuentasOrigin track by $index">
         <td data-title="ID">{{data.id}}</td>
-        <td data-title="Cuenta">{{data.accont}}</td>
+        <td data-title="Cuenta">{{data.account}}</td>
         <td data-title="Nombre">{{data.name}}</td>
         <td data-title="Cuenta Destino">{{data.chileanAccount.name}}</td>
         <td>
@@ -47,7 +47,7 @@
             </md-button>
             <md-menu-content>
               <md-menu-item ng-if="vm.viewAccess.canEdit===0">
-                <md-button ui-sref="home.plan-origen-editar({id: data.id})">
+                <md-button ui-sref="home.plan-origen-editar({idCuentaOrigen: data.id})">
                   <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
                   Editar
                 </md-button>
