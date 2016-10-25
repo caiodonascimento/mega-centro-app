@@ -69,72 +69,7 @@
     </form>
   </md-card-content>
 </md-card>
-<md-card md-colors="{background: vm.colorResult }" ng-show="vm.searchProcessResult" class="result-charge-card">
-  <md-card-content ng-show="vm.carga.file.length !== vm.correctResults.length">
-    <span class="md-title" style="color:white;">
-      <md-icon class="material-icons">report_problem</md-icon>
-      Carga con errores:
-    </span>
-    <ul style="color:white;">
-      <li ng-show="vm.erroresCarga.dateLess > 0">
-        Filas sin valor en la columan "Date": {{vm.erroresCarga.dateLess}}
-      </li>
-      <li ng-show="vm.erroresCarga.numLess > 0">
-        Filas sin valor en la columan "Num": {{vm.erroresCarga.numLess}}
-      </li>
-      <li ng-show="vm.erroresCarga.nameLess > 0">
-        Filas sin valor en la columan "Name": {{vm.erroresCarga.nameLess}}
-      </li>
-      <li ng-show="vm.erroresCarga.memoLess > 0">
-        Filas sin valor en la columan "Memo": {{vm.erroresCarga.memoLess}}
-      </li>
-      <li ng-show="vm.erroresCarga.accountLess > 0">
-        Filas sin valor en la columan "Account": {{vm.erroresCarga.accountLess}}
-      </li>
-      <li ng-show="vm.erroresCarga.splitLess > 0">
-        Filas sin valor en la columan "Split": {{vm.erroresCarga.splitLess}}
-      </li>
-      <li ng-show="vm.erroresCarga.amountLess > 0">
-        Filas sin valor en la columan "Amount": {{vm.erroresCarga.amountLess}}
-      </li>
-      <li ng-show="vm.erroresCarga.tcLess > 0">
-        Filas sin valor en la columan "TC": {{vm.erroresCarga.tcLess}}
-      </li>
-      <li ng-show="vm.erroresCarga.liabilitiesLess > 0">
-        Filas sin valor en la columan "Pesos Liabilities": {{vm.erroresCarga.liabilitiesLess}}
-      </li>
-      <li ng-show="vm.erroresCarga.dateFail > 0">
-        Filas con la columan "Date" sin formato de fecha válido: {{vm.erroresCarga.dateFail}}
-      </li>
-      <li ng-show="vm.erroresCarga.notYear > 0">
-        Filas con año diferente al seleccionado para la carga ({{vm.carga.year}}): {{vm.erroresCarga.notYear}}
-      </li>
-      <li ng-show="vm.erroresCarga.notMonth > 0">
-        Filas con mes diferente al seleccionado para la carga ({{vm.months[vm.carga.month-1].name}}): {{vm.erroresCarga.notMonth}}
-      </li>
-      <li ng-show="vm.erroresCarga.amountFail > 0">
-        Filas con la columan "Amount" no numérico: {{vm.erroresCarga.amountFail}}
-      </li>
-      <li ng-show="vm.erroresCarga.liabilitiesFail > 0">
-        Filas con la columan "Pesos Liabilities" no numérico: {{vm.erroresCarga.liabilitiesFail}}
-      </li>
-    </ul>
-  </md-card-content>
-  <md-card-actions layout="row" layout-align="end center" ng-show="vm.carga.file.length !== vm.correctResults.length">
-    <md-button class="md-primary md-raised" aria-label="Favorite" ng-click="vm.continuarCarga()">
-      Obviar y continuar
-    </md-button>
-    <md-button class="md-warn md-raised" aria-label="Settings" ng-click="vm.cancelarCarga()">
-      Cancelar carga
-    </md-button>
-  </md-card-actions>
-  <md-card-content ng-hide="vm.carga.file.length !== vm.correctResults.length">
-    <i class="material-icons">done_all</i>
-    <span class="md-title" style="color:white;">
-      La carga ha tenido un 100% de éxito, ¡recuerda finalizar la carga!
-    </span>
-  </md-card-content>
-</md-card>
+
 <div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">

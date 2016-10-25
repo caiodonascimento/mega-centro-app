@@ -1,12 +1,12 @@
 <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
-        <md-button class="md-fab md-mini" aria-label="Volver a Plan Cta. Origen" ui-sref="home.plan-origen-data({idCuenta: vm.chileanAccountId})">
+        <md-button class="md-fab md-mini" aria-label="Volver a Plan Cta. Origen" ui-sref="home.plan-origen-data({idCuenta: vm.planCtaOrigin.chileanAccount.id})">
             <md-tooltip md-direction="bottom">
                 Volver
             </md-tooltip>
             <i class="material-icons">arrow_back</i>
         </md-button>
-        <span>Datos del nuevo Plan Cta. Origen</span>
+        <span>Datos del Plan Cta. Origen {{vm.planCtaOrigin.name}}</span>
     </div>
 </md-toolbar>
 <md-content class="md-padding">
@@ -14,23 +14,23 @@
         <div layout layout-md="row" layout-sm="column" layout-xs="column">
             <md-input-container flex>
                 <label>Empresa</label>
-                <input type="text" name="empresa" ng-model="vm.empresa.name" ng-disabled="true">
+                <input type="text" name="empresa" ng-model="vm.planCtaOrigin.chileanAccount.enterprise.name" ng-disabled="true">
             </md-input-container>
             <md-input-container flex>
                 <label>Cuenta de Destino</label>
-                <input type="text" name="nombre" ng-model="vm.cuenta.name" ng-disabled="true">
+                <input type="text" name="nombre" ng-model="vm.planCtaOrigin.chileanAccount.name" ng-disabled="true">
             </md-input-container>
         </div>
         <div layout layout-md="row" layout-sm="column" layout-xs="column">
             <md-input-container flex>
                 <label>Cuenta</label>
-                <input type="text" name="cuenta" ng-model="vm.planCtaOrigen.account"
+                <input type="text" name="cuenta" ng-model="vm.planCtaOrigin.account"
                        limit-caracter="{{vm.formatosImputs.account.maxlength}}"
                        caracter-restrict="{{vm.formatosImputs.account.pattern}}" required>
             </md-input-container>
             <md-input-container flex>
                 <label>Nombre</label>
-                <input type="text" name="nombre" ng-model="vm.planCtaOrigen.name"
+                <input type="text" name="nombre" ng-model="vm.planCtaOrigin.name"
                        limit-caracter="{{vm.formatosImputs.name.maxlength}}"
                        caracter-restrict="{{vm.formatosImputs.name.pattern}}" required>
             </md-input-container>

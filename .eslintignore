@@ -1,8 +1,0 @@
-node_modules/**,js
-gulp/**.js
-e2e/**.js
-gulpfile.js
-karma.conf.js
-protractor.conf.js
-.tmp/**.js
-.sass-cache/**.js

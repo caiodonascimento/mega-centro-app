@@ -42,9 +42,7 @@
 			updatePlanCtaOrigin : function(planCtaOrigin) {
 				var data = {
 					account: planCtaOrigin.account,
-					name: planCtaOrigin.name,
-					createDate: new Date(),
-					chileanAccountId: planCtaOrigin.chileanAccount.id
+					name: planCtaOrigin.name
 				};
 				return $q.when(
 					$http.put(
@@ -59,7 +57,8 @@
 						apiRoutes.originAccounts + '/' + id,
 						{
 							params: {
-								'filter[include]': 'chileanAccount'
+								//'filter[include]': 'chileanAccount',
+								'filter[include][chileanAccount]': 'enterprise'
 							}
 						}
 					)

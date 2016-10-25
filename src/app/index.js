@@ -176,6 +176,42 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Carga de Movimientos'
         }
       })
+      .state('home.gestion-movimientos', {
+        url: '/gestion-movimientos',
+        templateUrl: 'app/views/gestion-movimientos.html',
+        controller: 'ConsultaMovimientosController',
+        controllerAs: 'vm',
+        data: {
+          title: 'Gestión de Movimientos'
+        }
+      })
+      .state('home.gestion-movimientos-data', {
+        url: '/gestion-movimientos/{idEmpresa}/{year}/{month}',
+        templateUrl: 'app/views/gestion-movimientos-data.html',
+        controller: 'GestionMovimientosController',
+        controllerAs: 'vm',
+        data: {
+          title: 'Gestión de Movimientos'
+        }
+      })
+      .state('home.balance-ev', {
+        url: '/balance-ev',
+        templateUrl: 'app/views/balance-ev.html',
+        controller: 'BalanceEvolutivoController',
+        controllerAs: 'vm',
+        data: {
+          title: 'Balance Evolutivo'
+        }
+      })
+      .state('home.genera-archivo', {
+        url: '/genera-archivo',
+        templateUrl: 'app/views/genera-archivo.html',
+        controller: 'GeneraArchivoController',
+        controllerAs: 'vm',
+        data: {
+          title: 'Genera Archivo'
+        }
+      })
       .state('home.levels', {
         url: '/levels',
         controller: 'LevelController',
@@ -202,8 +238,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         data: {
           title: 'Niveles',
         }
-      })
-      ;
+      });
     $urlRouterProvider.otherwise('/inicio');
 
     $httpProvider.defaults.useXDomain = true;

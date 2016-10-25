@@ -7,10 +7,11 @@
             PlanOrigenController
         ])
         .controller('PlanOrigenNuevoController', [
-            'planCtaChileService', '$stateParams', '$state', 'planCtaOriginService',
+            'planCtaChileService', '$stateParams', '$state', 'planCtaOriginService', '$rootScope',
             PlanOrigenNuevoController
         ])
         .controller('PlanOrigenEditarController', [
+          '$stateParams', '$state', 'planCtaOriginService', '$rootScope',
           PlanOrigenEditarController
         ]);
 
@@ -76,7 +77,6 @@
             vm.loading = true;
             planCtaOriginService.loadAllPlanCtaOrigin(vm.chileanAccountId)
             .then(function(result) {
-              console.log(result);
               vm.cuentasOrigin = result.data;
               vm.loading = false;
             });
@@ -94,7 +94,7 @@
         }
     }
 
-    function PlanOrigenNuevoController(planCtaChileService, stateParams, state, planCtaOrigenService) {
+    function PlanOrigenNuevoController(planCtaChileService, stateParams, state, planCtaOrigenService, rootScope) {
         var vm = this;
 
         vm.planCtaOrigen = {
@@ -118,23 +118,46 @@
             vm.planCtaOrigen.chileanAccountId = vm.chileanAccountId;
             planCtaOrigenService.insertPlanCtaOrigin(vm.planCtaOrigen)
                 .then(function(response) {
-                    vm.loading = true;
+                    vm.loading = false;
+                    rootScope.$broadcast(
+                      'event:toastMessage',
+                      'Plan Cta. de Origen registrada con éxito.',
+                      'md-primary'
+                    );
                     state.go('home.plan-origen-data', {idCuenta: vm.chileanAccountId});
                 });
         }
     }
 
-    function PlanOrigenEditarController() {
+    function PlanOrigenEditarController(stateParams, state, planCtaOriginService, rootScope) {
         var vm = this;
 
+        vm.guardarPlanCtaOrigin = guardarPlanCtaOrigin;
+        function guardarPlanCtaOrigin() {
+          vm.loading = true;
+          planCtaOriginService.updatePlanCtaOrigin(vm.planCtaOrigin)
+          .then(function(response) {
+            vm.loading = false;
+            rootScope.$broadcast(
+              'event:toastMessage',
+              'Datos guardados con éxito.',
+              'md-primary'
+            );
+            state.go('home.plan-origen-data', {idCuenta: vm.planCtaOrigin.chileanAccount.id});
+          });
+        }
         function init() {
-            
+          planCtaOriginService.getById(vm.chileanAccountId)
+          .then(function(response) {
+            console.log(response);
+            vm.planCtaOrigin = response.data;
+          });
         }
         if (stateParams.idCuentaOrigen) {
-            vm.chileanAccountId = stateParams.idCuentaOrigen;
-            init();
+          vm.chileanAccountId = stateParams.idCuentaOrigen;
+          init();
         } else {
-            state.go('home.plan-origen');
+          state.go('home.plan-origen');
         }
     }
 
