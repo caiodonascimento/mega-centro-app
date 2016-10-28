@@ -1,0 +1,20 @@
+<md-dialog aria-label="vm.title">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h3>{{vm.title}}</h3>
+      <md-button class="md-icon-button" ng-click="vm.close()" ng-show="vm.withClose">
+        <md-icon class="material-icons">close</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <md-dialog-content>
+    <div class="md-dialog-content">
+      <p ng-bind-html="vm.content"></p>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout="row" ng-show="vm.withAction">
+    <md-button ng-click="vm.action()" class="md-primary md-raised">
+      {{vm.textAction}}
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

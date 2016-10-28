@@ -184,6 +184,7 @@
 
     function handleSubmitCarga() {
       vm.loadingCarga = true;
+      /*
       _.forEach(vm.carga.file, function(value, index) {
         var result = true;
         if (!value.hasOwnProperty('Date')) {
@@ -248,6 +249,20 @@
           return result;
         }
         vm.correctResults.push(value);
+      });
+      */
+      vm.correctResults = vm.carga.file.map(function(value) {
+        return {
+          Date: value.Date || '',
+          Num: value.Num || '',
+          Name: value.Name || '',
+          Memo: value.Memo || '',
+          Account: value.Account || '',
+          Split: value.Split || '',
+          Amount: value.Amount || '0',
+          TC: value.TC || '',
+          'Pesos Liabilities': value['Pesos Liabilities'] || '0'
+        }
       });
       upCharge();
     }
