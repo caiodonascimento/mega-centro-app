@@ -53,12 +53,14 @@
       <md-input-container flex>
         <label>Contraseña</label>
         <input type="password" name="password" ng-model="vm.user.password"
-         limit-caracter="{{vm.formatosImputs.password.maxlength}}" required>
+         limit-caracter="{{vm.formatosImputs.password.maxlength}}"
+         caracter-restrict="{{vm.formatosImputs.password.pattern}}" required>
       </md-input-container>
       <md-input-container flex>
         <label>Repetir contraseña</label>
         <input type="password" name="rewritePassword" ng-model="vm.user.rewritePassword"
-         limit-caracter="{{vm.formatosImputs.rewritePassword.maxlength}}" required>
+         limit-caracter="{{vm.formatosImputs.rewritePassword.maxlength}}"
+         caracter-restrict="{{vm.formatosImputs.rewritePassword.pattern}}" required>
       </md-input-container>
     </div>
     <div layout="row" flex>
