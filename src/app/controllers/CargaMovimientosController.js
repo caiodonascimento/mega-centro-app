@@ -3,23 +3,21 @@
   angular
     .module('app')
     .controller('CargaMovimientosController', [
-      '$q', 'empresasService', '$rootScope', '$timeout', '$scope', 'cargaService', '$mdDialog', '$state',
+      '$q', 'empresasService', '$rootScope', '$timeout', '$scope', 'cargaService',
+      '$mdDialog', '$state', 'commonService', 'storageService',
       CargaMovimientosController
     ]);
 
-  function CargaMovimientosController($q, empresasService, rootScope, $timeout, scope, cargaService, $mdDialog, state) {
+  function CargaMovimientosController($q, empresasService, rootScope, $timeout,
+    scope, cargaService, $mdDialog, state, commonService, localStorage) {
     var vm = this;
     vm.handleSubmitCarga = handleSubmitCarga;
     vm.cargaForm = {};
     vm.carga = {
       empresa: '',
-      year: '',
-      month: '',
       file: []
     };
-    vm.currentCharge = {
-      id: 0
-    }
+    vm.currentCharge = {};
     var oriCarga = angular.copy(vm.carga);
     vm.filename = '';
     vm.searchProcess = false;
@@ -30,57 +28,6 @@
     vm.promise = null;
     vm.querySearchEmpresa = querySearchEmpresa;
     vm.upload = upload;
-    vm.years = years;
-    vm.months = [
-      {
-        id: 1,
-        name: 'Enero'
-      },
-      {
-        id: 2,
-        name: 'Febrero'
-      },
-      {
-        id: 3,
-        name: 'Marzo'
-      },
-      {
-        id: 4,
-        name: 'Abril'
-      },
-      {
-        id: 5,
-        name: 'Mayo'
-      },
-      {
-        id: 6,
-        name: 'Junio'
-      },
-      {
-        id: 7,
-        name: 'Julio'
-      },
-      {
-        id: 8,
-        name: 'Agosto'
-      },
-      {
-        id: 9,
-        name: 'Septiembre'
-      },
-      {
-        id: 10,
-        name: 'Octubre'
-      },
-      {
-        id: 11,
-        name: 'Noviembre'
-      },
-      {
-        id: 12,
-        name: 'Diciembre'
-      }
-    ];
     vm.colorResult = 'green-300';
     vm.selected = [];
     vm.correctResults = [];
@@ -90,25 +37,10 @@
       limit: 5,
       page: 1
     };
-    vm.erroresCarga = {
-      dateLess: 0,
-      numLess: 0,
-      nameLess: 0,
-      memoLess: 0,
-      accountLess: 0,
-      splitLess: 0,
-      amountLess: 0,
-      tcLess: 0,
-      liabilitiesLess: 0,
-      dateFail: 0,
-      notYear: 0,
-      notMonth: 0,
-      amountFail: 0,
-      liabilitiesFail: 0,
-      notPushed: []
-    };
-    var erroresCargaOri = angular.copy(vm.erroresCarga);
-    vm.mimeTypes = 'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
+    vm.arrayExito = [];
+    vm.arrayErrores = [];
+    vm.mimeTypes =
+      'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     vm.loadingCarga = false;
     vm.getResults = getResults;
     vm.cancelarCarga = cancelarCarga;
@@ -117,13 +49,15 @@
       var data = e.target.result;
       var workbook = XLSX.read(data, {type: 'binary'});
       workbook.SheetNames.forEach(function(sheetName) {
-        vm.carga.file = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+        vm.carga.file =
+          XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
       });
     };
     vm.reader.onerror = function(e) {
       rootScope.$broadcast(
         'event:toastMessage',
-        'Hubo un error al leer el archivo, favor comunicarse con un Administardor.',
+        'Hubo un error al leer el archivo, ' +
+          'favor comunicarse con un Administardor.',
         'md-primary'
       );
     };
@@ -159,98 +93,70 @@
       return defer.promise;
     }
 
-    function years() {
-      var array = [];
-      var yearInit = parseInt((new Date()).getFullYear()) - 3;
-      var yearFinish = parseInt((new Date()).getFullYear());
-      for (var intervalo = 0; intervalo <= yearFinish - yearInit; intervalo++) {
-        array.push(yearInit + intervalo);
-      }
-      return array;
+    function upTransactions(transactions) {
+      cargaService.saveAccountTransaction(
+        transactions,
+        vm.currentCharge.id
+      ).then(function(resultadoFilas) {
+        console.log(resultadoFilas);
+        vm.arrayExito = [];
+        vm.arrayErrores = [];
+        _.forEach(resultadoFilas, function(fila) {
+          if (fila.status === 200) {
+            vm.arrayExito.push(fila.data);
+            var index = _.indexOf(vm.correctResults, {
+              Date: fila.data.Date,
+              Num: fila.data.Num,
+              Name: fila.data.Name,
+              Memo: fila.data.Memo,
+              Account: fila.data.Account,
+              Split: fila.data.Split,
+              Amount: fila.data.Amount,
+              TC: fila.data.TC,
+              'Pesos Liabilities': fila.data.liabilities
+            })
+            /*
+            if (index !== -1) {
+              correctResults.splice(index, 1);
+            }
+            */
+          } else {
+            console.log(fila);
+          }
+        });
+        vm.arrayErrores = vm.correctResults;
+        rootScope.$broadcast('event:end-carga');
+      });
     }
 
     function upCharge() {
+      vm.carga.user = localStorage.getObject('currentUser');
       cargaService.generateHeader(vm.carga)
       .then(function(resultadoHeader) {
         console.log(resultadoHeader);
-        vm.currentCharge = resultadoHeader.data;
-        cargaService.saveAccountTransaction(vm.correctResults, vm.currentCharge.id)
-        .then(function(resultadoFilas) {
-          console.log(resultadoFilas);
-          rootScope.$broadcast('event:end-carga');
-        });
+        if (resultadoHeader.status === 200) {
+          vm.currentCharge = resultadoHeader.data;
+          upTransactions(vm.correctResults);
+        } else {
+          rootScope.$broadcast(
+            'event:toastMessage',
+            'La carga no se ha podido llevar a cabo por falta de internet, ' +
+              'favor revisar su conexión y volver a intentarlo.',
+            'md-primary'
+          );
+        }
+      }, function(error) {
+        rootScope.$broadcast(
+          'event:toastMessage',
+          'La carga no se ha podido llevar a cabo por falta de internet, ' +
+            'favor revisar su conexión y volver a intentarlo.',
+          'md-primary'
+        );
       });
     }
 
     function handleSubmitCarga() {
       vm.loadingCarga = true;
-      /*
-      _.forEach(vm.carga.file, function(value, index) {
-        var result = true;
-        if (!value.hasOwnProperty('Date')) {
-          result = false;
-        }
-        if (!value.hasOwnProperty('Num')) {
-          vm.erroresCarga.numLess++;
-          result = false;
-        }
-        if (!value.hasOwnProperty('Name')) {
-          vm.erroresCarga.nameLess++;
-          result = false;
-        }
-        if (!value.hasOwnProperty('Memo')) {
-          vm.erroresCarga.memoLess++;
-          result = false;
-        }
-        if (!value.hasOwnProperty('Account')) {
-          vm.erroresCarga.accountLess++;
-          result = false;
-        }
-        if (!value.hasOwnProperty('Split')) {
-          vm.erroresCarga.splitLess++;
-          result = false;
-        }
-        if (!value.hasOwnProperty('Amount')) {
-          vm.erroresCarga.amountLess++;
-          result = false;
-        }
-        if (!value.hasOwnProperty('TC')) {
-          vm.erroresCarga.tcLess++;
-          result = false;
-        }
-        if (!value.hasOwnProperty('Pesos Liabilities')) {
-          vm.erroresCarga.liabilitiesLess++;
-          result = false;
-        }
-        var date = new Date(value.Date);
-        if (date === null || date === undefined) {
-          vm.erroresCarga.dateFail++;
-          result = false;
-        }
-        if (date.getFullYear() !== vm.carga.year) {
-          vm.erroresCarga.notYear++;
-          result = false;
-        }
-        if (date.getMonth()+1 !== vm.carga.month) {
-          vm.erroresCarga.notMonth++;
-          result = false;
-        }
-        var amount = parseInt(value.Amount, 10);
-        if (!_.isNumber(amount)) {
-          vm.erroresCarga.amountFail++;
-          result = false;
-        }
-        var liabilities = parseInt(value['Pesos Liabilities'], 10);
-        if (!_.isNumber(liabilities)) {
-          vm.erroresCarga.liabilitiesFail++;
-          result = false;
-        }
-        if (!result) {
-          return result;
-        }
-        vm.correctResults.push(value);
-      });
-      */
       vm.correctResults = vm.carga.file.map(function(value) {
         return {
           Date: value.Date || '',
@@ -318,7 +224,6 @@
           $timeout(function() {
             vm.searchProcessResult = false;
             vm.carga = angular.copy(oriCarga);
-            vm.erroresCarga = angular.copy(erroresCargaOri);
             vm.filename = '';
             vm.searchProcess = false;
             vm.cargaForm.$setPristine();
@@ -342,7 +247,6 @@
         $timeout(function() {
           vm.searchProcessResult = false;
           vm.carga = angular.copy(oriCarga);
-          vm.erroresCarga = angular.copy(erroresCargaOri);
           vm.filename = '';
           vm.searchProcess = false;
           vm.cargaForm.$setPristine();
@@ -358,26 +262,20 @@
     }
 
     scope.$on('event:end-carga', function() {
-      if (vm.correctResults.length === 0) {
+      if (vm.arrayExito.length === 0) {
         rootScope.$broadcast(
           'event:toastMessage',
-          'Archivo no tiene filas válidas para la carga, favor revisarlo y volver a intentarlo.',
+          'Archivo no tiene filas válidas para la carga, ' +
+            'favor revisarlo y volver a intentarlo.',
           'md-primary'
         );
       } else {
         rootScope.$broadcast(
           'event:toastMessage',
-          'Archivo cargado, ' + vm.correctResults.length + ' filas se cargaron con éxito.',
+          'Archivo cargado, ' + vm.arrayExito.length +
+            ' filas se cargaron con éxito.',
           'md-primary'
         );
-        if (vm.carga.file.length !== vm.correctResults.length) {
-          vm.colorResult = 'red-300';
-          vm.activarFinalizados = false;
-        } else {
-          vm.colorResult = 'green-300';
-          vm.activarFinalizados = true;
-        }
-        vm.searchProcessResult = true;
         vm.searchProcess = true;
       }
       vm.loadingCarga = false;
@@ -404,7 +302,6 @@
                 $timeout(function() {
                   vm.searchProcessResult = false;
                   vm.carga = angular.copy(oriCarga);
-                  vm.erroresCarga = angular.copy(erroresCargaOri);
                   vm.filename = '';
                   vm.searchProcess = false;
                   vm.cargaForm.$setPristine();

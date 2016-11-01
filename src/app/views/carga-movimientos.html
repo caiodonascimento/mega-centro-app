@@ -26,24 +26,6 @@
         </md-autocomplete>
       </div>
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
-        <md-input-container flex>
-          <label>Año</label>
-          <md-select ng-model="vm.carga.year" required ng-disabled="vm.loadingCarga">
-            <md-option ng-repeat="year in vm.years()" ng-value="year">
-              {{year}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-        <md-input-container flex>
-          <label>Mes</label>
-          <md-select ng-model="vm.carga.month" required ng-disabled="vm.loadingCarga">
-            <md-option ng-repeat="month in vm.months" ng-value="month.id">
-              {{month.name}}
-            </md-option>
-          </md-select>
-        </md-input-container>
-      </div>
-      <div layout layout-md="row" layout-sm="column" layout-xs="column">
         <md-input-container flex layout="row">
           <md-button aria-label="Cargar Movimientos" class="md-raised md-primary md-fab md-mini"
             ngf-select="vm.upload($file); $event.preventDefault();" ngf-pattern="vm.mimeTypes"
@@ -70,6 +52,26 @@
   </md-card-content>
 </md-card>
 
+<md-card md-colors="{background: 'red-300' }" ng-show="vm.searchProcess && vm.correctResults.length > 0" class="result-charge-card">
+  <md-card-content>
+    <span class="md-title" style="color:white;">
+      <md-icon class="material-icons">report_problem</md-icon>
+      ¡Ops!, a ocurrido un problema:
+    </span>
+    <span style="color:white;">
+      {{vm.arrayErrores.length}} no se guardaron, puedes obviarlas y continuar o reintentar la carga.
+    </span>
+  </md-card-content>
+  <md-card-actions layout="row" layout-align="end center">
+    <md-button class="md-primary md-raised" aria-label="Continuar">
+      Obviar y continuar
+    </md-button>
+    <md-button class="md-warn md-raised" aria-label="Reintentar">
+      Reintentar cargarlos
+    </md-button>
+  </md-card-actions>
+</md-card>
+
 <div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
@@ -82,7 +84,7 @@
       <span>Datos desde del archivo</span>
       <md-progress-circular md-mode="indeterminate" class="md-warn" md-diameter="40px" ng-show="vm.loadingFinish" style="position: absolute;right: 20px;">
       </md-progress-circular>
-      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta" ng-disabled="!vm.activarFinalizados"
+      <md-button class="md-fab md-fab-top-right" aria-label="Finalizar carga"
         ng-hide="vm.loadingFinish" ng-click="vm.finishCharge()">
         <md-tooltip md-direction="bottom">
           Finalizar carga

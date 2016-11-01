@@ -5,12 +5,11 @@
     </div>
   </md-toolbar>
   <md-card-content>
-    <form ng-submit="vm.filterAccounts(); $event.preventDefault();" name="vm.searchFormOrigin" novalidate>
+    <form ng-submit="vm.handleSubmit(); $event.preventDefault();" name="vm.searchForm" novalidate>
       <md-autocomplete required flex
-        ng-class="{'has-error': vm.errors.cuenta}"
         md-input-name="empresa"
         ng-disabled="vm.loading"
-        md-selected-item="vm.empresa"
+        md-selected-item="vm.search.empresa"
         md-search-text="vm.searchText"
         md-no-cache="true"
         md-items="item in vm.querySearchEmpresa(vm.searchText)"
@@ -29,15 +28,15 @@
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
         <md-input-container flex>
           <label>Año</label>
-          <md-select ng-model="vm.carga.year" required ng-disabled="vm.loadingCarga">
-            <md-option ng-repeat="year in vm.years()" ng-value="year">
-              {{year}}
+          <md-select ng-model="vm.search.year" ng-disabled="vm.loading">
+            <md-option ng-repeat="year in vm.years" ng-value="year.id">
+              {{year.name}}
             </md-option>
           </md-select>
         </md-input-container>
         <md-input-container flex>
           <label>Mes</label>
-          <md-select ng-model="vm.carga.month" required ng-disabled="vm.loadingCarga">
+          <md-select ng-model="vm.search.month" ng-disabled="vm.loading">
             <md-option ng-repeat="month in vm.months" ng-value="month.id">
               {{month.name}}
             </md-option>
@@ -46,7 +45,7 @@
       </div>
       <div layout="row" flex>
         <md-button type="submit" aria-label="Filtrar" class="md-raised md-primary"
-          ng-disabled="vm.searchFormOrigin.$invalid || vm.loading">
+          ng-disabled="vm.searchForm.$invalid || vm.loading">
           Buscar
           <md-icon class="material-icons">search</md-icon>
         </md-button>

@@ -11,11 +11,10 @@
         return {
             generateHeader: function(header) {
                 var data = {
-                    "year": header.year,
-                    "month": header.month,
                     "status": 10,
                     "createDate": new Date(),
-                    "enterpriseId": header.empresa.id
+                    "enterpriseId": header.empresa.id,
+                    "userId": header.user.id
                 };
                 return $q.when(
                     $http.post(
