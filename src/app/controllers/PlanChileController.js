@@ -154,7 +154,7 @@
       return deferred.promise;
     }
   }
-  
+
   function EditarPlanChileController(stateParams, state, planCtaChileService, formatosImputs, rootScope,
     empresasService, levelsService, $q) {
     var vm = this;
@@ -176,6 +176,7 @@
           empresasService.getById(vm.idEmpresa)
           .then(function(result) {
             vm.empresa = result.data;
+            vm.charge = false;
           });
         } else {
           state.go('home.plan-chile');

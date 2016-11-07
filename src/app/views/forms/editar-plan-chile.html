@@ -6,7 +6,7 @@
       </md-tooltip>
       <i class="material-icons">arrow_back</i>
     </md-button>
-    <span>Datos del nuevo Plan Cta. Chile {{vm.planCtaChile.name}}</span>
+    <span>Datos del Plan Cta. Chile {{vm.planCtaChile.name}}</span>
   </div>
 </md-toolbar>
 <md-content class="md-padding">
@@ -70,9 +70,17 @@
           </md-not-found>
         </md-autocomplete>
     </div>
-    <md-button ng-disabled="vm.formPlanChile.$invalid || vm.formPlanChile.$pristine"
-      aria-label="Guardar" type="submit" class="md-raised md-primary">
-        Guardar
-    </md-button>
+    <div layout="row" flex>
+      <md-button class="md-raised md-primary" aria-label="Guardar" type="submit"
+       ng-disabled="vm.formPlanChile.$invalid || vm.formPlanChile.$pristine || vm.loading">
+          Guardar Cambios
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" class="md-primary" md-diameter="40px"
+	     ng-show="vm.loading">
+	    </md-progress-circular>
+    </div>
   </form>
 </md-content>
+<md-progress-circular md-mode="indeterminate" class="md-primary center-loading" md-diameter="40px"
+ ng-show="vm.charge">
+</md-progress-circular>

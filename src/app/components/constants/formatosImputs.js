@@ -61,50 +61,24 @@
         },
         type: {
           pattern: '^[0-9]+$',
-          maxlength: 50
+          maxlength: 2
         }
       },
       formPlanChile: {
         account: {
-          pattern: '^[0-9]+$',
+          pattern: '^[0-9\\-]+$',
           maxlength: 20
         },
         name: {
-          pattern: '^[A-Za-z\\s]+$',
+          pattern: '^[A-Z\\s\\-]+$',
           maxlength: 50
         },
         level1: {
-          pattern: '^[A-Za-z\\s]+$',
+          pattern: '^[A-Za-záéíóúñÁÉÍÓÚÑ\\s\\(\\)]+$',
           maxlength: 50
         },
         level2: {
-          pattern: '^[A-Za-z\\s]+$',
-          maxlength: 50
-        },
-        level3: {
-          pattern: '^[A-Za-z\\s]+$',
-          maxlength: 50
-        }
-      },
-      formEditarPlanChile: {
-        account: {
-          pattern: '^[0-9]+$',
-          maxlength: 20
-        },
-        name: {
-          pattern: '^[A-Za-z\\s]+$',
-          maxlength: 50
-        },
-        level1: {
-          pattern: '^[A-Za-z\\s]+$',
-          maxlength: 50
-        },
-        level2: {
-          pattern: '^[A-Za-z\\s]+$',
-          maxlength: 50
-        },
-        level3: {
-          pattern: '^[A-Za-z\\s]+$',
+          pattern: '^[A-ZÑ\\s]+$',
           maxlength: 50
         }
       }
