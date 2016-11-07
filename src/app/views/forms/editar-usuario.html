@@ -65,7 +65,7 @@
         <label>Repetir contraseña</label>
         <input type="password" name="rewritePassword" ng-model="vm.user.rewritePassword" ng-required="vm.changePass"
           ng-disabled="!vm.changePass" limit-caracter="{{vm.formatosImputs.rewritePassword.maxlength}}"
-          caracter-restrict="{{vm.formatosImputs.rewritePassword.pattern}}">
+          compare-to="vm.user.password" caracter-restrict="{{vm.formatosImputs.rewritePassword.pattern}}">
       </md-input-container>
     </div>
     <div layout="row" flex >

@@ -212,6 +212,24 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
           title: 'Balance Evolutivo'
         }
       })
+      .state('home.balance', {
+        url: '/balance-ev',
+        templateUrl: 'app/views/partials/buscar-carga.html',
+        controller: 'BuscarCargaController',
+        controllerAs: 'vm',
+        data: {
+          title: 'Balance'
+        }
+      })
+      .state('home.balance-data', {
+        url: '/balance-ev/{idEmpresa}/{year}/{month}',
+        templateUrl: 'app/views/balance.html',
+        controller: 'BalanceController',
+        controllerAs: 'vm',
+        data: {
+          title: 'Balance Evolutivo'
+        }
+      })
       .state('home.genera-archivo', {
         url: '/genera-archivo',
         templateUrl: 'app/views/partials/buscar-carga.html',

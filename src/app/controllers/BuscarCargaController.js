@@ -22,6 +22,8 @@
 
 		if (state.current.name === 'home.gestion-movimientos') {
 			vm.redirectTo = 'home.gestion-movimientos-data';
+		} else if (state.current.name === 'home.balance') {
+			vm.redirectTo = 'home.balance-data';
 		} else if (state.current.name === 'home.balance-ev') {
 			vm.redirectTo = 'home.balance-ev-data';
 		} else if (state.current.name === 'home.genera-archivo') {

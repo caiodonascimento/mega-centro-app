@@ -24,6 +24,7 @@
       <thead md-head md-order="query.order">
         <tr md-row>
           <th md-column>Estado</th>
+          <th md-column>Cta. Origen</th>
           <th md-column>Date</th>
           <th md-column>Num</th>
           <th md-column>Name</th>
@@ -40,6 +41,9 @@
         <tr md-row md-select="data" md-select-id="$index" md-auto-select ng-repeat="data in vm.arrayResults track by $index">
           <td md-cell data-title="Estado">
             {{data.status}}
+          </td>
+          <td md-cell data-title="Estado">
+            {{data.originAccount ? data.originAccount.name : 'No enlazado' }}
           </td>
           <td md-cell data-title="Date">{{data.Date}}</td>
           <td md-cell data-title="Num">{{data.Num}}</td>

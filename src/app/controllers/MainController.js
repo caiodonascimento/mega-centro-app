@@ -75,6 +75,9 @@
     });
 
     rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
+      if (toState.name === 'login') {
+        return false;
+      }
       var item = vm.selectedItem || localStorage.getObject('selectedItem');
       if (!item || item === {}) {
         event.preventDefault();

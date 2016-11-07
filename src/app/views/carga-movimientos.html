@@ -52,7 +52,7 @@
   </md-card-content>
 </md-card>
 
-<md-card md-colors="{background: 'red-300' }" ng-show="vm.searchProcess && vm.correctResults.length > 0" class="result-charge-card">
+<md-card md-colors="{background: 'red-300' }" ng-show="vm.searchProcess && vm.arrayErrores.length > 0" class="result-charge-card">
   <md-card-content>
     <span class="md-title" style="color:white;">
       <md-icon class="material-icons">report_problem</md-icon>
@@ -63,10 +63,10 @@
     </span>
   </md-card-content>
   <md-card-actions layout="row" layout-align="end center">
-    <md-button class="md-primary md-raised" aria-label="Continuar">
+    <md-button class="md-primary md-raised" aria-label="Continuar" ng-click="vm.continuarCarga()">
       Obviar y continuar
     </md-button>
-    <md-button class="md-warn md-raised" aria-label="Reintentar">
+    <md-button class="md-warn md-raised" aria-label="Reintentar" ng-click="vm.cancelarCarga()">
       Reintentar cargarlos
     </md-button>
   </md-card-actions>

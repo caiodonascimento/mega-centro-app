@@ -1,10 +1,17 @@
 (function(){
 	angular
   	.module('app')
-  	.controller('BalanceEvolutivoController', [
+		.controller('BalanceController', [
+  		BalanceController
+  	])
+		.controller('BalanceEvolutivoController', [
   		BalanceEvolutivoController
   	]);
   function BalanceEvolutivoController() {
+
+  }
+
+	function BalanceController() {
 
   }
 })();

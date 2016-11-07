@@ -74,6 +74,43 @@
 						data
 					)
 				);
+			},
+			findManyByAccount : function(listAccounts) {
+				var deferred = $q.defer();
+				if (listAccounts.length === 0) {
+					deferred.resolve([]);
+				} else if (listAccounts.length === 1) {
+					$http.get(
+						apiRoutes.originAccounts,
+						{
+							params: {
+								'filter[where][account]': listAccounts[0]
+							}
+						}
+					).then(function(response) {
+						if (response.status === 200) {
+							deferred.resolve(response.data);
+						} else {
+							deferred.reject([]);
+						}
+					});
+				} else {
+					var params = '?filter[where][account][inq]=';
+					_.each(listAccounts, function(account, index) {
+						params+= account.toString() + listAccounts.length === index + 1 ? ''
+							: '&filter[where][account][inq]=' + account.account;
+					});
+					$http.get(
+						apiRoutes.originAccounts + params
+					).then(function(response) {
+						if (response.status === 200) {
+							deferred.resolve(response.data);
+						} else {
+							deferred.reject([]);
+						}
+					});
+				}
+				return deferred.promise;
 			}
 		};
 	}

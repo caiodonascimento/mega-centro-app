@@ -14,8 +14,8 @@
       <md-button layout="row" ui-sref="home.perfil" ng-click="vm.seeProfile()">
         <i class="material-icons md-48" style="padding-right:5px;">account_circle</i>
         <span hide-lg hide-md>{{vm.user.username}}</span>
-        <span hide-xs hide-sm>{{vm.user.username|limitTo:10}}</span>
-        <span hide-xs hide-sm>{{vm.user.username.length > 10 ? '...' : ''}}</span>
+        <span hide-gt-lg hide-xs hide-sm>{{vm.user.username|limitTo:30}}</span>
+        <span hide-gt-lg hide-xs hide-sm>{{vm.user.username.length > 30 ? '...' : ''}}</span>
       </md-button>
     </md-toolbar>
   </header

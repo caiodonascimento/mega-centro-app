@@ -13,6 +13,7 @@
                 var data = {
                     "status": 10,
                     "createDate": new Date(),
+                    "year": header.year,
                     "enterpriseId": header.empresa.id,
                     "userId": header.user.id
                 };
