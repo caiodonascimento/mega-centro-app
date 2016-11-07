@@ -9,11 +9,16 @@
 
     function movimientoService(apiRoutes, $http, $q) {
         return {
-            getAllThen: function() {
+            getAllThen: function(enterpriseId, year) {
                 return $q.when(
-                    $http.post(
-                        apiRoutes.chargeTransactions,
-                        data
+                    $http.get(
+                        apiRoutes.accountTransactions + '/getAll' ,
+                        {
+                          params: {
+                            'enterpriseId': enterpriseId,
+                            'year': year
+                          }
+                        }
                     )
                 );
             }

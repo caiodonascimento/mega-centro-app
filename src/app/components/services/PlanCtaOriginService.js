@@ -97,9 +97,11 @@
 				} else {
 					var params = '?filter[where][account][inq]=';
 					_.each(listAccounts, function(account, index) {
-						params+= account.toString() + listAccounts.length === index + 1 ? ''
-							: '&filter[where][account][inq]=' + account.account;
+						console.log(account, index);
+						params = params + account + (listAccounts.length === index + 1 ? ''
+							: '&filter[where][account][inq]=');
 					});
+					console.log(apiRoutes.originAccounts + params);
 					$http.get(
 						apiRoutes.originAccounts + params
 					).then(function(response) {

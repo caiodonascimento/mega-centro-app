@@ -75,12 +75,6 @@
 <div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
-      <md-button class="md-fab md-mini" aria-label="Volver a Empresa" ng-click="vm.cancelarCarga()">
-        <md-tooltip md-direction="bottom">
-          Volver
-        </md-tooltip>
-        <i class="material-icons">arrow_back</i>
-      </md-button>
       <span>Datos desde del archivo</span>
       <md-progress-circular md-mode="indeterminate" class="md-warn" md-diameter="40px" ng-show="vm.loadingFinish" style="position: absolute;right: 20px;">
       </md-progress-circular>
@@ -89,7 +83,7 @@
         <md-tooltip md-direction="bottom">
           Finalizar carga
         </md-tooltip>
-        <md-icon class="material-icons">publish</md-icon>
+        <md-icon class="material-icons">done_all</md-icon>
       </md-button>
     </div>
   </md-toolbar>

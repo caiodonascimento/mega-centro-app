@@ -250,3 +250,13 @@ md-item-template {
   color: rgb(255, 0, 0);
   font-size: 80%;
 }
+.chip-deleted {
+  color: #fff;
+  background-color: red;
+  font-weight: bold;
+}
+.chip-auth {
+  color: #fff;
+  background-color: green;
+  font-weight: bold;
+}

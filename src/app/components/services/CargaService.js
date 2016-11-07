@@ -11,7 +11,7 @@
         return {
             generateHeader: function(header) {
                 var data = {
-                    "status": 10,
+                    "status": 0,
                     "createDate": new Date(),
                     "year": header.year,
                     "enterpriseId": header.empresa.id,
@@ -39,7 +39,8 @@
                         "liabilities": value['Pesos Liabilities'],
                         "status": 0,
                         "createDate": new Date(),
-                        "chargeId": chargeId
+                        "chargeId": chargeId,
+                        "originAccountId": value.originAccountId
                     };
                     arrayProcess.push($q.when(
                         $http.post(

@@ -1,26 +1,43 @@
-<div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
+<div class="table-responsive-vertical md-whiteframe-z1" ng-hide="vm.searchProcess">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
-      <md-button class="md-fab md-mini" aria-label="Volver a Empresa" ng-click="vm.cancelarCarga()">
+      <md-button class="md-fab md-mini" aria-label="Volver a filtrar" ui-sref="home.gestion-movimientos">
         <md-tooltip md-direction="bottom">
           Volver
         </md-tooltip>
         <i class="material-icons">arrow_back</i>
       </md-button>
-      <span>Datos desde del archivo</span>
-      <md-progress-circular md-mode="indeterminate" class="md-warn" md-diameter="40px" ng-show="vm.loadingFinish" style="position: absolute;right: 20px;">
+      <span>Movimientos cargados</span>
+      <md-progress-circular md-mode="indeterminate" class="md-primary center-loading loading-row-table"
+        md-diameter="35px" ng-show="vm.loading">
       </md-progress-circular>
-      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta" ng-disabled="!vm.activarFinalizados"
-        ng-hide="vm.loadingFinish" ng-click="vm.finishCharge()">
-        <md-tooltip md-direction="bottom">
-          Finalizar carga
-        </md-tooltip>
-        <md-icon class="material-icons">publish</md-icon>
-      </md-button>
+      <md-menu ng-hide="vm.loading">
+        <md-button class="md-fab md-fab-top-right" aria-label="Acción" ng-disabled="vm.selected.length===0"
+          ng-click="vm.openMenu($mdOpenMenu, $event)" ng-hide="vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1">
+          <md-tooltip md-direction="bottom">
+            Realizar acción
+          </md-tooltip>
+          <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item ng-if="vm.viewAccess.canEdit===0">
+            <md-button ui-sref="home.empresas-editar({id: data.id})">
+              <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
+              Editar
+            </md-button>
+          </md-menu-item>
+          <md-menu-item ng-if="vm.viewAccess.canDelete===0">
+            <md-button ng-click="vm.deleteEmpresa(data, $event)">
+              <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
+              Eliminar
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </div>
   </md-toolbar>
   <md-table-container>
-    <table md-table>
+    <table md-table md-row-select multiple ng-model="vm.selected">
       <thead md-head md-order="query.order">
         <tr md-row>
           <th md-column>Estado</th>
@@ -28,9 +45,9 @@
           <th md-column>Date</th>
           <th md-column>Num</th>
           <th md-column>Name</th>
-          <th md-column>Memo</th>
+          <!--<th md-column>Memo</th>-->
           <th md-column>Account</th>
-          <th md-column>Split</th>
+          <!--<th md-column>Split</th>-->
           <th md-column>Amount</th>
           <th md-column>TC</th>
           <th md-column>Pesos Liabilities</th>
@@ -40,25 +57,32 @@
         <tr></tr>
         <tr md-row md-select="data" md-select-id="$index" md-auto-select ng-repeat="data in vm.arrayResults track by $index">
           <td md-cell data-title="Estado">
-            {{data.status}}
+            <md-chips>
+              <md-chip ng-class="{ 'chip-deleted': data.status === 1, 'chip-auth': data.status === 2 }">
+                {{vm.showState(data.status)}}
+              </md-chip>
+            </md-chips>
           </td>
           <td md-cell data-title="Estado">
             {{data.originAccount ? data.originAccount.name : 'No enlazado' }}
           </td>
-          <td md-cell data-title="Date">{{data.Date}}</td>
-          <td md-cell data-title="Num">{{data.Num}}</td>
-          <td md-cell data-title="Name">{{data.Name}}</td>
-          <td md-cell data-title="Memo">{{data.Memo}}</td>
-          <td md-cell data-title="Account">{{data.Account}}</td>
-          <td md-cell data-title="Split">{{data.Split}}</td>
-          <td md-cell data-title="Account">{{data.Amount}}</td>
-          <td md-cell data-title="TC">{{data.TC}}</td>
-          <td md-cell data-title="Pesos Liabilities">{{data['Pesos Liabilities']}}</td>
+          <td md-cell data-title="Date">{{data.date}}</td>
+          <td md-cell data-title="Num">{{data.num}}</td>
+          <td md-cell data-title="Name">{{data.name}}</td>
+          <!--<td md-cell data-title="Memo">{{data.memo}}</td>-->
+          <td md-cell data-title="Account">{{data.account}}</td>
+          <!--<td md-cell data-title="Split">{{data.split}}</td>-->
+          <td md-cell data-title="Amount">{{data.amount}}</td>
+          <td md-cell data-title="TC">{{data.tc}}</td>
+          <td md-cell data-title="Pesos Liabilities">{{data.liabilities}}</td>
         </tr>
       </tbody>
     </table>
   </md-table-container>
-  <md-table-pagination md-limit="vm.query.limit" md-page="vm.query.page" md-total="{{vm.correctResults.length}}"
+  <md-table-pagination md-limit="vm.query.limit" md-page="vm.query.page" md-total="{{vm.arrayResults.length}}"
      md-on-paginate="vm.getResults()" md-page-select md-limit-options="[5, 10, 15]">
   </md-table-pagination>
 </div>
+<md-progress-circular md-mode="indeterminate" class="md-primary center-loading" md-diameter="40px"
+  ng-show="vm.searchProcess">
+</md-progress-circular>

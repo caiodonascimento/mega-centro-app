@@ -17,6 +17,7 @@
       empresa: '',
       file: []
     };
+    vm.arrayResults = [];
     vm.currentCharge = {};
     var oriCarga = angular.copy(vm.carga);
     vm.filename = '';
@@ -97,10 +98,11 @@
       planCtaOriginService.findManyByAccount(arrayCuentasOrigen)
       .then(function(data) {
         transactions = transactions.map(function(value) {
-          var originAccount = _.findWhere(data, {account: value.Account});
+          var originAccount = _.findWhere(data, {account: value.onlyAccount});
           value.originAccountId = originAccount ? originAccount.id : 0;
           return value;
         })
+        console.log(transactions);
         cargaService.saveAccountTransaction(
           transactions,
           vm.currentCharge.id
@@ -122,7 +124,6 @@
       vm.carga.year = vm.year;
       cargaService.generateHeader(vm.carga)
       .then(function(resultadoHeader) {
-        console.log(resultadoHeader);
         if (resultadoHeader.status === 200) {
           vm.currentCharge = resultadoHeader.data;
           upTransactions(vm.correctResults, arrayCuentasOrigen);
@@ -156,9 +157,9 @@
         if (_.isDate(fecha) && vm.year === 0) {
           vm.year = fecha.getFullYear();
         }
-        var dataAcount = value.Account ? value.Account.split('-') : [];
+        var dataAcount = value.Account ? value.Account.split('·') : [];
         if (dataAcount.length > 1) {
-          arrayCuentasOrigen.push(dataAcount[1]);
+          arrayCuentasOrigen.push(dataAcount[0].replace(/^\s+|\s+$/gm,''));
         }
         return {
           Date: value.Date,
@@ -166,6 +167,7 @@
           Name: value.Name || '',
           Memo: value.Memo || '',
           Account: value.Account || '',
+          onlyAccount: dataAcount.length > 1 ? dataAcount[0].replace(/^\s+|\s+$/gm,'') : 0,
           Split: value.Split || '',
           Amount: value.Amount || '0',
           TC: value.TC || '',
@@ -182,6 +184,7 @@
         vm.loadingCarga = false;
         return false;
       }
+      arrayCuentasOrigen = _.uniq(arrayCuentasOrigen);
       upCharge(arrayCuentasOrigen);
     }
     function upload(file) {
@@ -220,24 +223,20 @@
     }
     function finishCharge() {
       vm.loadingFinish = true;
-      console.log(vm.currentCharge);
-      cargaService.finishCharge(vm.currentCharge.id)
-      .then(function() {
-        $timeout(function() {
-          vm.searchProcessResult = false;
-          vm.carga = angular.copy(oriCarga);
-          vm.filename = '';
-          vm.searchProcess = false;
-          vm.cargaForm.$setPristine();
-          vm.cargaForm.$setUntouched();
-          rootScope.$broadcast(
-              'event:toastMessage',
-              'Carga finalizada con éxito.',
-              'md-primary'
-          );
-          vm.loadingFinish = false;
-        }, 1500);
-      });
+      $timeout(function() {
+        vm.searchProcessResult = false;
+        vm.carga = angular.copy(oriCarga);
+        vm.filename = '';
+        vm.searchProcess = false;
+        vm.cargaForm.$setPristine();
+        vm.cargaForm.$setUntouched();
+        rootScope.$broadcast(
+            'event:toastMessage',
+            'Carga finalizada con éxito.',
+            'md-primary'
+        );
+        vm.loadingFinish = false;
+      }, 1500);
     }
     scope.$on('event:end-carga', function() {
       if (vm.arrayExito.length === 0) {
@@ -258,65 +257,5 @@
       }
       vm.loadingCarga = false;
     });
-    rootScope.$on('$stateChangeStart', function(event, toState){
-      if (vm.searchProcess) {
-        event.preventDefault();
-        var confirm = $mdDialog.confirm()
-            .title('Carga de Movimientos')
-            .textContent('¿Desea cancelar la carga en curso y volver al formulario de carga?')
-            .ariaLabel('Lucky day')
-            .targetEvent(event)
-            .ok('Cancelar la carga')
-            .cancel('Continuar con la carga actual');
-        $mdDialog.show(confirm).then(function() {
-          var dialog = $mdDialog.alert()
-              .clickOutsideToClose(true)
-              .title('Cancelando carga actual')
-              .textContent('Favor esperar, estamos cancelando la carga actual ...');
-          $mdDialog.show(dialog);
-          cargaService.cancelCharge(vm.currentCharge.id)
-              .then(function() {
-                $timeout(function() {
-                  vm.carga = angular.copy(oriCarga);
-                  vm.filename = '';
-                  vm.searchProcess = false;
-                  vm.cargaForm.$setPristine();
-                  vm.cargaForm.$setUntouched();
-                  $mdDialog.hide(dialog);
-                  state.go(toState.name);
-                }, 1500);
-              });
-        });
-      }
-    });
-
-    vm.cancelarCarga = cancelarCarga;
-    function cancelarCarga() {
-      var confirm = $mdDialog.confirm()
-          .title('Carga de Movimientos')
-          .textContent('¿Desea cancelar la carga en curso y volver al formulario de carga?')
-          .ariaLabel('Lucky day')
-          .targetEvent(event)
-          .ok('Cancelar la carga')
-          .cancel('Continuar con la carga actual');
-      $mdDialog.show(confirm).then(function() {
-        var dialog = $mdDialog.alert()
-            .clickOutsideToClose(true)
-            .title('Cancelando carga actual')
-            .textContent('Favor esperar, estamos cancelando la carga actual ...');
-        $mdDialog.show(dialog);
-        cargaService.cancelCharge(vm.currentCharge.id)
-            .then(function() {
-              $timeout(function() {
-                vm.carga = angular.copy(oriCarga);
-                vm.filename = '';
-                vm.searchProcess = false;
-                vm.cargaForm.$setPristine();
-                vm.cargaForm.$setUntouched();
-                $mdDialog.hide(dialog);
-              }, 1500);
-            });
-      });
-    }
   }
 })();
