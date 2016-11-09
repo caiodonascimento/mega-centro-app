@@ -17,7 +17,6 @@
       empresa: '',
       file: []
     };
-    vm.arrayResults = [];
     vm.currentCharge = {};
     var oriCarga = angular.copy(vm.carga);
     vm.filename = '';
@@ -44,7 +43,7 @@
       'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
     vm.loadingCarga = false;
     vm.getResults = getResults;
-    vm.reintentarCarga = reintentarCarga;
+    vm.cancelarCarga = cancelarCarga;
     vm.reader = new FileReader();
     vm.reader.onload = function(e) {
       var data = e.target.result;
@@ -72,10 +71,9 @@
     };
     vm.continuarCarga = continuarCarga;
     vm.finishCharge = finishCharge;
-
     function getResults() {
       vm.promise = $q.when(
-        vm.arrayResults = _.filter(vm.correctResults, function(value, index) {
+        vm.arrayResults = _.filter(vm.arrayExito, function(value, index) {
           var initIndex = (vm.query.page * vm.query.limit) - vm.query.limit;
           var endIndex = vm.query.page * vm.query.limit;
           return index >= initIndex && index < endIndex;
@@ -102,7 +100,6 @@
           value.originAccountId = originAccount ? originAccount.id : 0;
           return value;
         })
-        console.log(transactions);
         cargaService.saveAccountTransaction(
           transactions,
           vm.currentCharge.id
@@ -114,7 +111,6 @@
               vm.arrayErrores.push(vm.correctResults[index]);
             }
           });
-          console.log(vm.arrayErrores, vm.arrayExito);
           rootScope.$broadcast('event:end-carga');
         });
       });
@@ -130,7 +126,7 @@
         } else {
           rootScope.$broadcast(
             'event:toastMessage',
-            'La carga no se ha podido llevar a cabo por falta de internet, ' +
+            'La carga ha terminado con errores porque ha fallado la conexió a internet, ' +
               'favor revisar su conexión y volver a intentarlo.',
             'md-primary'
           );
@@ -162,7 +158,7 @@
           arrayCuentasOrigen.push(dataAcount[0].replace(/^\s+|\s+$/gm,''));
         }
         return {
-          Date: value.Date,
+          Date: fecha.getDay().toString() + '/' + (fecha.getMonth()+1).toString() + '/' + fecha.getFullYear().toString(),
           Num: value.Num || '',
           Name: value.Name || '',
           Memo: value.Memo || '',
@@ -214,10 +210,31 @@
       vm.filename = file.name;
       vm.reader.readAsBinaryString(file);
     };
-    function reintentarCarga() {
-
+    function cancelarCarga() {
+      cargaService.cancelCharge(vm.currentCharge.id)
+      .then(function() {
+        $timeout(function() {
+          vm.searchProcessResult = false;
+          vm.carga = angular.copy(oriCarga);
+          vm.filename = '';
+          vm.searchProcess = false;
+          vm.cargaForm.$setPristine();
+          vm.cargaForm.$setUntouched();
+          rootScope.$broadcast(
+            'event:toastMessage',
+            'Carga finalizada con éxito.',
+            'md-primary'
+          );
+        }, 1500);
+      });
     }
     function continuarCarga() {
+      rootScope.$broadcast(
+        'event:toastMessage',
+        'Archivo cargado, ' + vm.arrayExito.length +
+          ' filas se cargaron con éxito.',
+        'md-primary'
+      );
       vm.arrayErrores = [];
       vm.activarFinalizados = true;
     }
@@ -247,12 +264,14 @@
           'md-primary'
         );
       } else {
-        rootScope.$broadcast(
-          'event:toastMessage',
-          'Archivo cargado, ' + vm.arrayExito.length +
-            ' filas se cargaron con éxito.',
-          'md-primary'
-        );
+        if (vm.arrayErrores.length === 0) {
+          rootScope.$broadcast(
+            'event:toastMessage',
+            'Archivo cargado, ' + vm.arrayExito.length +
+              ' filas se cargaron con éxito.',
+            'md-primary'
+          );
+        }
         vm.searchProcess = true;
       }
       vm.loadingCarga = false;

@@ -177,7 +177,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.gestion-movimientos', {
-        url: '/gestion-movimientos',
+        url: '/gestion-movimientos?empresa&year&month',
         templateUrl: 'app/views/partials/buscar-carga.html',
         controller: 'BuscarCargaController',
         controllerAs: 'vm',
@@ -195,7 +195,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.balance-ev', {
-        url: '/balance-ev',
+        url: '/balance-ev?empresa&year&month',
         templateUrl: 'app/views/partials/buscar-carga.html',
         controller: 'BuscarCargaController',
         controllerAs: 'vm',
@@ -213,7 +213,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.balance', {
-        url: '/balance-ev',
+        url: '/balance?empresa&year&month',
         templateUrl: 'app/views/partials/buscar-carga.html',
         controller: 'BuscarCargaController',
         controllerAs: 'vm',
@@ -222,16 +222,16 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.balance-data', {
-        url: '/balance-ev/{idEmpresa}/{year}/{month}',
+        url: '/balance/{idEmpresa}/{year}/{month}',
         templateUrl: 'app/views/balance.html',
         controller: 'BalanceController',
         controllerAs: 'vm',
         data: {
-          title: 'Balance Evolutivo'
+          title: 'Balance'
         }
       })
       .state('home.genera-archivo', {
-        url: '/genera-archivo',
+        url: '/genera-archivo?empresa&year&month',
         templateUrl: 'app/views/partials/buscar-carga.html',
         controller: 'BuscarCargaController',
         controllerAs: 'vm',

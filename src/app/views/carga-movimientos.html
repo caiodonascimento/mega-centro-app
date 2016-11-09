@@ -67,12 +67,12 @@
       Obviar y continuar
     </md-button>
     <md-button class="md-warn md-raised" aria-label="Reintentar" ng-click="vm.cancelarCarga()">
-      Reintentar cargarlos
+      Cancelar carga
     </md-button>
   </md-card-actions>
 </md-card>
 
-<div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess">
+<div class="table-responsive-vertical md-whiteframe-z1" ng-show="vm.searchProcess && vm.arrayErrores.length === 0">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
       <span>Datos desde del archivo</span>
@@ -118,7 +118,7 @@
       </tbody>
     </table>
   </md-table-container>
-  <md-table-pagination md-limit="vm.query.limit" md-page="vm.query.page" md-total="{{vm.correctResults.length}}"
+  <md-table-pagination md-limit="vm.query.limit" md-page="vm.query.page" md-total="{{vm.arrayExito.length}}"
      md-on-paginate="vm.getResults()" md-page-select md-limit-options="[5, 10, 15]">
   </md-table-pagination>
 </div>

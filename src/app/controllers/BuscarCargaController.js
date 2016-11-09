@@ -2,10 +2,10 @@
 	angular
   	.module('app')
   	.controller('BuscarCargaController', [
-			'commonService', '$q', 'empresasService', '$state',
+			'commonService', '$q', 'empresasService', '$state', '$stateParams',
 			BuscarCargaController
   	]);
-  function BuscarCargaController(commonService, $q, empresasService, state) {
+  function BuscarCargaController(commonService, $q, empresasService, state, stateParams) {
 		var vm = this;
 
 		vm.months = commonService.getMonths();
@@ -30,6 +30,23 @@
 			vm.redirectTo = 'home.genera-archivo-data';
 		} else {
 			state.go(vm.redirectTo, {}, {location: 'replace'});
+		}
+
+		if (stateParams.empresa) {
+			empresasService.getById(stateParams.empresa)
+			.then(function(response) {
+				if (response.status === 200) {
+					vm.search.empresa = response.data;
+				}
+			});
+		}
+
+		if (stateParams.year) {
+			vm.search.year = parseInt(stateParams.year);
+		}
+
+		if (stateParams.month) {
+			vm.search.month = parseInt(stateParams.month);
 		}
 
 		vm.querySearchEmpresa = querySearchEmpresa;

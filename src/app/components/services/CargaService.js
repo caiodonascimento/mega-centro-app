@@ -52,26 +52,22 @@
                 return $q.all(arrayProcess);
             },
             finishCharge: function(id) {
-                var data = {
-                    "status": 0
-                };
-                return $q.when(
-                    $http.put(
-                        apiRoutes.chargeTransactions + '/' + id.toString(),
-                        data
-                    )
-                );
+              var data = {
+                  "status": 0
+              };
+              return $q.when(
+                $http.put(
+                  apiRoutes.chargeTransactions + '/' + id.toString(),
+                  data
+                )
+              );
             },
             cancelCharge: function(id) {
-                var data = {
-                    "status": 1
-                };
-                return $q.when(
-                    $http.put(
-                        apiRoutes.chargeTransactions + '/' + id.toString(),
-                        data
-                    )
-                );
+              return $q.when(
+                $http.delete(
+                  apiRoutes.chargeTransactions + '/' + id.toString()
+                )
+              );
             }
         };
     }

@@ -1,0 +1,43 @@
+<md-dialog aria-label="Editar Movimientos">
+  <md-toolbar>
+    <div class="md-toolbar-tools">
+      <h2>Editar Movimientos</h2>
+    </div>
+  </md-toolbar>
+
+  <md-dialog-content style="padding: 15px;">
+    <form md-padding layout="column">
+      <md-switch flex ng-model="changeState" aria-label="Cambiar estado de Movimientos">
+        Cambiar estado de Movimientos
+      </md-switch>
+      <md-input-container flex>
+        <label>Estado</label>
+        <md-select ng-model="state" ng-required="changeState" ng-disabled="!changeState">
+          <md-option ng-repeat="state in states" ng-value="state.id">
+            {{state.name}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <md-switch flex ng-model="changeAccount" aria-label="Enlazar a plan de cta. de Chile">
+        Enlazar a plan de cta. de Chile
+      </md-switch>
+      <md-input-container flex>
+        <label>Cuenta de Chile</label>
+        <md-select flex ng-model="account" ng-required="changeAccount" ng-disabled="!changeAccount">
+          <md-option ng-repeat="account in chileanAccounts" ng-value="account.id">
+            {{account.name}} - {{account.account}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </form>
+  </md-dialog-content>
+
+  <md-dialog-actions layout="row">
+    <md-button ng-click="cancel()">
+     Cancelar
+    </md-button>
+    <md-button ng-click="updateTransactions('useful')">
+      Actualizar
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>
