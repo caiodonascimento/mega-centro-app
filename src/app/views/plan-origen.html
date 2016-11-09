@@ -1,6 +1,12 @@
-<div class="table-responsive-vertical md-whiteframe-z1">
+<div class="table-responsive-vertical md-whiteframe-z1 anim-zoom-out speed-ng-anim">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
+      <md-button class="md-fab md-mini" aria-label="Volver a Plan-Origen" ui-sref="home.plan-origen({idEmpresa: vm.idEmpresa})">
+        <md-tooltip md-direction="bottom">
+          Volver
+        </md-tooltip>
+        <i class="material-icons">arrow_back</i>
+      </md-button>
       <span>Cuentas asociadas a {{vm.empresa.name}}</span>
       <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta"
         ui-sref="home.plan-origen-nuevo({idCuenta: vm.chileanAccountId})" ng-if="vm.viewAccess.canCreate===0">
@@ -12,15 +18,15 @@
     </div>
   </md-toolbar>
   <table id="table" class="table table-hover table-bordered">
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Cuenta</th>
-        <th>Nombre</th>
-        <th>Cuenta Destino</th>
-        <th></th>
-      </tr>
-    </thead>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Cuenta</th>
+          <th>Nombre</th>
+          <th>Cuenta Destino</th>
+          <th></th>
+        </tr>
+      </thead>
     <tbody>
       <tr ng-show="!vm.loading && vm.cuentasOrigin.length===0">
         <td colspan="5" style="text-align:center;">

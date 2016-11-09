@@ -81,6 +81,16 @@
           pattern: '^[A-ZÑ\\s]+$',
           maxlength: 50
         }
+      },
+      formPlanOrigen: {
+        account: {
+          pattern: '^[0-9]+$',
+          maxlength: 20
+        },
+        name: {
+          pattern: '^[A-Za-z\\d\\s\\-\\&\\.]+$',
+          maxlength: 50
+        }
       }
     });
 })();

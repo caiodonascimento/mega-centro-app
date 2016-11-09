@@ -10,34 +10,41 @@
   </div>
 </md-toolbar>
 <md-content class="md-padding">
-  <form name="vm.formPlanOrigin" ng-submit="vm.createPlanCtaOrigin(); $event.stopPropagation();" novalidate>
+  <form name="vm.formPlanOrigen" ng-submit="vm.createPlanCtaOrigin(); $event.stopPropagation();" novalidate>
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
           <md-input-container flex>
-              <label>Empresa</label>
+              <label>Empresa asociada</label>
               <input type="text" name="empresa" ng-model="vm.empresa.name" ng-disabled="true">
           </md-input-container>
           <md-input-container flex>
-              <label>Cuenta de Destino</label>
+              <label>Cuenta de Destino asociada</label>
               <input type="text" name="nombre" ng-model="vm.cuenta.name" ng-disabled="true">
           </md-input-container>
       </div>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Cuenta</label>
-        <input type="text" name="cuenta" ng-model="vm.planCtaOrigen.account"
+        <input type="text" name="account" ng-model="vm.planCtaOrigen.account"
          limit-caracter="{{vm.formatosImputs.account.maxlength}}"
          caracter-restrict="{{vm.formatosImputs.account.pattern}}" required>
+         <div ng-messages="vm.formPlanChile.account.$error" role="alert"></div>
       </md-input-container>
       <md-input-container flex>
         <label>Nombre</label>
-        <input type="text" name="nombre" ng-model="vm.planCtaOrigen.name"
+        <input type="text" name="name" ng-model="vm.planCtaOrigen.name"
          limit-caracter="{{vm.formatosImputs.name.maxlength}}"
          caracter-restrict="{{vm.formatosImputs.name.pattern}}" required>
+         <div ng-messages="vm.formPlanChile.account.$error" role="alert"></div>
       </md-input-container>
     </div>
-    <md-button ng-disabled="!vm.formPlanOrigin.$valid" aria-label="Crear Cta. Origen" type="submit"
-      class="md-raised md-primary">
-      Crear Plan
-    </md-button>
+    <div layout="row" flex>
+      <md-button class="md-raised md-primary" aria-label="Crear Cta. Origen" type="submit"
+       ng-disabled="!vm.formPlanOrigen.$valid || vm.loading">
+        Crear Plan
+      </md-button>
+      <md-progress-circular md-mode="indeterminate" class="md-primary" md-diameter="40px"
+	     ng-show="vm.loading">
+	    </md-progress-circular>
+    </div>
   </form>
 </md-content>
