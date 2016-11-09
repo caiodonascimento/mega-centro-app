@@ -1,7 +1,7 @@
 <div class="table-responsive-vertical md-whiteframe-z1" ng-hide="vm.searchProcess">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
-      <md-button class="md-fab md-mini" aria-label="Volver a filtrar" ui-sref="home.gestion-movimientos">
+      <md-button class="md-fab md-mini" aria-label="Volver a filtrar" ng-click="vm.volver()">
         <md-tooltip md-direction="bottom">
           Volver
         </md-tooltip>
@@ -21,13 +21,13 @@
         </md-button>
         <md-menu-content>
           <md-menu-item ng-if="vm.viewAccess.canEdit===0">
-            <md-button ui-sref="home.empresas-editar({id: data.id})">
+            <md-button ng-click="vm.actualizarTransactions($event)">
               <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
               Editar
             </md-button>
           </md-menu-item>
           <md-menu-item ng-if="vm.viewAccess.canDelete===0">
-            <md-button ng-click="vm.deleteEmpresa(data, $event)">
+            <md-button ng-click="vm.deleteSelectedTransactions($event)">
               <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
               Eliminar
             </md-button>
