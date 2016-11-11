@@ -143,7 +143,7 @@
         vm.charge = true;
         vm.formPlanOrigen = {};
         vm.formatosImputs = formatosImputs.formPlanOrigen;
-        vm.guardarPlanCtaOrigin = guardarPlanCtaOrigin;
+        vm.handleSubmit = guardarPlanCtaOrigin;
         function guardarPlanCtaOrigin() {
           vm.loading = true;
           planCtaOriginService.updatePlanCtaOrigin(vm.planCtaOrigin)
