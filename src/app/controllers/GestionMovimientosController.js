@@ -2,10 +2,10 @@
 	angular
   	.module('app')
   	.controller('GestionMovimientosController', [
-			'$stateParams', '$state', 'movimientoService', 'storageService', '$rootScope', '$mdDialog',
+			'$stateParams', '$state', 'movimientoService', 'storageService', '$rootScope', '$mdDialog', 'planCtaChileService', 'planCtaOriginService',
   		GestionMovimientosController
   	]);
-  function GestionMovimientosController(stateParams, state, movimientoService, localStorage, rootScope, $mdDialog) {
+  function GestionMovimientosController(stateParams, state, movimientoService, localStorage, rootScope, $mdDialog, planCtaChileService, planCtaOriginService) {
 		var vm = this;
 		vm.searchProcess = true;
 		vm.query = {
@@ -15,12 +15,13 @@
     };
 		vm.arrayResults = [];
 		vm.selected = [];
+		vm.cuentasOrigen = [];
 		vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		function init() {
+			vm.searchProcess = true;
 			movimientoService.getAllThen(stateParams.idEmpresa, stateParams.year, stateParams.month)
 			.then(function(response) {
 				vm.arrayResults = response.data.accountTransactions;
-				console.log(vm.arrayResults);
 				vm.searchProcess = false;
 			});
 		}
@@ -100,10 +101,12 @@
 			$mdDialog.show({
 				parent: parentEl,
         targetEvent: $event,
-	      controller: function DialogController($scope, $mdDialog, empresa) {
+	      controller: function DialogController($scope, $mdDialog, movimientoService, empresa, ids) {
 					$scope.cancel = function() {
 						$mdDialog.cancel();
 					}
+					$scope.changeState = false;
+					$scope.changeAccount = false;
 					$scope.states = [
 						{
 							id: 0,
@@ -114,29 +117,61 @@
 							name: 'Autorizado'
 						}
 					];
-					$scope.chileanAccounts = [];
-					planCtaChileService.loadAllPlanCtaChile(empresa)
-					.then(function(result) {
-						if (result.status === 200) {
-							$scope.chileanAccounts = result.data;
+					$scope.accounts = [];
+					planCtaChileService.loadAllPlanCtaChile({
+						id: empresa
+					}).then(function(response) {
+						if (response.status === 200) {
+							console.log(response.data);
+							_.each(response.data, function(chileAccount) {
+								planCtaOriginService.loadAllPlanCtaOrigin(chileAccount.id)
+								.then(function(res) {
+									if (res.status === 200) {
+										$scope.accounts = _.union($scope.accounts, res.data);
+									}
+								})
+							});
 						}
 					});
+					//$scope.accounts = cuentas;
 					$scope.updateTransactions = function() {
-
+						$scope.loading = true;
+						var data = {};
+						if ($scope.changeState) {
+							data.status = $scope.state;
+						}
+						if ($scope.changeAccount) {
+							data.originAccountId = $scope.account;
+						}
+						$scope.transactionsIds = _.pluck(ids, 'id');
+						console.log($scope.transactionsIds);
+						movimientoService.updateByIds(data, $scope.transactionsIds)
+						.then(function(response) {
+							if (response.status === 200) {
+								$mdDialog.hide('Datos actualizados con éxito');
+							} else {
+								$mdDialog.hide('Error al guardar datos.');
+							}
+						}, function(error) {
+							$mdDialog.hide('Error al guardar datos.');
+						});
 					};
 				},
 	      templateUrl: './app/views/partials/edit-transaction-dialog.html',
 				fullscreen: true,
 				locals: {
-					empresa: stateParams.idEmpresa
+					empresa: stateParams.idEmpresa,
+					ids: vm.selected
 				}
-	    })
-	    .then(function(respuesta) {
-				$mdDialog.alert()
-					.clickOutsideToClose(true)
-					.title('Editar Movimientos')
-					.textContent(respuesta)
-					.ok('Ok');
+	    }).then(function(respuesta) {
+				$mdDialog.show(
+					$mdDialog.alert()
+						.clickOutsideToClose(true)
+						.title('Editar Movimientos')
+						.textContent(respuesta)
+						.ok('Ok')
+				);
+				init();
 	    });
 		}
   }

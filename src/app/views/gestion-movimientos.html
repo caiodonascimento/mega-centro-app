@@ -57,7 +57,7 @@
         <tr></tr>
         <tr md-row md-select="data" md-select-id="$index" md-auto-select ng-repeat="data in vm.arrayResults track by $index">
           <td md-cell data-title="Estado">
-            <md-chips>
+            <md-chips class="chips-gestion-movimientos">
               <md-chip ng-class="{ 'chip-deleted': data.status === 1, 'chip-auth': data.status === 2 }">
                 {{vm.showState(data.status)}}
               </md-chip>
