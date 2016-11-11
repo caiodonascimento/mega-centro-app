@@ -19,6 +19,7 @@
 		vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		function init() {
 			vm.searchProcess = true;
+			vm.selected = [];
 			movimientoService.getAllThen(stateParams.idEmpresa, stateParams.year, stateParams.month)
 			.then(function(response) {
 				vm.arrayResults = response.data.accountTransactions;
@@ -73,7 +74,7 @@
 		function deleteSelectedTransactions() {
 			var confirm = $mdDialog.confirm()
         .title('Eliminar Movimientos')
-        .textContent('¿Desea eliminar los movimientos seleccionados definitivamente?')
+        .textContent('¿Desea eliminar el/los movimiento(s) seleccionado(s) definitivamente?')
         .ariaLabel('Lucky day')
         .targetEvent(event)
         .ok('Confirmar')
@@ -115,6 +116,10 @@
 						{
 							id: 2,
 							name: 'Autorizado'
+						},
+						{
+							id: 3,
+							name: 'Contabilizado'
 						}
 					];
 					$scope.accounts = [];
@@ -147,7 +152,8 @@
 						console.log($scope.transactionsIds);
 						movimientoService.updateByIds(data, $scope.transactionsIds)
 						.then(function(response) {
-							if (response.status === 200) {
+							console.log(response);
+							if (response.count > 0) {
 								$mdDialog.hide('Datos actualizados con éxito');
 							} else {
 								$mdDialog.hide('Error al guardar datos.');
