@@ -44,18 +44,17 @@
             } else if (ids.length === 0) {
               deferred.reject({});
             } else {
-              var params = '?where[id][inq]='
-              _.each(ids, function(id, index) {
-                params = params + id.toString() + ids.length === index+1 ? ''
-                  : '&where[id][inq]=';
-              });
-              console.log(params);
+              var params = {
+                ids: ids,
+                data: data
+              };
               $http.post(
-                apiRoutes.accountTransactions + '/update' + params,
-                data
+                apiRoutes.accountTransactions + '/updateByIds',
+                params
               ).then(function(response) {
+                console.log(response);
                 if (response.status === 200) {
-                  deferred.resolve(response.data);
+                  deferred.resolve(response.data.result);
                 } else {
                   deferred.reject({});
                 }
