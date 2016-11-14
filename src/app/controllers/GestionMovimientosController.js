@@ -34,7 +34,7 @@
 		}
 		vm.getResults = getResults;
 		function getResults() {
-
+			
 		}
 		vm.showState = showState;
 		function showState(state) {
@@ -47,6 +47,9 @@
 					break;
 				case 2:
 					return 'Autorizado';
+					break;
+				case 3:
+					return 'Contabilizado';
 					break;
 				default:
 					return 'Desconocido';

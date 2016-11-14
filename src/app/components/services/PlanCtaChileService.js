@@ -92,6 +92,44 @@
 						}
 					)
 				);
+			},
+			findByIds: function(ids) {
+				var deferred = $q.defer();
+				if (ids.length === 1) {
+					$http.get(
+						apiRoutes.chileanAccounts,
+						{
+							params: {
+								'filter[where][id]': ids[0]
+							}
+						}
+					).then(function(response) {
+						if (response.status === 200) {
+							deferred.resolve(response.data);
+						} else {
+							deferred.reject([]);
+						}
+					});
+				} else if (ids.length === 0) {
+					deferred.reject([]);
+				} else {
+					var params = '?filter[where][id][inq]=';
+					_.each(ids, function(id, index) {
+						params = params + id.toString() + (ids.length === index + 1 ? ''
+							: '&filter[where][id][inq]=');
+					});
+					$http.get(
+						apiRoutes.chileanAccounts + params
+					).then(function(response) {
+						if (response.status === 200) {
+							deferred.resolve(response.data);
+						} else {
+							deferred.reject([]);
+						}
+					});
+				}
+
+				return deferred.promise;
 			}
 		};
 	}
