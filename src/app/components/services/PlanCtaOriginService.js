@@ -84,7 +84,8 @@
 						apiRoutes.originAccounts,
 						{
 							params: {
-								'filter[where][account]': listAccounts[0]
+								'filter[where][account]': listAccounts[0],
+								'filter[include]': 'chileanAccount'
 							}
 						}
 					).then(function(response) {
@@ -95,7 +96,7 @@
 						}
 					});
 				} else {
-					var params = '?filter[where][account][inq]=';
+					var params = '?filter[include]=chileanAccount&filter[where][account][inq]=';
 					_.each(listAccounts, function(account, index) {
 						console.log(account, index);
 						params = params + account + (listAccounts.length === index + 1 ? ''

@@ -1,0 +1,67 @@
+<div class="table-responsive-vertical md-whiteframe-z1 anim-zoom-out speed-ng-anim">
+  <md-toolbar md-scroll-shrink>
+    <div class="md-toolbar-tools">
+      <span>Listado de registros</span>
+    </div>
+  </md-toolbar>
+  <table id="table" class="table table-hover table-bordered" ng-hide="vm.loading">
+    <thead>
+      <tr>
+        <th>Nivel 1</th>
+        <th>Nivel 2</th>
+        <th>Cta. Chile</th>
+        <th>Cta. Origen</th>
+        <th>Monto Mes</th>
+        <th>Monto Mes Ant.</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-show="!vm.loading && vm.arrayData.length===0">
+        <td colspan="5" style="text-align:center;">
+          No hay datos registrados
+        </td>
+      </tr>
+      <tr></tr>
+      <tr class="tr-with-btn" ng-repeat="data in vm.arrayData track by $index">
+        <td data-title="Nivel 1">{{data.originAccount.chileanAccount.level1}}</td>
+        <td data-title="Nivel 2">{{data.originAccount.chileanAccount.level2}}</td>
+        <td data-title="Cta. Chile">{{data.originAccount.chileanAccount.name}}</td>
+        <td data-title="Cta. Origen">{{data.originAccount.name}}</td>
+        <td data-title="Monto Mes">{{data.montoMes|currency:'$':0}}</td>
+        <td data-title="Monto Mes Ant.">{{data.montoMesAnterior|currency:'$':0}}</td>
+        <td>
+          <md-progress-circular md-mode="indeterminate" class="md-primary center-loading loading-row-table"
+            md-diameter="35px" ng-show="data.loading">
+          </md-progress-circular>
+          <md-menu ng-hide="data.loading">
+            <md-button class="md-fab md-mini fab-btn-td" aria-label="Realizar Acción"
+              ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1">
+              <md-tooltip md-direction="bottom">
+                Realizar acción
+              </md-tooltip>
+              <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
+            </md-button>
+            <md-menu-content>
+              <md-menu-item ng-if="vm.viewAccess.canEdit===0">
+                <md-button>
+                  <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
+                  Ver detalle
+                </md-button>
+              </md-menu-item>
+              <md-menu-item ng-if="vm.viewAccess.canDelete===0">
+                <md-button>
+                  <md-icon md-svg-icon="assets/icons/offline_pin.svg"></md-icon>
+                  Autorizar todos
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<md-progress-circular md-mode="indeterminate" class="md-primary center-loading" md-diameter="40px"
+  ng-show="vm.loading">
+</md-progress-circular>

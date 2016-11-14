@@ -34,7 +34,7 @@
 		}
 		vm.getResults = getResults;
 		function getResults() {
-
+			
 		}
 		vm.showState = showState;
 		function showState(state) {

@@ -95,11 +95,20 @@
       vm.arrayErrores = [];
       planCtaOriginService.findManyByAccount(arrayCuentasOrigen)
       .then(function(data) {
+        console.log(data);
         transactions = transactions.map(function(value) {
           var originAccount = _.findWhere(data, {account: value.onlyAccount});
-          value.originAccountId = originAccount ? originAccount.id : 0;
+          if (originAccount) {
+            if (originAccount.chileanAccount.enterpriseId === vm.carga.empresa.id) {
+              value.originAccountId = originAccount.id;
+            } else {
+              value.originAccountId = 0;
+            }
+          } else {
+            value.originAccountId = 0;
+          }
           return value;
-        })
+        });
         cargaService.saveAccountTransaction(
           transactions,
           vm.currentCharge.id
