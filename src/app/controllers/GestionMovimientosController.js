@@ -13,6 +13,7 @@
       limit: 10,
       page: 1
     };
+		vm.arrayResultsShows = [];
 		vm.arrayResults = [];
 		vm.selected = [];
 		vm.cuentasOrigen = [];
@@ -26,15 +27,32 @@
 				vm.searchProcess = false;
 			});
 		}
-		console.log(stateParams.idEmpresa, stateParams.year, stateParams.month);
 		if (stateParams.idEmpresa && stateParams.year) {
 			init();
 		} else {
 			state.go('home.gestion-movimientos', {}, {location: 'replace'});
 		}
+		if (stateParams.originAccount) {
+			vm.idOrigin = parseInt(stateParams.originAccount);
+		}
 		vm.getResults = getResults;
+		//vm.filterByOriginAccount = filterByOriginAccount;
+		function filterByOriginAccount(data) {
+			if (vm.idOrigin) {
+				return data.originAccount.id === vm.idOrigin;
+			} else {
+				return true;
+			}
+		}
 		function getResults() {
-			
+			vm.arrayResultsShows = _.filter(
+				_.filter(vm.arrayResults, filterByOriginAccount),
+				function(value, index) {
+					var initIndex = (vm.query.page * vm.query.limit) - vm.query.limit;
+					var endIndex = vm.query.page * vm.query.limit;
+					return index >= initIndex && index < endIndex;
+				}
+			);
 		}
 		vm.showState = showState;
 		function showState(state) {
@@ -71,7 +89,11 @@
 		}
 		vm.volver = volver;
 		function volver() {
-			state.go('home.gestion-movimientos', { empresa: stateParams.idEmpresa, year: stateParams.year, month: stateParams.month});
+			if (vm.idOrigin) {
+				state.go('home.balance-data', { idEmpresa: stateParams.idEmpresa, year: stateParams.year, month: stateParams.month});
+			} else {
+				state.go('home.gestion-movimientos', { empresa: stateParams.idEmpresa, year: stateParams.year, month: stateParams.month});
+			}
 		}
 		vm.deleteSelectedTransactions = deleteSelectedTransactions;
 		function deleteSelectedTransactions() {
@@ -96,7 +118,7 @@
 			    	);
 						init();
 					}
-				})
+				});
 			});
 		}
 		vm.actualizarTransactions = actualizarTransactions;
