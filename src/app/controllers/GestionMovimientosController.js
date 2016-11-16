@@ -34,12 +34,13 @@
 		}
 		if (stateParams.originAccount) {
 			vm.idOrigin = parseInt(stateParams.originAccount);
+			console.log(vm.idOrigin);
 		}
 		vm.getResults = getResults;
 		//vm.filterByOriginAccount = filterByOriginAccount;
 		function filterByOriginAccount(data) {
 			if (vm.idOrigin) {
-				return data.originAccount.id === vm.idOrigin;
+				return data.originAccount ? data.originAccount.id === vm.idOrigin : false;
 			} else {
 				return true;
 			}

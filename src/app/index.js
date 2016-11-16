@@ -223,7 +223,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
       })
       .state('home.balance-data', {
         url: '/balance/{idEmpresa}/{year}/{month}',
-        templateUrl: 'app/views/balance-ev.html',
+        templateUrl: 'app/views/balance.html',
         controller: 'BalanceController',
         controllerAs: 'vm',
         data: {
