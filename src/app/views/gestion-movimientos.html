@@ -55,7 +55,7 @@
       </thead>
       <tbody md-body>
         <tr></tr>
-        <tr md-row md-select="data" md-select-id="$index" md-auto-select ng-repeat="data in vm.arrayResults track by $index">
+        <tr md-row md-select="data" md-select-id="$index" md-auto-select ng-repeat="data in vm.arrayResultsShows track by $index">
           <td md-cell data-title="Estado">
             <md-chips class="chips-gestion-movimientos">
               <md-chip ng-class="{ 'chip-accounted': data.status === 3}">
@@ -79,7 +79,7 @@
       </tbody>
     </table>
   </md-table-container>
-  <md-table-pagination md-limit="vm.query.limit" md-page="vm.query.page" md-total="{{vm.arrayResults.length}}"
+  <md-table-pagination md-limit="vm.query.limit" md-page="vm.query.page" md-total="{{vm.arrayResultsShows.length}}"
      md-on-paginate="vm.getResults()" md-page-select md-limit-options="[5, 10, 15]">
   </md-table-pagination>
 </div>

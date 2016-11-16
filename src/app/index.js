@@ -186,7 +186,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.gestion-movimientos-data', {
-        url: '/gestion-movimientos/{idEmpresa}/{year}/{month}',
+        url: '/gestion-movimientos/{idEmpresa}/{year}/{month}?originAccount',
         templateUrl: 'app/views/gestion-movimientos.html',
         controller: 'GestionMovimientosController',
         controllerAs: 'vm',
