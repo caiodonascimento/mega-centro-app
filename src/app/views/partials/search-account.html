@@ -4,63 +4,13 @@
       <span>Selecciona una empresa</span>
     </div>
   </md-toolbar>
-  <md-card-content ng-show="vm.viewSearch==='chilean'">
-    <form ng-submit="vm.filterAccounts(); $event.preventDefault();" name="vm.searchFormChilean" novalidate>
-      <md-autocomplete required flex
-        md-input-name="empresa"
-        md-selected-item="vm.empresa"
-        md-search-text="vm.searchText"
-        md-no-cache="true"
-        md-items="item in vm.querySearchEmpresa(vm.searchText)"
-        md-item-text="item.name"
-        md-require-match
-        md-floating-label="Empresa">
-        <md-item-template>
-          <span md-highlight-text="vm.searchText">
-            {{item.name}}
-          </span>
-        </md-item-template>
-        <md-not-found>
-          No hay empresas con el nombre indicado.
-        </md-not-found>
-      </md-autocomplete>
-      <md-button type="submit" aria-label="Filtrar" class="md-raised md-primary"
-        ng-disabled="vm.searchFormChilean.$invalid">
-        Buscar
-        <md-icon class="material-icons">search</md-icon>
-      </md-button>
-    </form>
-  </md-card-content>
-  <md-card-content ng-show="vm.viewSearch==='origin'">
-    <form ng-submit="vm.filterAccounts(); $event.preventDefault();" name="vm.searchFormOrigin" novalidate>
-      <md-autocomplete required flex
-        ng-class="{'has-error': vm.errors.cuenta}"
-        md-input-name="empresa"
-        ng-disabled="vm.loading"
-        md-selected-item="vm.empresa"
-        md-search-text="vm.searchText"
-        md-no-cache="true"
-        md-items="item in vm.querySearchEmpresa(vm.searchText)"
-        md-item-text="item.name"
-        md-require-match
-        md-floating-label="Empresa">
-        <md-item-template>
-          <span md-highlight-text="vm.searchText">
-            {{item.name}}
-          </span>
-        </md-item-template>
-        <md-not-found>
-          No hay empresas con el nombre indicado.
-        </md-not-found>
-        <div class="error-message" ng-show="vm.errors.cuenta">
-          Empresa {{vm.empresa.name}} no tiene cuentas vinculadas.
-        </div>
-      </md-autocomplete>
+  <md-card-content>
+    <form ng-submit="vm.filterAccounts(); $event.preventDefault();" name="vm.searchForm" novalidate>
       <md-input-container layout="row" flex>
-        <label>Cuenta de destino</label>
-        <md-select flex ng-model="vm.cuenta" required ng-disabled="vm.chileanAccounts.length===0 || vm.loading">
-          <md-option ng-repeat="account in vm.chileanAccounts" ng-value="account.id">
-            {{account.name}} - {{account.account}}
+        <label>Empresa</label>
+        <md-select flex ng-model="vm.empresa" required ng-disabled="vm.loading">
+          <md-option ng-repeat="empresa in vm.empresas" ng-value="empresa.id">
+            {{empresa.name}} - {{empresa.code}}
           </md-option>
         </md-select>
       </md-input-container>

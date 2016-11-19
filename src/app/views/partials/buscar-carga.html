@@ -6,25 +6,14 @@
   </md-toolbar>
   <md-card-content>
     <form ng-submit="vm.handleSubmit(); $event.preventDefault();" name="vm.searchForm" novalidate>
-      <md-autocomplete required flex
-        md-input-name="empresa"
-        ng-disabled="vm.loading"
-        md-selected-item="vm.search.empresa"
-        md-search-text="vm.searchText"
-        md-no-cache="true"
-        md-items="item in vm.querySearchEmpresa(vm.searchText)"
-        md-item-text="item.name"
-        md-require-match
-        md-floating-label="Empresa">
-        <md-item-template>
-          <span md-highlight-text="vm.searchText">
-            {{item.name}}
-          </span>
-        </md-item-template>
-        <md-not-found>
-          No hay empresas con el nombre indicado.
-        </md-not-found>
-      </md-autocomplete>
+      <md-input-container layout="row" flex>
+        <label>Empresa</label>
+        <md-select flex ng-model="vm.search.empresa" required ng-disabled="vm.loading">
+          <md-option ng-repeat="empresa in vm.empresas" ng-value="empresa.id">
+            {{empresa.name}} - {{empresa.code}}
+          </md-option>
+        </md-select>
+      </md-input-container>
       <div layout layout-md="row" layout-sm="column" layout-xs="column">
         <md-input-container flex>
           <label>Año</label>

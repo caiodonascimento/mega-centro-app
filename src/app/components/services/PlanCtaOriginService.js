@@ -3,11 +3,11 @@
 
 	angular.module('app')
         .service('planCtaOriginService', [
-        '$q', '$http', 'apiRoutes',
+        '$q', '$http', 'apiRoutes', 'planCtaChileService',
         planCtaOriginService
 	]);
 
-	function planCtaOriginService($q, $http, apiRoutes) {
+	function planCtaOriginService($q, $http, apiRoutes, planCtaChileService) {
 		return {
 			loadAllPlanCtaOrigin : function(cuentaDestino) {
 				return $q.when(
@@ -42,7 +42,8 @@
 			updatePlanCtaOrigin : function(planCtaOrigin) {
 				var data = {
 					account: planCtaOrigin.account,
-					name: planCtaOrigin.name
+					name: planCtaOrigin.name,
+					chileanAccountId: planCtaOrigin.chileanAccountId
 				};
 				return $q.when(
 					$http.put(
@@ -63,6 +64,63 @@
 						}
 					)
 				);
+			},
+			getByEmpresaId: function(empresaId) {
+				var deferred = $q.defer();
+				planCtaChileService.loadAllPlanCtaChile({
+					id: empresaId
+				}).then(function(respuesta) {
+					if (respuesta.status !== 200) {
+						deferred.reject([]);
+						return false;
+					}
+					var listadoCuentasChile = respuesta.data;
+					var idsCuentaChile = _.pluck(listadoCuentasChile, 'id');
+					console.log(idsCuentaChile);
+					if (idsCuentaChile.length === 1 ){
+						$http.get(
+							apiRoutes.originAccounts,
+							{
+								params: {
+									'filter[include]': 'chileanAccount',
+									'filter[where][chileanAccountId]': idsCuentaChile[0],
+									'filter[where][status]': 0
+								}
+							}
+						).then(function(response) {
+							console.log(response);
+							if (response.status === 200) {
+								deferred.resolve(response.data);
+							} else {
+								deferred.reject([]);
+							}
+						}, function(error) {
+							deferred.reject([]);
+						});
+					} else if (idsCuentaChile.length > 1) {
+						var params = '?filter[include]=chileanAccount&filter[where][chileanAccountId][inq]=';
+						_.each(idsCuentaChile, function(id, index) {
+							params = params + id.toString() + (idsCuentaChile.length === index + 1 ? ''
+								: '&filter[where][chileanAccountId][inq]=');
+						});
+						$http.get(
+							apiRoutes.originAccounts + params
+						).then(function(response) {
+							if (response.status === 200) {
+								deferred.resolve(response.data);
+							} else {
+								deferred.reject([]);
+							}
+						}, function(error) {
+							deferred.reject([]);
+						});
+					} else {
+						deferred.resolve([]);
+					}
+				}, function(error) {
+					deferred.reject([]);
+				});
+				return deferred.promise;
 			},
 			deletePlanCtaOrigin : function(planCtaOrigin) {
 				var data = {

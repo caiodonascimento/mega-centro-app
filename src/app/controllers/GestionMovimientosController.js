@@ -132,22 +132,6 @@
 					$scope.cancel = function() {
 						$mdDialog.cancel();
 					}
-					$scope.changeState = false;
-					$scope.changeAccount = false;
-					$scope.states = [
-						{
-							id: 0,
-							name: 'Cargado'
-						},
-						{
-							id: 2,
-							name: 'Autorizado'
-						},
-						{
-							id: 3,
-							name: 'Contabilizado'
-						}
-					];
 					$scope.accounts = [];
 					planCtaChileService.loadAllPlanCtaChile({
 						id: empresa
@@ -168,14 +152,8 @@
 					$scope.updateTransactions = function() {
 						$scope.loading = true;
 						var data = {};
-						if ($scope.changeState) {
-							data.status = $scope.state;
-						}
-						if ($scope.changeAccount) {
-							data.originAccountId = $scope.account;
-						}
+						data.originAccountId = $scope.account;
 						$scope.transactionsIds = _.pluck(ids, 'id');
-						console.log($scope.transactionsIds);
 						movimientoService.updateByIds(data, $scope.transactionsIds)
 						.then(function(response) {
 							console.log(response);

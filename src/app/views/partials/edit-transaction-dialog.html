@@ -7,23 +7,9 @@
     </md-toolbar>
 
     <md-dialog-content style="padding: 15px;" layout="column">
-      <md-switch flex ng-model="changeState" aria-label="Cambiar estado de Movimientos">
-        Cambiar estado de Movimientos
-      </md-switch>
-      <md-input-container flex>
-        <label>Estado</label>
-        <md-select ng-model="state" ng-required="changeState" ng-disabled="!changeState">
-          <md-option ng-repeat="state in states" ng-value="state.id">
-            {{state.name}}
-          </md-option>
-        </md-select>
-      </md-input-container>
-      <md-switch flex ng-model="changeAccount" aria-label="Enlazar a plan de cta. de Chile">
-        Enlazar a plan de cta. de Chile
-      </md-switch>
       <md-input-container flex>
         <label>Cuenta de Chile</label>
-        <md-select flex ng-model="account" ng-required="changeAccount" ng-disabled="!changeAccount">
+        <md-select flex ng-model="account" required>
           <md-option ng-repeat="account in accounts" ng-value="account.id">
             {{account.name}} - {{account.account}}
           </md-option>

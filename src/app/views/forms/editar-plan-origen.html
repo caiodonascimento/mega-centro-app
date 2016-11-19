@@ -1,6 +1,6 @@
 <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
-        <md-button class="md-fab md-mini" aria-label="Volver a Plan Cta. Origen" ui-sref="home.plan-origen-data({idCuenta: vm.planCtaOrigin.chileanAccount.id})">
+        <md-button class="md-fab md-mini" aria-label="Volver a Plan Cta. Origen" ui-sref="home.plan-origen-data({idEmpresa: vm.planCtaOrigin.chileanAccount.enterprise.id})">
             <md-tooltip md-direction="bottom">
                 Volver
             </md-tooltip>
@@ -18,7 +18,11 @@
             </md-input-container>
             <md-input-container flex>
                 <label>Cuenta de Destino</label>
-                <input type="text" name="nombre" ng-model="vm.planCtaOrigin.chileanAccount.name" ng-disabled="true">
+                <md-select flex ng-model="vm.planCtaOrigin.chileanAccountId" required>
+                  <md-option ng-repeat="cuenta in vm.cuentas" ng-value="cuenta.id">
+                    {{cuenta.name}} - {{cuenta.account}}
+                  </md-option>
+                </md-select>
             </md-input-container>
         </div>
         <div layout layout-md="row" layout-sm="column" layout-xs="column">

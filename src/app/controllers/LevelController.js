@@ -99,8 +99,12 @@
 		vm.level = {
 			name: '',
 			description: '',
-      		type: ''
+  		type: ''
 		};
+		vm.levels = [
+			'1',
+			'2'
+		];
 
 		function createLevel() {
 			vm.loading = true;
