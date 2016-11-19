@@ -123,7 +123,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.plan-origen', {
-        url: '/search-account/origin/?idCuenta',
+        url: '/search-account/origin/?idEmpresa',
         controller: 'SearchAccountController',
         controllerAs: 'vm',
         templateUrl: 'app/views/partials/search-account.html',
@@ -132,7 +132,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.plan-origen-data', {
-        url: '/plan-origen/{idCuenta}',
+        url: '/plan-origen/{idEmpresa}',
         controller: 'PlanOrigenController',
         controllerAs: 'vm',
         templateUrl: 'app/views/plan-origen.html',
@@ -141,7 +141,7 @@ angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
         }
       })
       .state('home.plan-origen-nuevo', {
-        url: '/plan-origen/nuevo/{idCuenta}',
+        url: '/plan-origen/nuevo/{idEmpresa}',
         controller: 'PlanOrigenNuevoController',
         controllerAs: 'vm',
         templateUrl: 'app/views/forms/nuevo-plan-origen.html',

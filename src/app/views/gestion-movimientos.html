@@ -40,14 +40,14 @@
     <table md-table md-row-select multiple ng-model="vm.selected">
       <thead md-head md-order="query.order">
         <tr md-row>
-          <th md-column>Estado</th>
+          <!--<th md-column>Estado</th>-->
           <th md-column>Cta. Origen</th>
           <th md-column>Date</th>
           <th md-column>Num</th>
           <th md-column>Name</th>
-          <!--<th md-column>Memo</th>-->
+          <th md-column>Memo</th>
           <th md-column>Account</th>
-          <!--<th md-column>Split</th>-->
+          <th md-column>Split</th>
           <th md-column>Amount</th>
           <th md-column>TC</th>
           <th md-column>Pesos Liabilities</th>
@@ -56,22 +56,22 @@
       <tbody md-body>
         <tr></tr>
         <tr md-row md-select="data" md-select-id="$index" md-auto-select ng-repeat="data in vm.arrayResultsShows track by $index">
-          <td md-cell data-title="Estado">
+          <!--<td md-cell data-title="Estado">
             <md-chips class="chips-gestion-movimientos">
               <md-chip ng-class="{ 'chip-accounted': data.status === 3}">
                 {{vm.showState(data.status)}}
               </md-chip>
             </md-chips>
-          </td>
-          <td md-cell data-title="Estado">
+          </td>-->
+          <td md-cell data-title="Cta. Origen">
             {{data.originAccount ? data.originAccount.name : 'No enlazado' }}
           </td>
           <td md-cell data-title="Date">{{data.date}}</td>
           <td md-cell data-title="Num">{{data.num}}</td>
           <td md-cell data-title="Name">{{data.name}}</td>
-          <!--<td md-cell data-title="Memo">{{data.memo}}</td>-->
+          <td md-cell data-title="Memo">{{data.memo}}</td>
           <td md-cell data-title="Account">{{data.account}}</td>
-          <!--<td md-cell data-title="Split">{{data.split}}</td>-->
+          <td md-cell data-title="Split">{{data.split}}</td>
           <td md-cell data-title="Amount">{{data.amount}}</td>
           <td md-cell data-title="TC">{{data.tc}}</td>
           <td md-cell data-title="Pesos Liabilities">{{data.liabilities}}</td>

@@ -7,7 +7,7 @@
             PlanOrigenController
         ])
         .controller('PlanOrigenNuevoController', [ '$state', 'planCtaChileService', 'formatosImputs',
-            '$rootScope', '$stateParams', 'planCtaOriginService',
+            '$rootScope', '$stateParams', 'planCtaOriginService', 'empresasService',
             PlanOrigenNuevoController
         ])
         .controller('PlanOrigenEditarController', [ '$stateParams', '$state', 'planCtaChileService', 'formatosImputs',
@@ -26,66 +26,66 @@
         vm.empresa = null;
         vm.chileanAccountId = '';
         function init() {
-            vm.loading = true;
-            planCtaOriginService.loadAllPlanCtaOrigin(vm.chileanAccountId)
-            .then(function(result) {
-              vm.cuentasOrigin = result.data;
-              vm.loading = false;
-            });
+          vm.loading = true;
+          planCtaOriginService.getByEmpresaId(vm.empresaId)
+          .then(function(result) {
+            vm.cuentasOrigin = result;
+            vm.loading = false;
+          });
         }
-        if (stateParams.idCuenta) {
-            vm.chileanAccountId = stateParams.idCuenta;
-            planCtaChileService.getById(vm.chileanAccountId)
-            .then(function(resultAccount) {
-                vm.empresa = resultAccount.data.enterprise;
-            });
-            init();
+        if (stateParams.idEmpresa) {
+          vm.empresaId = stateParams.idEmpresa;
+          empresasService.getById(vm.empresaId)
+          .then(function(resultAccount) {
+              vm.empresa = resultAccount.data;
+          });
+          init();
         } else {
-            state.go('home.plan-origen');
+          state.go('home.plan-origen');
         }
         function openMenu($mdOpenMenu, event) {
-            if (vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1) {
-                rootScope.$broadcast(
-                    'event:toastMessage',
-                    'No tienes acceso, favor comunicarse con el Administrador.',
-                    'md-alert'
-                );
-                event.stopPropagation();
-                return false;
-            }
-            originatorEv = event;
-            $mdOpenMenu(event);
+          if (vm.viewAccess.canEdit===1 && vm.viewAccess.canDelete===1) {
+            rootScope.$broadcast(
+              'event:toastMessage',
+              'No tienes acceso, favor comunicarse con el Administrador.',
+              'md-alert'
+            );
+            event.stopPropagation();
+            return false;
+          }
+          originatorEv = event;
+          $mdOpenMenu(event);
         }
         function deleteCuenta(cuenta, event) {
-            cuenta.loading = true;
-            var confirm = $mdDialog.confirm()
-                .title('Plan de Cuentas Origen')
-                .textContent('¿Desea eliminar la cuenta ' + cuenta.name + ' definitivamente?')
-                .ariaLabel('Lucky day')
-                .targetEvent(event)
-                .ok('Confirmar')
-                .cancel('Cancelar');
-            $mdDialog.show(confirm).then(function() {
-                planCtaOriginService.deletePlanCtaOrigin(cuenta)
-                    .then(function() {
-                        init();
-                        $mdDialog.show(
-                          $mdDialog.alert()
-                              .clickOutsideToClose(true)
-                              .title('Eliminando Plan Cta Origen')
-                              .textContent('Cuenta ' + cuenta.name + ' eliminada con éxito.')
-                              .ok('Ok')
-                        );
-                        cuenta.loading = false;
-                    },
-                    function(error) {
-                        rootScope.$broadcast(
-                            'event:toastMessage',
-                            'Ha ocurrido un error, favor comunicarse con el Administrador.',
-                            'md-alert'
-                        );
-                        cuenta.loading = false;
-                    });
+          cuenta.loading = true;
+          var confirm = $mdDialog.confirm()
+              .title('Plan de Cuentas Origen')
+              .textContent('¿Desea eliminar la cuenta ' + cuenta.name + ' definitivamente?')
+              .ariaLabel('Lucky day')
+              .targetEvent(event)
+              .ok('Confirmar')
+              .cancel('Cancelar');
+          $mdDialog.show(confirm).then(function() {
+              planCtaOriginService.deletePlanCtaOrigin(cuenta)
+              .then(function() {
+                init();
+                $mdDialog.show(
+                  $mdDialog.alert()
+                      .clickOutsideToClose(true)
+                      .title('Eliminando Plan Cta Origen')
+                      .textContent('Cuenta ' + cuenta.name + ' eliminada con éxito.')
+                      .ok('Ok')
+                );
+                cuenta.loading = false;
+              },
+              function(error) {
+                rootScope.$broadcast(
+                    'event:toastMessage',
+                    'Ha ocurrido un error, favor comunicarse con el Administrador.',
+                    'md-alert'
+                );
+                cuenta.loading = false;
+              });
             }, function() {
                 cuenta.loading = false;
             });
@@ -93,46 +93,52 @@
     }
 
     function PlanOrigenNuevoController(state, planCtaChileService, formatosImputs, rootScope,
-    stateParams, planCtaOrigenService) {
+    stateParams, planCtaOrigenService, empresasService) {
         var vm = this;
         vm.loading = false;
         vm.planCtaOrigen = {
-            account: '',
-            name: ''
+          account: '',
+          name: ''
         };
-        if (stateParams.idCuenta) {
-            vm.chileanAccountId = stateParams.idCuenta;
-            planCtaChileService.getById(vm.chileanAccountId)
-            .then(function(resultAccount) {
-                vm.cuenta = resultAccount.data;
-                vm.empresa = resultAccount.data.enterprise;
-            });
+        vm.cuenta = {};
+        if (stateParams.idEmpresa) {
+          vm.empresaId = stateParams.idEmpresa;
+          empresasService.getById(vm.empresaId)
+          .then(function(resultAccount) {
+            vm.empresa = resultAccount.data;
+          });
+          planCtaChileService.loadAllPlanCtaChile({
+            id: vm.empresaId
+          })
+          .then(function(response) {
+            vm.cuentas = response.data;
+          })
         } else {
-            state.go('home.plan-origen');
+          state.go('home.plan-origen');
         }
         vm.formPlanOrigen = {};
         vm.formatosImputs = formatosImputs.formPlanOrigen;
         vm.createPlanCtaOrigin = createPlanCtaOrigin;
         function createPlanCtaOrigin() {
-            vm.loading = true;
-            vm.planCtaOrigen.chileanAccountId = vm.chileanAccountId;
-            planCtaOrigenService.insertPlanCtaOrigin(vm.planCtaOrigen)
-              .then(function(response) {
-                  rootScope.$broadcast(
-                    'event:toastMessage',
-                    'Plan Cta. de Origen registrada con éxito.',
-                    'md-primary'
-                  );
-                  state.go('home.plan-origen-data', {idCuenta: vm.chileanAccountId});
-                  vm.loading = false;
-              }, function(error) {
-                rootScope.$broadcast(
-                  'event:toastMessage',
-                  'Ha ocurrido un problema, favor vuelva a intentarlo.',
-                  'md-primary'
-                );
-                vm.loading = false;
-              });
+          vm.loading = true;
+          vm.planCtaOrigen.chileanAccountId = vm.cuenta.id;
+          planCtaOrigenService.insertPlanCtaOrigin(vm.planCtaOrigen)
+          .then(function(response) {
+            rootScope.$broadcast(
+              'event:toastMessage',
+              'Plan Cta. de Origen registrada con éxito.',
+              'md-primary'
+            );
+            state.go('home.plan-origen-data', {idEmpresa: vm.empresaId});
+            vm.loading = false;
+          }, function(error) {
+            rootScope.$broadcast(
+              'event:toastMessage',
+              'Ha ocurrido un problema, favor vuelva a intentarlo.',
+              'md-primary'
+            );
+            vm.loading = false;
+          });
         }
     }
 
@@ -154,7 +160,7 @@
               'Datos guardados con éxito.',
               'md-primary'
             );
-            state.go('home.plan-origen-data', {idCuenta: vm.planCtaOrigin.chileanAccount.id});
+            state.go('home.plan-origen-data', {idEmpresa: vm.planCtaOrigin.chileanAccount.enterprise.id});
             vm.loading = false;
           }, function(error) {
             rootScope.$broadcast(
@@ -169,6 +175,12 @@
           planCtaOriginService.getById(vm.chileanAccountId)
           .then(function(response) {
             vm.planCtaOrigin = response.data;
+            planCtaChileService.loadAllPlanCtaChile({
+              id: vm.planCtaOrigin.chileanAccount.enterprise.id.toString()
+            })
+            .then(function(response) {
+              vm.cuentas = response.data;
+            })
           });
         }
         if (stateParams.idCuentaOrigen) {

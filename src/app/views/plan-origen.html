@@ -1,7 +1,7 @@
 <div class="table-responsive-vertical md-whiteframe-z1 anim-zoom-out speed-ng-anim">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
-      <md-button class="md-fab md-mini" aria-label="Volver a Plan-Origen" ui-sref="home.plan-origen({idEmpresa: vm.idEmpresa})">
+      <md-button class="md-fab md-mini" aria-label="Volver a Plan-Origen" ui-sref="home.plan-origen({idEmpresa: vm.empresaId})">
         <md-tooltip md-direction="bottom">
           Volver
         </md-tooltip>
@@ -9,7 +9,7 @@
       </md-button>
       <span>Cuentas asociadas a {{vm.empresa.name}}</span>
       <md-button class="md-fab md-fab-top-right" aria-label="Agregar Cuenta"
-        ui-sref="home.plan-origen-nuevo({idCuenta: vm.chileanAccountId})" ng-if="vm.viewAccess.canCreate===0">
+        ui-sref="home.plan-origen-nuevo({idEmpresa: vm.empresaId})" ng-if="vm.viewAccess.canCreate===0">
         <md-tooltip md-direction="bottom">
           Agregar Cuenta
         </md-tooltip>
