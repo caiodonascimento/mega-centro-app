@@ -1,14 +1,30 @@
 <div class="table-responsive-vertical md-whiteframe-z1 anim-zoom-out speed-ng-anim">
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
-      <span>Listado de registros</span>
-      <md-button class="md-fab md-fab-top-right" aria-label="Agregar Nivel"
-       ui-sref="home.levels-nuevo" ng-if="vm.viewAccess.canCreate===0">
-        <md-tooltip md-direction="bottom">
-          Agregar Nivel
-        </md-tooltip>
-        <md-icon class="material-icons">add</md-icon>
-      </md-button>
+      <span>Lista de clasificaciones de tipo {{vm.level.type}}</span>
+      <md-menu ng-hide="data.loading">
+        <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
+         ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canAdd===1 && vm.viewAccess.canChange===1">
+          <md-tooltip md-direction="bottom">
+            Realizar acción
+          </md-tooltip>
+          <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
+        </md-button>
+        <md-menu-content>
+          <md-menu-item ng-if="vm.viewAccess.canAdd===0">
+            <md-button ui-sref="home.levels-editar({id: data.id})">
+              <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
+              Agregar
+            </md-button>
+          </md-menu-item>
+          <md-menu-item ng-if="vm.viewAccess.canChange===0">
+            <md-button ng-click="vm.deleteLevel(data, $event)">
+              <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
+              Tipo
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </div>
   </md-toolbar>
   <table id="table" class="table table-hover table-bordered">
@@ -17,7 +33,6 @@
           <th>#</th>
           <th>Nombre</th>
           <th>Descripcion</th>
-          <th>Tipo</th>
           <th></th>
         </tr>
       </thead>
@@ -26,8 +41,7 @@
         <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
           <td data-title="ID">{{data.id}}</td>
           <td data-title="Nombre">{{data.name}}</td>
-          <td data-title="Tipo">{{data.description}}</td>
-          <td data-title="Descripcion">{{data.type}}</td>
+          <td data-title="Descripcion">{{data.description}}</td>
           <td>
             <md-progress-circular md-mode="indeterminate" class="md-primary center-loading loading-row-table"
               md-diameter="35px" ng-show="data.loading">
