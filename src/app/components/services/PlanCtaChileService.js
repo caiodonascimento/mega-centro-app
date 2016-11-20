@@ -28,8 +28,8 @@
 				var data = {
 					account: planCtaChile.account,
 					name: planCtaChile.name,
-					level1: planCtaChile.level1.name,
-					level2: planCtaChile.level2.name,
+					level1: planCtaChile.level1,
+					level2: planCtaChile.level2,
 					level3: '',
 					status: 0,
 					createDate: now.toString(),

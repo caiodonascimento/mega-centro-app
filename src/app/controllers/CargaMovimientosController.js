@@ -24,9 +24,6 @@
     vm.searchProcessResult = false;
     vm.activarFinalizados = false;
     vm.loadingFinish = false;
-    vm.searchText = null;
-    vm.promise = null;
-    vm.querySearchEmpresa = querySearchEmpresa;
     vm.upload = upload;
     vm.colorResult = 'green-300';
     vm.selected = [];
@@ -41,7 +38,7 @@
     vm.arrayErrores = [];
     vm.mimeTypes =
       'application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet';
-    vm.loadingCarga = false;
+    vm.loadingCarga = true;
     vm.getResults = getResults;
     vm.cancelarCarga = cancelarCarga;
     vm.reader = new FileReader();
@@ -82,11 +79,11 @@
     }
     function querySearchEmpresa(query) {
       var defer = $q.defer();
-      empresasService.findLikeName(query)
+      empresasService.loadAllEmpresas()
       .then(function (response) {
         defer.resolve(response.data);
       }, function (error) {
-        defer.reject([]);
+          defer.reject([]);
       });
       return defer.promise;
     }
@@ -151,11 +148,14 @@
     }
     function handleSubmitCarga() {
       vm.loadingCarga = true;
+      vm.arrayErrores = [];
       vm.year = 0;
       var arrayCuentasOrigen = [];
       vm.correctResults = vm.carga.file.map(function(value) {
         var fecha = new Date(value.Date);
-        //console.log(fecha, value.Date, _.isDate(fecha), fecha.getFullYear());
+        if (!_.isDate(fecha)) {
+          vm.arrayErrores.push(value);
+        }
         if (_.isDate(fecha) && vm.year !== 0) {
           vm.year = fecha.getFullYear() === vm.year ? vm.year : -1;
         }
@@ -167,7 +167,7 @@
           arrayCuentasOrigen.push(dataAcount[0].replace(/^\s+|\s+$/gm,''));
         }
         return {
-          Date: fecha.getDay().toString() + '/' + (fecha.getMonth()+1).toString() + '/' + fecha.getFullYear().toString(),
+          Date: value.Date,
           Num: value.Num || '',
           Name: value.Name || '',
           Memo: value.Memo || '',
@@ -184,6 +184,15 @@
           'event:toastMessage',
           'Favor revisar columna Date del archivo, ' +
             'ya que solo no se puede cargar datos de dos o mas años juntos.',
+          'md-primary'
+        );
+        vm.loadingCarga = false;
+        return false;
+      }
+      if (vm.arrayErrores.length > 0) {
+        rootScope.$broadcast(
+          'event:toastMessage',
+          'Columna Date es inválida.',
           'md-primary'
         );
         vm.loadingCarga = false;
@@ -283,6 +292,11 @@
         }
         vm.searchProcess = true;
       }
+      vm.loadingCarga = false;
+    });
+
+    querySearchEmpresa().then(function(response) {
+      vm.empresas = response;
       vm.loadingCarga = false;
     });
   }

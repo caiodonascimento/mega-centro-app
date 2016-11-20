@@ -31,15 +31,6 @@
           required limit-caracter="{{vm.formatosImputs.password.maxlength}}"
           caracter-restrict="{{vm.formatosImputs.password.pattern}}">
       </md-input-container>
-      <md-input-container class="md-block" style="margin-left:5px;">
-        <md-checkbox
-          ng-model="vm.rememberUser"
-          aria-label="Recordar-me"
-          ng-disabled="!vm.form.$valid"
-          class="md-warn md-align-top-left" flex>
-          Recordar-me
-        </md-checkbox>
-      </md-input-container>
       <div layout="row" flex >
         <md-button class="md-raised md-primary" ng-disabled="(!vm.form.$valid && !vm.errors.email) || vm.loading"
           aria-label="Ingresar" type="submit">

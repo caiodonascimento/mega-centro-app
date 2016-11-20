@@ -38,7 +38,7 @@
       </thead>
       <tbody>
         <tr></tr>
-        <tr class="tr-with-btn" ng-repeat="data in vm.tableData track by $index">
+        <tr class="tr-with-btn" ng-repeat="data in vm.tableData | filter:{type: vm.filterType} track by $index">
           <td data-title="ID">{{data.id}}</td>
           <td data-title="Nombre">{{data.name}}</td>
           <td data-title="Descripcion">{{data.description}}</td>

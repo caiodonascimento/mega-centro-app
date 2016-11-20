@@ -80,6 +80,83 @@
                 }
               )
             );
+          },
+          getBalance: function(enterpriseId, year, month) {
+            var params = {
+              'enterpriseId': enterpriseId,
+              'year': year,
+              'month': month
+            };
+            return $q.when(
+              $http.get(
+                apiRoutes.chargeTransactions + '/getBalance',
+                {
+                  params: params
+                }
+              )
+            );
+          },
+          getBalanceEvolutivo: function(enterpriseId, year) {
+            var params = {
+              'enterpriseId': enterpriseId,
+              'year': year
+            };
+            return $q.when(
+              $http.get(
+                apiRoutes.chargeTransactions + '/getBalanceEvolutivo',
+                {
+                  params: params
+                }
+              )
+            );
+          },
+          getTransactionsWithChileanAccount: function(enterpriseId, year, month) {
+            var deferred = $q.defer();
+            var params = {
+              'enterpriseId': enterpriseId,
+              'year': year
+            };
+            $http.get(
+              apiRoutes.chargeTransactions,
+              {
+                params: params
+              }
+            ).then(function(response) {
+              if (response.status === 200) {
+                if (response.data.length === 0) {
+                  deferred.resolve([]);
+                } else {
+                  params = {
+                    'filter[include][originAccount]': 'chileanAccount',
+                    'filter[where][chargeId]': response.data[0].id
+                  };
+                  $http.get(
+                    apiRoutes.accountTransactions,
+                    {
+                      params: params
+                    }
+                  ).then(function(resultado) {
+                    console.log(resultado);
+                    if (resultado.status === 200) {
+                      var datos = _.filter(resultado.data, function(value) {
+                        value.Date = new Date(value.date);
+                        return month ? (value.Date.getMonth() + 1) === parseInt(month) : true;
+                      });
+                      deferred.resolve(datos);
+                    } else {
+                      deferred.reject([]);
+                    }
+                  }, function(error) {
+                    deferred.reject([]);
+                  });
+                }
+              } else {
+                deferred.reject([]);
+              }
+            }, function(error) {
+              deferred.reject([]);
+            });
+            return deferred.promise;
           }
         };
     }

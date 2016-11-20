@@ -34,42 +34,22 @@
       </md-input-container>
     </div>
     <div layout layout-md="row" layout-sm="column" layout-xs="column">
-        <md-autocomplete required flex
-                         md-input-name="level1"
-                         md-selected-item="vm.planCtaChile.level1"
-                         md-search-text="vm.searchText1"
-                         md-no-cache="true"
-                         md-items="item in vm.querySearchNiveles(vm.searchText1, 1)"
-                         md-item-text="item.name"
-                         md-require-match
-                         md-floating-label="Nivel 1">
-            <md-item-template>
-                <span md-highlight-text="vm.searchText1">
-                  {{item.name}}
-                </span>
-            </md-item-template>
-            <md-not-found>
-                No hay niveles con el nombre indicado.
-            </md-not-found>
-        </md-autocomplete>
-        <md-autocomplete required flex
-                         md-input-name="level2"
-                         md-selected-item="vm.planCtaChile.level2"
-                         md-search-text="vm.searchText2"
-                         md-no-cache="true"
-                         md-items="item in vm.querySearchNiveles(vm.searchText2, 2)"
-                         md-item-text="item.name"
-                         md-require-match
-                         md-floating-label="Nivel 2">
-            <md-item-template>
-                <span md-highlight-text="vm.searchText2">
-                    {{item.name}}
-                </span>
-            </md-item-template>
-            <md-not-found>
-                No hay niveles con el nombre indicado.
-            </md-not-found>
-        </md-autocomplete>
+      <md-input-container flex>
+        <label>Nivel 1</label>
+        <md-select flex ng-model="vm.planCtaChile.level1" required ng-disabled="vm.levels1.length === 0">
+          <md-option ng-repeat="level in vm.levels1" ng-value="level.name">
+            {{level.name}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container flex>
+        <label>Nivel 2</label>
+        <md-select flex ng-model="vm.planCtaChile.level2" required ng-disabled="vm.levels2.length === 0">
+          <md-option ng-repeat="level in vm.levels2" ng-value="level.name">
+            {{level.name}}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </div>
     <div layout="row" flex>
       <md-button class="md-raised md-primary" aria-label="Crear Cta. Chile" type="submit"

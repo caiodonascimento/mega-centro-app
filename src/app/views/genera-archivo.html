@@ -1,0 +1,46 @@
+<div class="table-responsive-vertical md-whiteframe-z1 anim-zoom-out speed-ng-anim">
+  <md-toolbar md-scroll-shrink>
+    <div class="md-toolbar-tools">
+      <md-button class="md-fab md-mini" aria-label="Volver a filtrar" ng-click="vm.volver()">
+        <md-tooltip md-direction="bottom">
+          Volver
+        </md-tooltip>
+        <i class="material-icons">arrow_back</i>
+      </md-button>
+      <span>Listado de registros</span>
+      <md-button class="md-fab md-fab-top-right" aria-label="Descargar archivo"
+        ng-click="vm.download()" ng-if="vm.viewAccess.canCreate===0">
+        <md-tooltip md-direction="bottom">
+          Descargar archivo
+        </md-tooltip>
+        <md-icon class="material-icons">get_app</md-icon>
+      </md-button>
+    </div>
+  </md-toolbar>
+  <table id="table" class="table table-hover table-bordered" ng-hide="vm.loading">
+    <thead>
+      <tr>
+        <th>Cta. Chile</th>
+        <th>Monto al debe</th>
+        <th>Monto al haber</th>
+        <th>Descripción de movimiento</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-show="!vm.loading && vm.arrayData.length===0">
+        <td colspan="4" style="text-align:center;">
+          No hay datos registrados
+        </td>
+      </tr>
+      <tr></tr>
+      <tr class="tr-with-btn" ng-repeat="data in vm.arrayData track by $index">
+        <td data-title="Cta. Chile">{{data.originAccount.chileanAccount.name}} - {{data.originAccount.chileanAccount.account}}</td>
+        <td data-title="Monto al debe">{{(data.liabilities > 0 ? data.liabilities : 0)|currency:'$':0}}</td>
+        <td data-title="Monto al haber">{{(data.liabilities < 0 ? data.liabilities*-1 : 0)|currency:'$':0}}</td>
+        <td data-title="Descripción de movimiento">{{data.account}}</td>
+    </tbody>
+  </table>
+</div>
+<md-progress-circular md-mode="indeterminate" class="md-primary center-loading" md-diameter="40px"
+  ng-show="vm.loading">
+</md-progress-circular>

@@ -2,7 +2,7 @@
 
 angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
   'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app',
-  'angular-js-xlsx', 'ngFileUpload', 'md.data.table', 'angular-cache', 'ngIdle'])
+  'angular-js-xlsx', 'ngFileUpload', 'md.data.table', 'angular-cache', 'ngIdle', 'ngLocale'])
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider, IdleProvider) {
     $stateProvider
       .state('login', {
