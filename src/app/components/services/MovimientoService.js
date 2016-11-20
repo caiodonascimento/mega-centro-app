@@ -109,6 +109,54 @@
                 }
               )
             );
+          },
+          getTransactionsWithChileanAccount: function(enterpriseId, year, month) {
+            var deferred = $q.defer();
+            var params = {
+              'enterpriseId': enterpriseId,
+              'year': year
+            };
+            $http.get(
+              apiRoutes.chargeTransactions,
+              {
+                params: params
+              }
+            ).then(function(response) {
+              if (response.status === 200) {
+                if (response.data.length === 0) {
+                  deferred.resolve([]);
+                } else {
+                  params = {
+                    'filter[include][originAccount]': 'chileanAccount',
+                    'filter[where][chargeId]': response.data[0].id
+                  };
+                  $http.get(
+                    apiRoutes.accountTransactions,
+                    {
+                      params: params
+                    }
+                  ).then(function(resultado) {
+                    console.log(resultado);
+                    if (resultado.status === 200) {
+                      var datos = _.filter(resultado.data, function(value) {
+                        value.Date = new Date(value.date);
+                        return month ? (value.Date.getMonth() + 1) === parseInt(month) : true;
+                      });
+                      deferred.resolve(datos);
+                    } else {
+                      deferred.reject([]);
+                    }
+                  }, function(error) {
+                    deferred.reject([]);
+                  });
+                }
+              } else {
+                deferred.reject([]);
+              }
+            }, function(error) {
+              deferred.reject([]);
+            });
+            return deferred.promise;
           }
         };
     }

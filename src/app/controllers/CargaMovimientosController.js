@@ -148,11 +148,14 @@
     }
     function handleSubmitCarga() {
       vm.loadingCarga = true;
+      vm.arrayErrores = [];
       vm.year = 0;
       var arrayCuentasOrigen = [];
       vm.correctResults = vm.carga.file.map(function(value) {
         var fecha = new Date(value.Date);
-        console.log(fecha, value.Date, _.isDate(fecha), fecha.getFullYear());
+        if (!_.isDate(fecha)) {
+          vm.arrayErrores.push(value);
+        }
         if (_.isDate(fecha) && vm.year !== 0) {
           vm.year = fecha.getFullYear() === vm.year ? vm.year : -1;
         }
@@ -181,6 +184,15 @@
           'event:toastMessage',
           'Favor revisar columna Date del archivo, ' +
             'ya que solo no se puede cargar datos de dos o mas años juntos.',
+          'md-primary'
+        );
+        vm.loadingCarga = false;
+        return false;
+      }
+      if (vm.arrayErrores.length > 0) {
+        rootScope.$broadcast(
+          'event:toastMessage',
+          'Columna Date es inválida.',
           'md-primary'
         );
         vm.loadingCarga = false;
