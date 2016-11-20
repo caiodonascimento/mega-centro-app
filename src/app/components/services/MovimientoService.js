@@ -80,6 +80,35 @@
                 }
               )
             );
+          },
+          getBalance: function(enterpriseId, year, month) {
+            var params = {
+              'enterpriseId': enterpriseId,
+              'year': year,
+              'month': month
+            };
+            return $q.when(
+              $http.get(
+                apiRoutes.chargeTransactions + '/getBalance',
+                {
+                  params: params
+                }
+              )
+            );
+          },
+          getBalanceEvolutivo: function(enterpriseId, year) {
+            var params = {
+              'enterpriseId': enterpriseId,
+              'year': year
+            };
+            return $q.when(
+              $http.get(
+                apiRoutes.chargeTransactions + '/getBalanceEvolutivo',
+                {
+                  params: params
+                }
+              )
+            );
           }
         };
     }

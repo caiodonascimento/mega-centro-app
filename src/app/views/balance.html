@@ -30,12 +30,12 @@
       </tr>
       <tr></tr>
       <tr class="tr-with-btn" ng-repeat="data in vm.arrayData track by $index">
-        <td data-title="Nivel 1">{{data.originAccount.chileanAccount.level1}}</td>
-        <td data-title="Nivel 2">{{data.originAccount.chileanAccount.level2}}</td>
-        <td data-title="Cta. Chile">{{data.originAccount.chileanAccount.name}}</td>
-        <td data-title="Cta. Origen">{{data.originAccount.name}}</td>
+        <td data-title="Nivel 1">{{data.chileanAccount.level1}}</td>
+        <td data-title="Nivel 2">{{data.chileanAccount.level2}}</td>
+        <td data-title="Cta. Chile">{{data.chileanAccount.name}}</td>
+        <td data-title="Cta. Origen">{{data.name}}</td>
         <td data-title="Monto Mes">{{data.montoMes|currency:'$':0}}</td>
-        <td data-title="Monto Mes Ant.">{{data.montoMesAnterior|currency:'$':0}}</td>
+        <td data-title="Monto Mes Ant.">{{data.montoMesAnt|currency:'$':0}}</td>
         <td>
           <md-progress-circular md-mode="indeterminate" class="md-primary center-loading loading-row-table"
             md-diameter="35px" ng-show="data.loading">
@@ -50,15 +50,9 @@
             </md-button>
             <md-menu-content>
               <md-menu-item ng-if="vm.viewAccess.canEdit===0">
-                <md-button ui-sref="home.gestion-movimientos-data({idEmpresa:vm.empresa,year:vm.year,month:vm.month,originAccount:data.originAccount.id})">
+                <md-button ui-sref="home.gestion-movimientos-data({idEmpresa:vm.empresa,year:vm.year,month:vm.month,originAccount:data.id})">
                   <md-icon md-svg-icon="assets/icons/create.svg"></md-icon>
                   Ver detalle
-                </md-button>
-              </md-menu-item>
-              <md-menu-item ng-if="vm.viewAccess.canDelete===0">
-                <md-button ng-click="vm.authAll(data, $event)">
-                  <md-icon md-svg-icon="assets/icons/offline_pin.svg"></md-icon>
-                  Autorizar todos
                 </md-button>
               </md-menu-item>
             </md-menu-content>

@@ -109,8 +109,8 @@
     vm.loading = false;
     vm.createPlanCtaChile = createPlanCtaChile;
     vm.empresa = null;
-    vm.searchText1 = '';
-    vm.searchText2 = '';
+    vm.levels1 = [];
+    vm.levels2 = [];
     if ($stateParams.idEmpresa) {
       vm.idEmpresa = $stateParams.idEmpresa;
       empresasService.getById(vm.idEmpresa)
@@ -144,7 +144,7 @@
         vm.loading = false;
       });
     }
-    vm.querySearchNiveles = querySearchNiveles;
+
     function querySearchNiveles(searchText, levelType) {
       var deferred = $q.defer();
       levelsService.findByTypeAndName(searchText, levelType)
@@ -153,6 +153,14 @@
       });
       return deferred.promise;
     }
+
+    querySearchNiveles('', '1').then(function(response) {
+      vm.levels1 = response;
+    });
+
+    querySearchNiveles('', '2').then(function(response) {
+      vm.levels2 = response;
+    });
   }
 
   function EditarPlanChileController(stateParams, state, planCtaChileService, formatosImputs, rootScope,
@@ -161,8 +169,8 @@
     vm.loading = false;
     vm.charge = true;
     vm.empresa = null;
-    vm.searchText1 = '';
-    vm.searchText2 = '';
+    vm.levels1 = [];
+    vm.levels2 = [];
     vm.formatosImputs = formatosImputs.formPlanChile;
     vm.planCtaChile = {};
     vm.handleSubmit = guardarPlanCtaChile;
@@ -213,7 +221,7 @@
         vm.loading = false;
       });
     }
-    vm.querySearchNiveles = querySearchNiveles;
+
     function querySearchNiveles(searchText, levelType) {
       var deferred = $q.defer();
       levelsService.findByTypeAndName(searchText, levelType)
@@ -222,5 +230,13 @@
       });
       return deferred.promise;
     }
+
+    querySearchNiveles('', '1').then(function(response) {
+      vm.levels1 = response;
+    });
+
+    querySearchNiveles('', '2').then(function(response) {
+      vm.levels2 = response;
+    });
   }
 })();

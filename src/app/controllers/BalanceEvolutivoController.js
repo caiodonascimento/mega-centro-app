@@ -2,28 +2,45 @@
 	angular
   	.module('app')
 		.controller('BalanceController', [
-			'storageService', 'movimientoService', '$stateParams', '$state', 'planCtaChileService', '$mdDialog',
+			'storageService', 'movimientoService', '$stateParams', '$state', '$mdDialog',
   		BalanceController
   	])
 		.controller('BalanceEvolutivoController', [
-			'storageService', 'movimientoService', '$stateParams', '$state', 'planCtaChileService', '$mdDialog',
+			'storageService', 'movimientoService', '$stateParams', '$state',
   		BalanceEvolutivoController
   	]);
-  function BalanceEvolutivoController(localStorage, movimientoService, stateParams, state, planCtaChileService, $mdDialog) {
+  function BalanceEvolutivoController(localStorage, movimientoService, stateParams, state) {
+		var vm = this;
 		vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		vm.loading = true;
 		function init() {
 			vm.loading = true;
-			vm.selected = [];
-			movimientoService.getAllThen(stateParams.idEmpresa, stateParams.year, stateParams.month)
+			vm.arrayData = [];
+			movimientoService.getBalanceEvolutivo(vm.empresa, vm.year)
 			.then(function(response) {
-				vm.arrayResults = response.data.accountTransactions;
+				if (response.status === 200) {
+					vm.arrayData = response.data.balance;
+				}
 				vm.loading = false;
+			});
+		}
+		if (stateParams.idEmpresa && stateParams.year) {
+			vm.empresa = stateParams.idEmpresa;
+			vm.year = stateParams.year;
+			init();
+		} else {
+			state.go('home.balance-ev', {}, {location: 'replace'});
+		}
+		vm.volver = volver;
+		function volver() {
+			state.go('home.balance-ev', {
+				empresa: stateParams.idEmpresa,
+				year: stateParams.year
 			});
 		}
   }
 
-	function BalanceController(localStorage, movimientoService, stateParams, state, planCtaChileService, $mdDialog) {
+	function BalanceController(localStorage, movimientoService, stateParams, state, $mdDialog) {
 		var vm = this;
 		vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		vm.loading = true;
@@ -31,71 +48,10 @@
 		function init() {
 			vm.loading = true;
 			vm.arrayData = [];
-			movimientoService.getAllThen(vm.empresa, vm.year, vm.month)
+			movimientoService.getBalance(vm.empresa, vm.year, vm.month)
 			.then(function(response) {
-				//response.data.accountTransactions;
-				if (response.status !== 200) {
-					vm.loading = true;
-					return false;
-				}
-				var originalTransactions = response.data.accountTransactions;
-				vm.originalTransactions = originalTransactions;
-				if (stateParams.month !== '1') {
-					movimientoService.getAllThen(vm.empresa, vm.year, (parseInt(vm.month)-1).toString())
-					.then(function(responseAnt) {
-						var originalTransactionsAnt = responseAnt.data.accountTransactions;
-						var originAccounts = _.pluck(originalTransactions, 'originAccount');
-						originAccounts = _.uniq(_.filter(originAccounts, function(value) {
-							return value;
-						}), false, function(value) {
-							return value.id;
-						});
-						var chileAccounts = _.uniq(_.pluck(originAccounts, 'chileanAccountId'));
-						if (chileAccounts.length > 0) {
-							planCtaChileService.findByIds(chileAccounts)
-							.then(function(resultData) {
-								if (resultData.length > 0) {
-									angular.forEach(originAccounts, function(origin) {
-										origin.chileanAccount = _.findWhere(resultData, {id: origin.chileanAccountId});
-										vm.arrayData.push({
-											originAccount: origin,
-											montoMes: _.reduce(originalTransactions, function(memo, transaction) {
-												return memo + (transaction.originAccountId === origin.id ? parseFloat(transaction.liabilities) : 0);
-											}, 0),
-											montoMesAnterior: _.reduce(originalTransactionsAnt, function(memo, transaction) {
-												return memo + (transaction.originAccountId === origin.id ? parseFloat(transaction.liabilities) : 0);
-											}, 0)
-										});
-									});
-								}
-							});
-						}
-					});
-				} else {
-					var originAccounts = _.pluck(originalTransactions, 'originAccount');
-					originAccounts = _.uniq(_.filter(originAccounts, function(value) {
-						return value;
-					}), false, function(value) {
-						return value.id;
-					});
-					var chileAccounts = _.uniq(_.pluck(originAccounts, 'chileanAccountId'));
-					if (chileAccounts.length > 0) {
-						planCtaChileService.findByIds(chileAccounts)
-						.then(function(resultData) {
-							if (resultData.length > 0) {
-								angular.forEach(originAccounts, function(origin) {
-									origin.chileanAccount = _.findWhere(resultData, {id: origin.chileanAccountId});
-									vm.arrayData.push({
-										originAccount: origin,
-										montoMes: _.reduce(originalTransactions, function(memo, transaction) {
-											return memo + (transaction.originAccountId === origin.id ? parseFloat(transaction.liabilities) : 0);
-										}, 0),
-										montoMesAnterior: 0
-									});
-								});
-							}
-						});
-					}
+				if (response.status === 200) {
+					vm.arrayData = response.data.balance;
 				}
 				vm.loading = false;
 			});
@@ -128,52 +84,6 @@
 				empresa: stateParams.idEmpresa,
 				year: stateParams.year,
 				month: stateParams.month
-			});
-		}
-		vm.authAll = authAll;
-		function authAll(data, event) {
-			data.loading = true;
-			var id = data.originAccount.id;
-			var confirm = $mdDialog.confirm()
-        .title('Autorizar Movimientos')
-        .textContent('¿Desea cambiar el estado de el/los movimiento(s) definitivamente?')
-        .ariaLabel('Lucky day')
-        .targetEvent(event)
-        .ok('Confirmar')
-        .cancel('Cancelar');
-	    $mdDialog.show(confirm).then(function() {
-				var ids = _.filter(vm.originalTransactions, function(value) {
-					return value.originAccount.id === id;
-				});
-				ids = _.uniq(_.pluck(ids, 'id'));
-				var dataMovimiento = {
-					status: 2
-				};
-				movimientoService.updateByIds(dataMovimiento, ids)
-				.then(function(response) {
-					console.log(response);
-					if (response.count > 0) {
-						data.loading = false;
-						$mdDialog.show(
-							$mdDialog.alert()
-								.clickOutsideToClose(true)
-								.title('Autorizar Movimientos')
-								.textContent('Proceso terminado con éxito.')
-								.ok('Ok')
-						);
-					} else {
-						data.loading = false;
-						$mdDialog.show(
-							$mdDialog.alert()
-								.clickOutsideToClose(true)
-								.title('Autorizar Movimientos')
-								.textContent('Hubo un error al intentar autorizar todos los movimientos.')
-								.ok('Ok')
-						);
-					}
-				});
-			}, function() {
-				data.loading = false;
 			});
 		}
   }

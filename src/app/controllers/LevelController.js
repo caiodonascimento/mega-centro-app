@@ -17,6 +17,7 @@
 	function LevelController(levelsService, $mdDialog, localStorage, rootScope) {
 		var vm = this;
 		vm.loading = false;
+		vm.filterType = '';
 		vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		vm.openMenu = openMenu;
 		vm.deleteLevel = deleteLevel;
