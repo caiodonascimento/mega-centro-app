@@ -176,7 +176,7 @@
           Split: value.Split || '',
           Amount: value.Amount || '0',
           TC: value.TC || '',
-          'Pesos Liabilities': value['Pesos Liabilities'] || '0'
+          'Pesos Liabilities': value['Pesos'] || '0'
         }
       });
       if (vm.year === 0 || vm.year === -1) {

@@ -9,7 +9,8 @@
       </md-button>
       <span>Listado de registros</span>
       <md-button class="md-fab md-fab-top-right" aria-label="Descargar archivo"
-        ng-click="vm.download()" ng-if="vm.viewAccess.canCreate===0">
+        ng-if="vm.viewAccess.canCreate===0" ng-json-export-excel data="vm.dataList"
+        separator="," report-fields="vm.encabezados" filename="vm.fileName">
         <md-tooltip md-direction="bottom">
           Descargar archivo
         </md-tooltip>
@@ -17,7 +18,7 @@
       </md-button>
     </div>
   </md-toolbar>
-  <table id="table" class="table table-hover table-bordered" ng-hide="vm.loading">
+  <table id="tableExportar" class="table table-hover table-bordered" ng-hide="vm.loading">
     <thead>
       <tr>
         <th>Cta. Chile</th>
