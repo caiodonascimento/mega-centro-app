@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mega.centro', ['ngAnimate', 'ngCookies', 'ngTouch',
-  'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app',
+  'ngSanitize', 'ui.router', 'anim-in-out', 'ngMaterial', 'nvd3', 'app', 'ngJsonExportExcel',
   'angular-js-xlsx', 'ngFileUpload', 'md.data.table', 'angular-cache', 'ngIdle', 'ngLocale'])
   .config(function ($stateProvider, $urlRouterProvider, $httpProvider, IdleProvider) {
     $stateProvider

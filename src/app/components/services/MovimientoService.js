@@ -113,8 +113,8 @@
           getTransactionsWithChileanAccount: function(enterpriseId, year, month) {
             var deferred = $q.defer();
             var params = {
-              'enterpriseId': enterpriseId,
-              'year': year
+              'filter[where][enterpriseId]': enterpriseId,
+              'filter[where][year]': year
             };
             $http.get(
               apiRoutes.chargeTransactions,
@@ -122,6 +122,7 @@
                 params: params
               }
             ).then(function(response) {
+              console.log(response);
               if (response.status === 200) {
                 if (response.data.length === 0) {
                   deferred.resolve([]);
