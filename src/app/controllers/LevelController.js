@@ -21,6 +21,7 @@
 		vm.viewAccess = localStorage.getObject('selectedMenuItem') || {};
 		vm.openMenu = openMenu;
 		vm.deleteLevel = deleteLevel;
+		//vm.cambiarTipo = cambiarTipo;
 		vm.tableData = [];
 		vm.isOpen = false;
 		function cargaInicial() {
@@ -92,7 +93,6 @@
 
 	function NuevoLevelController($state, levelsService, formatosImputs, rootScope) {
 		var vm = this;
-
 		vm.loading = false;
 		vm.createLevel = createLevel;
 		vm.formLevel = {};
