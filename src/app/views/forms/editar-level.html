@@ -24,11 +24,15 @@
         limit-caracter="{{vm.formatosImputs.description.maxlength}}"
         caracter-restrict="{{vm.formatosImputs.description.pattern}}" required>
       </md-input-container>
+    </div>
+    <div layout layout-md="row" layout-sm="column" layout-xs="column">
       <md-input-container flex>
         <label>Tipo</label>
-        <input type="text" name="type" ng-model="vm.level.type"
-        limit-caracter="{{vm.formatosImputs.type.maxlength}}"
-        caracter-restrict="{{vm.formatosImputs.type.pattern}}" required>
+        <md-select flex ng-model="vm.level.type" required>
+          <md-option ng-repeat="level in vm.levels" ng-value="level">
+            {{level}}
+          </md-option>
+        </md-select>
       </md-input-container>
     </div>
     <div layout="row" flex>

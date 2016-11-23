@@ -70,7 +70,7 @@
           maxlength: 20
         },
         name: {
-          pattern: '^[A-Z\\s\\-]+$',
+          pattern: '^[A-Z\\s\\-\\.Ñ&\\/]+$',
           maxlength: 50
         },
         level1: {

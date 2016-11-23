@@ -142,10 +142,9 @@
   		type: ''
 		};
 		vm.levels = [
-			'1',
-			'2'
+			1,
+			2
 		];
-
 		function createLevel() {
 			vm.loading = true;
 			levelsService.insertLevels(vm.level)
@@ -200,7 +199,10 @@
 		} else {
 			state.go('home.levels');
 		}
-
+		vm.levels = [
+			1,
+			2
+		];
 		function guardarLevel() {
 			vm.loading = true;
 			levelsService.updateLevel(vm.level)
