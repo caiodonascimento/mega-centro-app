@@ -1,0 +1,29 @@
+<md-dialog aria-label="Filtrar niveles">
+  <form name="formEditTransaction">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Filtrar niveles</h2>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content style="padding: 15px;" layout="column">
+      <md-input-container flex>
+        <label>Tipo de nivel</label>
+        <md-select flex ng-model="level" required>
+          <md-option ng-repeat="level in levels" ng-value="level.code">
+            {{level.glosa}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button class="md-warn md-raised" ng-click="cancel()">
+       Cancelar
+      </md-button>
+      <md-button class="md-primary md-raised" ng-click="filterLevels()">
+        Actualizar
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

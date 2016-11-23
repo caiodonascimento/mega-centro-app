@@ -28,16 +28,16 @@
 			vm.loading = true;
 			levelsService.loadAllLevels()
 			.then(function (levels) {
-					vm.tableData = levels.data;
-					vm.loading = false;
+				vm.tableData = levels.data;
+				vm.loading = false;
 			},
 			function(error) {
-					rootScope.$broadcast(
-							'event:toastMessage',
-							'Ha ocurrido un error, favor comunicarse con el Administrador.',
-							'md-alert'
-					);
-					vm.loading = false;
+				rootScope.$broadcast(
+					'event:toastMessage',
+					'Ha ocurrido un error, favor comunicarse con el Administrador.',
+					'md-alert'
+				);
+				vm.loading = false;
 			});
 		}
 		cargaInicial();
@@ -88,6 +88,45 @@
 			function() {
 				level.loading = false;
 			});
+		}
+		vm.showFilter = showFilter;
+		function showFilter(event) {
+			var parentEl = angular.element(document.body);
+			$mdDialog.show({
+				parent: parentEl,
+        targetEvent: event,
+	      controller: function DialogController($scope, $mdDialog, filterType) {
+					$scope.cancel = function() {
+						$mdDialog.cancel();
+					}
+					$scope.levels = [
+						{
+							code: '',
+							glosa: 'Seleccione'
+						},
+						{
+							code: 1,
+							glosa: 'Nivel 1'
+						},
+						{
+							code: 2,
+							glosa: 'Nivel 2'
+						}
+					];
+					$scope.level = $scope.levels[filterType];
+					console.log($scope.level, filterType);
+					$scope.filterLevels = function() {
+						$mdDialog.hide($scope.level);
+					};
+				},
+	      templateUrl: './app/views/partials/filter-levels.html',
+				fullscreen: true,
+				locals: {
+					filterType: vm.filterType
+				}
+	    }).then(function(respuesta) {
+				vm.filterType = respuesta;
+	    });
 		}
 	}
 

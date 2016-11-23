@@ -2,25 +2,25 @@
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
       <span>Lista de clasificaciones de tipo {{vm.level.type}}</span>
-      <md-menu ng-hide="data.loading">
-        <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
-         ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canAdd===1 && vm.viewAccess.canChange===1">
+      <md-menu ng-hide="vm.loading">
+        <md-button class="md-fab md-fab-top-right" aria-label="Realizar acción"
+          ng-click="vm.openMenu($mdOpenMenu, $event)">
           <md-tooltip md-direction="bottom">
             Realizar acción
           </md-tooltip>
           <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
         </md-button>
         <md-menu-content>
-          <md-menu-item ng-if="vm.viewAccess.canAdd===0">
-            <md-button ui-sref="home.levels-editar({id: data.id})">
+          <md-menu-item ng-if="vm.viewAccess.canCreate===0">
+            <md-button ui-sref="home.levels-nuevo">
               <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
-              Agregar
+              Crear nivel
             </md-button>
           </md-menu-item>
-          <md-menu-item ng-if="vm.viewAccess.canChange===0">
-            <md-button ng-click="vm.deleteLevel(data, $event)">
-              <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
-              Tipo
+          <md-menu-item>
+            <md-button ng-click="vm.showFilter($event)" ng-disabled="vm.tableData.length===0 && vm.filterType===''">
+              <md-icon md-svg-icon="assets/icons/filter_list.svg"></md-icon>
+              Filtrar niveles
             </md-button>
           </md-menu-item>
         </md-menu-content>
@@ -37,6 +37,11 @@
         </tr>
       </thead>
       <tbody>
+        <tr ng-show="!vm.loading && vm.tableData.length===0">
+          <td colspan="4" style="text-align:center;">
+            No hay datos registrados
+          </td>
+        </tr>
         <tr></tr>
         <tr class="tr-with-btn" ng-repeat="data in vm.tableData | filter:{type: vm.filterType} track by $index">
           <td data-title="ID">{{data.id}}</td>
