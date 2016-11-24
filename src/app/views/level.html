@@ -6,21 +6,21 @@
         <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
          ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canAdd===1 && vm.viewAccess.canChange===1">
           <md-tooltip md-direction="bottom">
-            Realizar acción
+            Nivel
           </md-tooltip>
           <md-icon md-svg-src="assets/icons/more_vert.svg"></md-icon>
         </md-button>
         <md-menu-content>
           <md-menu-item ng-if="vm.viewAccess.canAdd===0">
-            <md-button ui-sref="home.levels-editar({id: data.id})">
-              <md-icon md-svg-icon="assets/icons/create.svg" md-menu-align-target></md-icon>
-              Agregar
+            <md-button ng-click="vm.deleteLevel(data, $event)">
+              <md-icon></md-icon>
+              Agregar Nivel
             </md-button>
           </md-menu-item>
           <md-menu-item ng-if="vm.viewAccess.canChange===0">
             <md-button ng-click="vm.deleteLevel(data, $event)">
-              <md-icon md-svg-icon="assets/icons/delete_forever.svg"></md-icon>
-              Tipo
+              <md-icon></md-icon>
+              Filtrar Nivel
             </md-button>
           </md-menu-item>
         </md-menu-content>
