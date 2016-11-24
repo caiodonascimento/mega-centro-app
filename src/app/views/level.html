@@ -2,9 +2,9 @@
   <md-toolbar md-scroll-shrink>
     <div class="md-toolbar-tools">
       <span>Lista de clasificaciones de tipo {{vm.level.type}}</span>
-      <md-menu ng-hide="data.loading">
-        <md-button class="md-fab md-mini fab-btn-td" aria-label="Editar"
-         ng-click="vm.openMenu($mdOpenMenu, $event)" ng-disabled="vm.viewAccess.canAdd===1 && vm.viewAccess.canChange===1">
+      <md-menu ng-hide="vm.loading">
+        <md-button class="md-fab md-fab-top-right" aria-label="Realizar acción"
+          ng-click="vm.openMenu($mdOpenMenu, $event)">
           <md-tooltip md-direction="bottom">
             Nivel
           </md-tooltip>
@@ -37,6 +37,11 @@
         </tr>
       </thead>
       <tbody>
+        <tr ng-show="!vm.loading && vm.tableData.length===0">
+          <td colspan="4" style="text-align:center;">
+            No hay datos registrados
+          </td>
+        </tr>
         <tr></tr>
         <tr class="tr-with-btn" ng-repeat="data in vm.tableData | filter:{type: vm.filterType} track by $index">
           <td data-title="ID">{{data.id}}</td>
